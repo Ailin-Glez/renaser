@@ -21,7 +21,6 @@ export function TherapyCard({ therapy }: { therapy: Therapy }) {
         className={styles.bookButton}
         data-cal-namespace={CAL_NAMESPACE}
         data-cal-link={`${CAL_USERNAME}/${therapy.id}`}
-        data-cal-config={'{"layout":"month_view"}'}
       >
         Reservar esta sesión
       </button>

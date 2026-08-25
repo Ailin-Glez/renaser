@@ -12,7 +12,6 @@ export function initCal() {
         theme: "light",
         styles: { branding: { brandColor: "#0b4d3b" } },
         hideEventTypeDetails: false,
-        layout: "month_view",
       });
     })();
   }
