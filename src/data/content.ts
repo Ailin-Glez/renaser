@@ -32,7 +32,7 @@ export const SITE = {
   tagline: "Bienestar\ndesde adentro",
   motto: "Nutre. Equilibra. Transforma. Renace.",
   aboutShort:
-    "Un espacio donde el Reiki se encuentra con la mediumnidad,\ny el cuidado del cuerpo con el del alma.",
+    "Un espacio donde el Reiki se encuentra con la mediumnidad, y el cuidado del cuerpo con el del alma.",
   phone: "+1 702 468 9914",
   email: "casarenaser@gmail.com",
   address: "Las Vegas, NV",

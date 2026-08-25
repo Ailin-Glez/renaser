@@ -37,7 +37,6 @@
 
   .heroText {
     font-size: 1.05rem;
-    white-space: normal;
   }
 }
 
@@ -96,10 +95,23 @@
   font-size: clamp(0.8rem, 2.6vw, 1rem);
   max-width: 560px;
   margin: 0 auto 36px;
-  white-space: pre-line;
   opacity: 0;
   animation: rise 900ms ease-out forwards;
   animation-delay: 500ms;
+}
+
+.desktopBreak {
+  display: none;
+}
+
+@media (min-width: 641px) {
+  .mobileBreak {
+    display: none;
+  }
+
+  .desktopBreak {
+    display: unset;
+  }
 }
 
 .heroActions {

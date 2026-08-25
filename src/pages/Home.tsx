@@ -19,7 +19,13 @@ export default function Home() {
             <img src={logo} alt={`${SITE.name} logo`} className={styles.heroLogo} />
           </div>
           <h1>{SITE.tagline}</h1>
-          <p className={styles.heroText}>{SITE.aboutShort}</p>
+          <p className={styles.heroText}>
+            Un espacio donde el Reiki se encuentra
+            <br className={styles.mobileBreak} />
+            {" con la mediumnidad,"}
+            <br className={styles.desktopBreak} />
+            {" y el cuidado del cuerpo con el del alma."}
+          </p>
           <div className={styles.heroActions}>
             <Button to="/terapias">Reservar sesión</Button>
           </div>

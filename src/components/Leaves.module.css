@@ -12,7 +12,6 @@
 .leaf,
 .leafMobile {
   position: absolute;
-  top: -8%;
   border-radius: 0 100% 0 100%;
   opacity: 0;
   animation-timing-function: ease-in-out;
@@ -20,11 +19,13 @@
 }
 
 .leaf {
+  top: -8%;
   animation-name: fall;
 }
 
 .leafMobile {
-  animation-name: fallCenter;
+  top: -22%;
+  animation-name: fallSide;
 }
 
 .green {
@@ -60,20 +61,20 @@
   }
 }
 
-@keyframes fallCenter {
+@keyframes fallSide {
   0% {
     transform: translate(0, 0) rotate(var(--rotate-start));
     opacity: 0;
   }
-  18% {
-    opacity: 0.45;
+  15% {
+    opacity: 0.5;
   }
   55% {
-    opacity: 0.28;
+    opacity: 0.3;
   }
   85%,
   100% {
-    transform: translate(var(--drift), 32vh) rotate(calc(var(--rotate-start) + var(--spin)));
+    transform: translate(var(--drift), 38vh) rotate(calc(var(--rotate-start) + var(--spin)));
     opacity: 0;
   }
 }

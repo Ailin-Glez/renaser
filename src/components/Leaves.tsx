@@ -27,17 +27,19 @@ const DESKTOP_LEAVES = Array.from({ length: 11 }, (_, i) => {
   };
 });
 
-// En móvil las hojas caen desde el centro (arriba del logo) y se desvanecen
-// antes de llegar a él, en un recorrido corto para no interferir con el texto.
+// En móvil las hojas caen desde arriba, más hacia los lados que al centro,
+// y se desvanecen antes de llegar al logo para no interferir con el texto.
 const MOBILE_LEAVES = Array.from({ length: 6 }, (_, i) => {
-  const duration = randomBetween(11, 17);
+  const onLeftSide = i % 2 === 0;
+  const left = onLeftSide ? randomBetween(6, 26) : randomBetween(74, 94);
+  const duration = randomBetween(12, 19);
 
   return {
-    left: `${randomBetween(28, 72).toFixed(1)}%`,
+    left: `${left.toFixed(1)}%`,
     size: randomBetween(8, 14),
     duration,
     delay: -randomBetween(0, duration),
-    drift: randomBetween(-18, 18),
+    drift: randomBetween(-14, 14),
     rotateStart: randomBetween(0, 360),
     spin: randomBetween(160, 280) * (Math.random() > 0.5 ? 1 : -1),
     color: COLORS[i % COLORS.length],
