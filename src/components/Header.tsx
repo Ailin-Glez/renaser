@@ -48,7 +48,7 @@ export function Header() {
               {link.label}
             </NavLink>
           ))}
-          <NavLink to="/reservas" className={styles.cta} onClick={() => setOpen(false)}>
+          <NavLink to="/terapias" className={styles.cta} onClick={() => setOpen(false)}>
             Reservar
           </NavLink>
         </nav>

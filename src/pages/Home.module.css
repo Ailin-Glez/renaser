@@ -174,6 +174,28 @@
   position: relative;
 }
 
+.popupNote {
+  width: fit-content;
+  margin: 0 auto 40px;
+  text-align: center;
+  background: var(--color-cream-soft);
+  color: var(--color-forest);
+  font-size: 0.9rem;
+  padding: 12px 24px;
+  border-radius: 999px;
+}
+
+.popupNote strong {
+  color: var(--color-sunset);
+}
+
+.note {
+  text-align: center;
+  color: var(--color-ink-soft);
+  font-size: 0.9rem;
+  margin-top: 40px;
+}
+
 .sectionAlt {
   padding: 48px 0;
   overflow: hidden;

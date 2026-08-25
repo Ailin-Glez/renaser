@@ -1,7 +1,6 @@
-import { Button } from "../components/Button";
 import { SectionHeading } from "../components/SectionHeading";
 import { TherapyCard } from "../components/TherapyCard";
-import { THERAPIES } from "../data/content";
+import { POPUP_EVENT, SITE, THERAPIES } from "../data/content";
 import styles from "./Home.module.css";
 
 export default function Therapies() {
@@ -14,15 +13,22 @@ export default function Therapies() {
           description="Explora las distintas modalidades y elige la que mejor acompañe tu momento actual."
           nowrap
         />
+
+        {POPUP_EVENT.active && (
+          <p className={styles.popupNote}>
+            📍 Sesiones en <strong>{POPUP_EVENT.city}</strong>: {POPUP_EVENT.dateRange}. {POPUP_EVENT.note}
+          </p>
+        )}
+
         <div className={styles.grid}>
           {THERAPIES.map((therapy) => (
             <TherapyCard key={therapy.id} therapy={therapy} />
           ))}
         </div>
 
-        <div style={{ textAlign: "center", marginTop: 56 }}>
-          <Button to="/reservas">Reservar una sesión</Button>
-        </div>
+        <p className={styles.note}>
+          ¿Prefieres coordinar directamente? Escríbenos a {SITE.email} o al {SITE.phone}.
+        </p>
       </div>
     </section>
   );

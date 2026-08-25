@@ -40,16 +40,13 @@ export const SITE = {
   instagramUrl: "https://www.instagram.com/martha_medium/",
 };
 
-// Pop-up de Miami — se muestra como aviso en Inicio y Reservas.
-// calSlug debe coincidir con el slug del tipo de evento en Cal.com creado
-// específicamente para este viaje (con límite de fechas en la pestaña Limits).
+// Aviso informativo de fechas — se muestra en la página de Terapias.
 // TODO: quitar o actualizar cuando cambien las fechas/ubicación
 export const POPUP_EVENT = {
   active: true,
   city: "Miami",
   dateRange: "27 de agosto – 13 de septiembre",
-  note: "Reservas con antelación.",
-  calSlug: "reiki-mediumnidad-miami",
+  note: "Reserva con antelación.",
 };
 
 // Texto de misión/filosofía de marca — usado en la sección "Filosofía" del Inicio
@@ -74,61 +71,28 @@ export const ABOUT_TEXT = [
 
 export const THERAPIES: Therapy[] = [
   {
-    id: "reiki-mediumnidad",
-    name: "Reiki + Mediumnidad",
-    duration: "75 min",
-    featured: true,
-    description:
-      "Nuestra experiencia insignia: mientras el Reiki sana tu cuerpo físico y elimina el estrés acumulado, Martha actúa como canal hacia tus guías espirituales y seres queridos que ya partieron. El cuerpo descansa y el alma encuentra respuestas.",
-  },
-  {
-    id: "lnt",
-    name: "Terapia LNT",
+    id: "reiki-limpieza-energetica",
+    name: "Reiki y Limpieza Energética",
     duration: "60 min",
-    description:
-      "Un abordaje profundo que trabaja el lenguaje sutil del cuerpo, las emociones y el espíritu para liberar memorias y patrones que llevan años sosteniéndose, reconectándote con tu equilibrio y tu poder interior.",
+    description: "Equilibra tu energía y libera cargas físicas y emocionales acumuladas.",
   },
   {
-    id: "masaje-terapeutico",
-    name: "Masaje terapéutico",
-    duration: "90 min",
-    description:
-      "Trabajo corporal enfocado en liberar tensión muscular acumulada, mejorar la circulación y devolver la sensación de calma al cuerpo.",
-  },
-  {
-    id: "aromaterapia",
-    name: "Aromaterapia",
+    id: "mediumnidad",
+    name: "Mediumnidad",
     duration: "45 min",
-    description:
-      "Uso terapéutico de aceites esenciales puros para equilibrar emociones, aliviar el estrés y armonizar cuerpo y mente.",
-  },
-  {
-    id: "meditacion-guiada",
-    name: "Meditación guiada",
-    duration: "30 min",
-    description:
-      "Espacio de introspección acompañada para calmar la mente, reducir la ansiedad y reconectar con el momento presente.",
-  },
-  {
-    id: "meditacion-infantil",
-    name: "Meditación infantil",
-    duration: "10 min",
-    description:
-      "Sesiones breves y lúdicas para niñas y niños, con respiraciones, visualizaciones y sonidos suaves que enseñan a reconocer emociones, calmar la mente y recuperar la calma.",
+    description: "Conexión con tus seres queridos y guías, con mensajes para tu alma.",
   },
   {
     id: "terapia-cuantica",
-    name: "Terapia cuántica y energética",
+    name: "Terapia Cuántica y Energética",
     duration: "60 min",
-    description:
-      "Armoniza cuerpo, mente y campo energético a través de técnicas que trabajan directamente sobre los patrones de energía que sostienen bloqueos físicos y emocionales.",
+    description: "Armoniza cuerpo, mente y campo energético.",
   },
   {
     id: "armonizacion-integral",
-    name: "Armonización cuerpo, mente y espíritu",
+    name: "Armonización Cuerpo, Mente y Espíritu",
     duration: "75 min",
-    description:
-      "Una sesión integral de bienestar y transformación, diseñada para equilibrar los tres planos de tu ser y sostener los cambios que tu proceso de sanación necesita.",
+    description: "Bienestar integral y transformación.",
   },
 ];
 

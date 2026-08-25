@@ -21,10 +21,7 @@ export default function Home() {
           <h1>{SITE.tagline}</h1>
           <p className={styles.heroText}>{SITE.aboutShort}</p>
           <div className={styles.heroActions}>
-            <Button to="/reservas">Reservar sesión</Button>
-            <Button to="/terapias" variant="secondary">
-              Ver terapias
-            </Button>
+            <Button to="/terapias">Reservar sesión</Button>
           </div>
         </div>
       </section>
