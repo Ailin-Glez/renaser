@@ -5,14 +5,26 @@
   pointer-events: none;
 }
 
-.leaf {
+.fieldMobile {
+  display: none;
+}
+
+.leaf,
+.leafMobile {
   position: absolute;
   top: -8%;
   border-radius: 0 100% 0 100%;
   opacity: 0;
-  animation-name: fall;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
+}
+
+.leaf {
+  animation-name: fall;
+}
+
+.leafMobile {
+  animation-name: fallCenter;
 }
 
 .green {
@@ -48,16 +60,38 @@
   }
 }
 
+@keyframes fallCenter {
+  0% {
+    transform: translate(0, 0) rotate(var(--rotate-start));
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.45;
+  }
+  55% {
+    opacity: 0.28;
+  }
+  85%,
+  100% {
+    transform: translate(var(--drift), 32vh) rotate(calc(var(--rotate-start) + var(--spin)));
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .leaf {
+  .leaf,
+  .leafMobile {
     animation: none;
     opacity: 0;
   }
 }
 
 @media (max-width: 640px) {
-  /* En móvil el texto ocupa casi todo el ancho: sin espacio limpio en los bordes. */
-  .field {
+  .fieldDesktop {
     display: none;
+  }
+
+  .fieldMobile {
+    display: block;
   }
 }

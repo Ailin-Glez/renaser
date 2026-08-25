@@ -26,7 +26,7 @@ export default function Therapies() {
         </div>
 
         <p className={styles.note}>
-          ¿Prefieres coordinar directamente? Escríbenos a {SITE.email} o al {SITE.phone}.
+          ¿Prefieres coordinar directamente? Escríbenos a {SITE.email} o llámanos al {SITE.phone}.
         </p>
       </div>
     </section>

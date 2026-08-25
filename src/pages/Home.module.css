@@ -30,6 +30,15 @@
     width: 300px;
     height: 300px;
   }
+
+  .hero h1 {
+    white-space: pre-line;
+  }
+
+  .heroText {
+    font-size: 1.05rem;
+    white-space: normal;
+  }
 }
 
 @keyframes breathe {

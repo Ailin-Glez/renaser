@@ -29,7 +29,7 @@ export const BOOKING_URL = `https://cal.com/${CAL_USERNAME}`;
 
 export const SITE = {
   name: "RenaSER",
-  tagline: "Bienestar desde adentro",
+  tagline: "Bienestar\ndesde adentro",
   motto: "Nutre. Equilibra. Transforma. Renace.",
   aboutShort:
     "Un espacio donde el Reiki se encuentra con la mediumnidad,\ny el cuidado del cuerpo con el del alma.",

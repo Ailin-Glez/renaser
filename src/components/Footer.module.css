@@ -132,15 +132,11 @@
 
   .connectGrid {
     grid-template-columns: 1fr;
-    justify-items: center;
-  }
-
-  .row {
-    justify-content: center;
+    justify-items: start;
   }
 
   .copy {
-    font-size: 0.58rem;
+    font-size: 0.52rem;
     margin-top: 20px;
   }
 }
