@@ -21,6 +21,17 @@
   animation: breathe 9s ease-in-out infinite;
 }
 
+@media (max-width: 640px) {
+  .hero {
+    min-height: 74vh;
+  }
+
+  .heroGlow {
+    width: 300px;
+    height: 300px;
+  }
+}
+
 @keyframes breathe {
   0%,
   100% {
@@ -114,20 +125,7 @@
 }
 
 .mission {
-  position: relative;
   padding: 30px 0 110px;
-  overflow: hidden;
-}
-
-.missionBlob {
-  position: absolute;
-  top: -120px;
-  right: -160px;
-  width: 460px;
-  height: 460px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(245, 185, 33, 0.16), transparent 70%);
-  pointer-events: none;
 }
 
 .missionWrap {
@@ -189,6 +187,16 @@
   color: var(--color-sunset);
 }
 
+@media (max-width: 560px) {
+  .popupNote {
+    width: 100%;
+    max-width: 320px;
+    font-size: 0.8rem;
+    padding: 12px 18px;
+    border-radius: 20px;
+  }
+}
+
 .note {
   text-align: center;
   color: var(--color-ink-soft);
@@ -198,18 +206,6 @@
 
 .sectionAlt {
   padding: 48px 0;
-  overflow: hidden;
-}
-
-.blobLeft {
-  position: absolute;
-  top: 10%;
-  left: -220px;
-  width: 480px;
-  height: 480px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(93, 168, 63, 0.14), transparent 70%);
-  pointer-events: none;
 }
 
 .grid {

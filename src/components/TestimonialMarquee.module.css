@@ -86,4 +86,8 @@
   .fadeRight {
     width: 40px;
   }
+
+  .track {
+    animation-duration: 110s;
+  }
 }

@@ -17,8 +17,10 @@ export function Header() {
   const isHome = pathname === "/";
 
   useEffect(() => {
-    const threshold = isHome ? window.innerHeight * 0.55 : 24;
-    const onScroll = () => setScrolled(window.scrollY > threshold);
+    const onScroll = () => {
+      const threshold = isHome ? window.innerHeight * 0.55 : 24;
+      setScrolled(window.scrollY > threshold);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);

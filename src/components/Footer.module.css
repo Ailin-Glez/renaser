@@ -114,7 +114,12 @@
 @media (max-width: 560px) {
   .inner {
     flex-direction: column;
+    align-items: center;
     text-align: center;
+  }
+
+  .brandLine {
+    justify-content: center;
   }
 
   .row {
@@ -129,5 +134,10 @@
 
   .connectGrid {
     grid-template-columns: 1fr;
+  }
+
+  .copy {
+    font-size: 0.65rem;
+    margin-top: 24px;
   }
 }

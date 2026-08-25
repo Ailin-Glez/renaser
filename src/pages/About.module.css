@@ -9,8 +9,15 @@
   align-items: start;
 }
 
-.portraitCol {
-  position: relative;
+.photoCol {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.textCol {
+  display: flex;
+  flex-direction: column;
 }
 
 .portrait {
@@ -37,20 +44,19 @@
   margin-bottom: 16px;
 }
 
-.text h1 {
+.introBlock h1 {
   font-size: clamp(1.3rem, 3.6vw, 2.8rem);
   white-space: nowrap;
   margin-bottom: 24px;
 }
 
 @media (max-width: 640px) {
-  .text h1 {
+  .introBlock h1 {
     white-space: normal;
   }
 }
 
 .altPhoto {
-  margin-top: 28px;
   aspect-ratio: 4 / 3;
   border-radius: 40px 24px 36px 20px / 24px 38px 22px 40px;
   overflow: hidden;
@@ -65,13 +71,14 @@
   object-position: center 20%;
 }
 
-.text p {
+.introBlock p,
+.restBlock p {
   color: var(--color-ink-soft);
   font-size: 1.05rem;
   line-height: 1.8;
 }
 
-.text p:first-of-type {
+.introBlock p {
   font-family: var(--font-display);
   font-style: italic;
   font-size: 1.2rem;
@@ -80,12 +87,36 @@
 
 @media (max-width: 860px) {
   .layout {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
   }
 
-  .portraitCol {
+  .photoCol,
+  .textCol {
+    display: contents;
+  }
+
+  .introBlock {
+    order: 1;
+  }
+
+  .portrait {
+    order: 2;
+  }
+
+  .restBlock {
+    order: 3;
+  }
+
+  .altPhoto {
+    order: 4;
+  }
+
+  .portrait,
+  .altPhoto {
     max-width: 340px;
-    margin: 0 auto 40px;
+    margin: 0 auto;
   }
 }
 
@@ -105,6 +136,13 @@
   background: radial-gradient(circle, rgba(93, 168, 63, 0.4), rgba(11, 77, 59, 0.12) 55%, transparent 75%);
   pointer-events: none;
   animation: quoteBreathe 11s ease-in-out infinite;
+}
+
+@media (max-width: 640px) {
+  .quoteBlob {
+    width: 260px;
+    height: 260px;
+  }
 }
 
 @keyframes quoteBreathe {

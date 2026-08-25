@@ -27,7 +27,6 @@ export default function Home() {
       </section>
 
       <section className={styles.mission}>
-        <span className={styles.missionBlob} aria-hidden="true" />
         <div className={`container ${styles.missionWrap}`}>
           <span className={styles.missionEyebrow}>¿Qué es RenaSER?</span>
           <p className={styles.missionText}>{MISSION_TEXT}</p>
@@ -39,9 +38,8 @@ export default function Home() {
         <div className="container">
           <SectionHeading
             eyebrow="Terapias"
-            title="Un espacio para cada tipo de sanación"
+            title="Terapias Holísticas"
             description="Cada terapia está pensada para acompañarte en un momento distinto de tu proceso."
-            nowrap
           />
           <div className={styles.grid}>
             {THERAPIES.slice(0, 3).map((therapy) => (
@@ -57,12 +55,10 @@ export default function Home() {
       </section>
 
       <section className={`${styles.section} ${styles.sectionAlt}`}>
-        <div className={styles.blobLeft} aria-hidden="true" />
         <div className="container">
           <SectionHeading
             eyebrow="Testimonios"
             title="Lo que dicen quienes ya vivieron la experiencia"
-            nowrap
           />
           <TestimonialMarquee testimonials={TESTIMONIALS} />
         </div>

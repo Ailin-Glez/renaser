@@ -9,9 +9,8 @@ export default function Therapies() {
       <div className="container">
         <SectionHeading
           eyebrow="Terapias"
-          title="Nuestras terapias holísticas"
+          title="Terapias Holísticas"
           description="Explora las distintas modalidades y elige la que mejor acompañe tu momento actual."
-          nowrap
         />
 
         {POPUP_EVENT.active && (
