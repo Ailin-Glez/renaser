@@ -1,0 +1,62 @@
+.section {
+  padding: 64px 0 100px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.note {
+  text-align: center;
+  color: var(--color-ink-soft);
+  font-size: 0.9rem;
+  margin-top: 20px;
+}
+
+.popupNote {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  width: fit-content;
+  margin: -16px auto 32px;
+  text-align: center;
+  background: var(--color-cream-soft);
+  color: var(--color-forest);
+  font-size: 0.9rem;
+  padding: 12px 24px;
+  border-radius: 999px;
+}
+
+.popupNote strong {
+  color: var(--color-sunset);
+}
+
+.popupButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: none;
+  background: var(--color-sunset);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--transition-fast);
+}
+
+.popupButton:hover {
+  background: var(--color-gold-dark);
+}

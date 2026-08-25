@@ -1,0 +1,63 @@
+.field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.leaf {
+  position: absolute;
+  top: -8%;
+  border-radius: 0 100% 0 100%;
+  opacity: 0;
+  animation-name: fall;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.green {
+  background: var(--color-leaf);
+}
+
+.forest {
+  background: var(--color-forest);
+}
+
+.gold {
+  background: var(--color-gold);
+}
+
+@keyframes fall {
+  0% {
+    transform: translate(0, 0) rotate(var(--rotate-start));
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(var(--drift), 60vh) rotate(calc(var(--rotate-start) + var(--spin) * 0.5));
+    opacity: 0.55;
+  }
+  90% {
+    opacity: 0;
+  }
+  100% {
+    transform: translate(calc(var(--drift) * 1.6), 125vh) rotate(calc(var(--rotate-start) + var(--spin)));
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leaf {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  /* En móvil el texto ocupa casi todo el ancho: sin espacio limpio en los bordes. */
+  .field {
+    display: none;
+  }
+}

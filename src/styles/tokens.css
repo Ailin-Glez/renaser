@@ -1,0 +1,30 @@
+:root {
+  /* Paleta extraída del logo RenaSER */
+  --color-forest: #0b4d3b; /* verde oscuro — texto, nav, títulos */
+  --color-forest-dark: #073527;
+  --color-leaf: #5da83f; /* verde medio — acentos, hover */
+  --color-gold: #f5b921; /* dorado — CTAs, botón de reservar */
+  --color-gold-dark: #d99e12;
+  --color-sunset: #e07b1a; /* naranja — acentos secundarios */
+  --color-cream: #fbf7ee; /* fondo principal */
+  --color-cream-soft: #f4ecdb;
+  --color-ink: #1f2a24; /* texto sobre fondo claro */
+  --color-ink-soft: #4a5751;
+  --color-white: #ffffff;
+
+  --font-display: "Fraunces", "Iowan Old Style", serif;
+  --font-body: "Work Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --ease-fluid: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 250ms var(--ease-fluid);
+  --transition-medium: 450ms var(--ease-fluid);
+
+  --radius-sm: 10px;
+  --radius-md: 22px;
+  --radius-lg: 32px;
+
+  --shadow-soft: 0 8px 30px rgba(11, 77, 59, 0.08);
+  --shadow-lift: 0 16px 40px rgba(11, 77, 59, 0.14);
+
+  --max-width: 1120px;
+}

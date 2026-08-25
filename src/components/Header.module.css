@@ -1,0 +1,221 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: transparent;
+  transition: background-color var(--transition-medium), box-shadow var(--transition-medium),
+    opacity var(--transition-medium), transform var(--transition-medium);
+}
+
+.hidden {
+  opacity: 0;
+  transform: translateY(-14px);
+  pointer-events: none;
+}
+
+.header.scrolled {
+  background: rgba(251, 247, 238, 0.88);
+  backdrop-filter: blur(10px);
+}
+
+.wave {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition-medium);
+}
+
+.wave path {
+  fill: var(--color-cream-soft);
+  stroke: none;
+}
+
+.header.scrolled .wave {
+  opacity: 1;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 84px;
+  transition: height var(--transition-medium);
+}
+
+.scrolled .inner {
+  height: 68px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-forest);
+  letter-spacing: 0.01em;
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform var(--transition-fast);
+}
+
+.brand:hover .logo {
+  transform: rotate(-8deg);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.link {
+  position: relative;
+  padding: 4px 0;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--color-ink-soft);
+  transition: color var(--transition-fast);
+}
+
+.link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  right: 50%;
+  bottom: -4px;
+  height: 1px;
+  background: var(--color-leaf);
+  transition: left var(--transition-fast), right var(--transition-fast);
+}
+
+.link:hover {
+  color: var(--color-forest);
+}
+
+.link:hover::after {
+  left: 0;
+  right: 0;
+}
+
+.linkActive {
+  color: var(--color-forest);
+  font-weight: 600;
+}
+
+.linkActive::after {
+  left: 0;
+  right: 0;
+  background: var(--color-gold);
+}
+
+.cta {
+  margin-left: 10px;
+  padding: 11px 24px;
+  border-radius: 999px;
+  background: var(--color-gold);
+  color: var(--color-forest-dark);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  transition: transform var(--transition-fast), background-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.cta:hover {
+  transform: translateY(-2px);
+  background: var(--color-gold-dark);
+  box-shadow: var(--shadow-soft);
+}
+
+.toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.toggle span {
+  width: 100%;
+  height: 1.5px;
+  background: var(--color-forest);
+  border-radius: 2px;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.toggleOpen span:first-child {
+  transform: translateY(3.75px) rotate(45deg);
+}
+
+.toggleOpen span:last-child {
+  transform: translateY(-3.75px) rotate(-45deg);
+}
+
+@media (max-width: 780px) {
+  .toggle {
+    display: flex;
+  }
+
+  .header {
+    background: rgba(251, 247, 238, 0.92);
+    backdrop-filter: blur(10px);
+  }
+
+  .nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-cream);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 8px 24px 28px;
+    border-bottom: 1px solid rgba(11, 77, 59, 0.08);
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform var(--transition-fast), opacity var(--transition-fast);
+  }
+
+  .navOpen {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .link {
+    padding: 12px 0;
+    text-align: center;
+  }
+
+  .link::after {
+    display: none;
+  }
+
+  .cta {
+    margin: 10px auto 0;
+    text-align: center;
+  }
+}
