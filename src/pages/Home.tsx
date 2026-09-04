@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/renaser-logo.jpg";
 import { Button } from "../components/Button";
@@ -5,10 +6,27 @@ import { Leaves } from "../components/Leaves";
 import { SectionHeading } from "../components/SectionHeading";
 import { FamilyCard } from "../components/FamilyCard";
 import { TestimonialMarquee } from "../components/TestimonialMarquee";
-import { FAMILIES, SITE, MISSION_TEXT, TESTIMONIALS } from "../data/content";
+import { ReviewFormModal } from "../components/ReviewFormModal";
+import { FAMILIES, SITE, MISSION_TEXT, TESTIMONIALS, type Testimonial } from "../data/content";
+import { listApprovedReviews } from "../lib/reviews";
 import styles from "./Home.module.css";
 
 export default function Home() {
+  const [testimonials, setTestimonials] = useState<Testimonial[]>(TESTIMONIALS);
+  const [reviewFormOpen, setReviewFormOpen] = useState(false);
+
+  useEffect(() => {
+    listApprovedReviews()
+      .then((reviews) => {
+        if (reviews.length > 0) {
+          setTestimonials(reviews.map((r) => ({ id: r.id, name: r.name, quote: r.quote })));
+        }
+      })
+      .catch(() => {
+        // Si falla la carga, se mantienen los testimonios de ejemplo.
+      });
+  }, []);
+
   return (
     <>
       <section className={styles.hero}>
@@ -66,9 +84,16 @@ export default function Home() {
             eyebrow="Testimonios"
             title="Lo que dicen quienes ya vivieron la experiencia"
           />
-          <TestimonialMarquee testimonials={TESTIMONIALS} />
+          <TestimonialMarquee testimonials={testimonials} />
+          <div className={styles.reviewCta}>
+            <Button variant="secondary" onClick={() => setReviewFormOpen(true)}>
+              Deja tu reseña
+            </Button>
+          </div>
         </div>
       </section>
+
+      {reviewFormOpen && <ReviewFormModal onClose={() => setReviewFormOpen(false)} />}
     </>
   );
 }

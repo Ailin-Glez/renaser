@@ -259,14 +259,25 @@
   margin-top: 40px;
 }
 
+.reviewCta {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+}
+
 .moreLink {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  background: none;
+  border: none;
+  padding: 0;
   text-decoration: none;
+  font-family: inherit;
   font-size: 0.85rem;
   font-weight: 500;
   color: var(--color-ink-soft);
+  cursor: pointer;
   transition: color var(--transition-fast), transform var(--transition-fast);
 }
 

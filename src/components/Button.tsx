@@ -7,9 +7,10 @@ interface ButtonProps {
   variant?: "primary" | "secondary";
   to?: string;
   href?: string;
+  onClick?: () => void;
 }
 
-export function Button({ children, variant = "primary", to, href }: ButtonProps) {
+export function Button({ children, variant = "primary", to, href, onClick }: ButtonProps) {
   const className = `${styles.button} ${styles[variant]}`;
 
   if (to) {
@@ -28,5 +29,9 @@ export function Button({ children, variant = "primary", to, href }: ButtonProps)
     );
   }
 
-  return <button className={className}>{children}</button>;
+  return (
+    <button type="button" className={className} onClick={onClick}>
+      {children}
+    </button>
+  );
 }

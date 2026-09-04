@@ -1,0 +1,111 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.toolbar h1 {
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+.newButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: var(--color-gold);
+  color: var(--color-forest-dark);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: transform var(--transition-fast);
+}
+
+.newButton:hover {
+  transform: translateY(-1px);
+}
+
+.search {
+  width: 100%;
+  max-width: 320px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--color-cream-soft);
+  background: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  margin-bottom: 28px;
+}
+
+.empty {
+  color: var(--color-ink-soft);
+  font-size: 0.9rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--shadow-soft);
+  text-decoration: none;
+  color: inherit;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lift);
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--color-cream-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-forest);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.name {
+  margin: 0;
+  font-weight: 600;
+  color: var(--color-forest);
+}
+
+.phone {
+  margin: 2px 0 0;
+  font-size: 0.82rem;
+  color: var(--color-ink-soft);
+}
+
+.alert {
+  margin: 4px 0 0;
+  font-size: 0.78rem;
+  color: var(--color-ink-soft);
+}

@@ -1,0 +1,459 @@
+.empty {
+  color: var(--color-ink-soft);
+  font-size: 0.9rem;
+}
+
+.back {
+  display: inline-block;
+  color: var(--color-ink-soft);
+  text-decoration: none;
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+}
+
+.back:hover {
+  color: var(--color-forest);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--color-cream-soft);
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-forest);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.4rem;
+  cursor: default;
+  transition: transform var(--transition-fast);
+}
+
+.avatar:not(:disabled) {
+  cursor: pointer;
+}
+
+.avatar:not(:disabled):hover {
+  transform: scale(1.05);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.headerInfo {
+  flex: 1;
+  min-width: 200px;
+}
+
+.headerInfo h1 {
+  font-size: 1.4rem;
+  margin: 0 0 4px;
+}
+
+.phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  color: var(--color-ink-soft);
+  font-size: 0.88rem;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.phone:hover {
+  color: var(--color-leaf);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.whatsappIcon {
+  flex-shrink: 0;
+  color: var(--color-leaf);
+}
+
+.headerActions {
+  display: flex;
+  gap: 10px;
+}
+
+.editButton,
+.deleteButton {
+  padding: 9px 18px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.editButton {
+  border: 1px solid var(--color-forest);
+  background: transparent;
+  color: var(--color-forest);
+}
+
+.editButton:hover {
+  background: var(--color-forest);
+  color: var(--color-white);
+}
+
+.deleteButton {
+  border: 1px solid var(--color-cream-soft);
+  background: transparent;
+  color: var(--color-sunset);
+}
+
+.deleteButton:hover {
+  border-color: var(--color-sunset);
+}
+
+.editForm {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  display: grid;
+  grid-template-columns: auto repeat(2, 1fr);
+  gap: 16px 18px;
+}
+
+.visitForm {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.notesCard {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.notesBlock h2 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-leaf);
+  margin: 0 0 8px;
+}
+
+.photoField {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  grid-row: span 2;
+  cursor: pointer;
+}
+
+.photoPreview {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--color-cream-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-ink-soft);
+  font-size: 0.75rem;
+}
+
+.photoPreview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-forest);
+}
+
+.notesField {
+  grid-column: 1 / -1;
+}
+
+.field input,
+.field select,
+.field textarea {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 10px 13px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-cream-soft);
+  background: var(--color-cream);
+  color: var(--color-ink);
+  resize: vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: 2px solid var(--color-leaf);
+  outline-offset: 1px;
+}
+
+.fieldError {
+  color: var(--color-sunset);
+  font-size: 0.78rem;
+  font-weight: 400;
+}
+
+.actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.cancel {
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: 1px solid var(--color-cream-soft);
+  background: transparent;
+  color: var(--color-ink-soft);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.cancel:hover {
+  border-color: var(--color-forest);
+  color: var(--color-forest);
+}
+
+.submit {
+  padding: 10px 24px;
+  border-radius: 999px;
+  border: none;
+  background: var(--color-forest);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.submit:hover {
+  background: var(--color-forest-dark);
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.section {
+  margin-bottom: 32px;
+}
+
+.section h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.visitCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--color-cream-soft);
+  color: var(--color-forest);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.addVisitButton {
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: none;
+  background: var(--color-gold);
+  color: var(--color-forest-dark);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform var(--transition-fast);
+}
+
+.addVisitButton:hover {
+  transform: translateY(-1px);
+}
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.visit {
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  padding: 16px 20px;
+}
+
+.visitHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.visitMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.visitDate {
+  font-weight: 600;
+  color: var(--color-forest);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.visitTherapy {
+  color: var(--color-ink);
+  font-size: 0.9rem;
+}
+
+.visitTherapist {
+  color: var(--color-forest);
+  font-weight: 500;
+  font-size: 0.8rem;
+  background: rgba(93, 168, 63, 0.16);
+  padding: 4px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.visitActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.visitEdit,
+.visitDelete {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: none;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-ink-soft);
+  cursor: pointer;
+  padding: 0;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.visitEdit:hover {
+  background: var(--color-cream-soft);
+  color: var(--color-forest);
+}
+
+.visitDelete {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.visitDelete:hover {
+  background: var(--color-cream-soft);
+  color: var(--color-sunset);
+}
+
+.visitNotes {
+  margin: 10px 0 0;
+}
+
+.visitNotes + .visitNotes {
+  margin-top: 8px;
+}
+
+.visitNotesLabel {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-leaf);
+  margin-bottom: 2px;
+}
+
+@media (max-width: 640px) {
+  .editForm {
+    grid-template-columns: 1fr;
+  }
+
+  .photoField {
+    grid-row: auto;
+  }
+
+  .visitTherapist {
+    margin-left: 0;
+  }
+}
