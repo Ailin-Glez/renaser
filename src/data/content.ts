@@ -100,12 +100,17 @@ export const ABOUT_QUOTE = [
   "Sigue sanando. Sigue creciendo. Sigue eligiéndote.",
 ];
 
+export interface FormationGroup {
+  label: string; // ej. "Maestrías en Reiki" — el prefijo común, para no repetirlo en cada item
+  items: string[];
+}
+
 export interface Therapist {
   id: string;
   name: string;
   title: string;
   bio: string[];
-  formation: string[];
+  formation: FormationGroup[];
   closing?: string[];
 }
 
@@ -120,17 +125,13 @@ export const THERAPISTS: Therapist[] = [
       "Hoy integro esa percepción intuitiva con Reiki, LNT, biodescodificación, vidas pasadas, cristales y Registros Akáshicos. Cada persona que llega a mí tiene una historia diferente, por eso cada experiencia también lo es. Mi intención es escuchar, observar y permitir que el proceso vaya mostrando aquello que necesita ser trabajado.",
     ],
     formation: [
-      "Maestría en Reiki Tibetano Tántrico",
-      "Maestría en Reiki Celta",
-      "Maestría en Reiki Kundalini",
-      "Maestría en Reiki Angélico",
-      "Segundo Nivel y Maestría en LNT (La Nueva Terapia)",
-      "Terapeuta de Energía Tameana",
-      "Neuroterapeuta",
-      "Terapeuta en Biodescodificación",
-      "Terapeuta en Vidas Pasadas",
-      "Terapeuta en Cristales Etéreos",
-      "Terapeuta en Registros Akáshicos",
+      { label: "Maestrías en Reiki", items: ["Tibetano Tántrico", "Celta", "Kundalini", "Angélico"] },
+      { label: "LNT (La Nueva Terapia)", items: ["Segundo Nivel y Maestría"] },
+      {
+        label: "Terapeuta en",
+        items: ["Energía Tameana", "Biodescodificación", "Vidas Pasadas", "Cristales Etéreos", "Registros Akáshicos"],
+      },
+      { label: "Otras formaciones", items: ["Neuroterapeuta"] },
     ],
     closing: [
       "Pero mi vida no ocurre solamente dentro de una terapia. Soy madre, esposa, amante de la naturaleza y disfruto enormemente algo tan sencillo como sentarme a tomar una taza de café.",
@@ -149,12 +150,10 @@ export const THERAPISTS: Therapist[] = [
       "Mi camino dentro de las terapias holísticas me ha llevado a formarme en diferentes disciplinas y sistemas energéticos que hoy puedo integrar y adaptar a cada experiencia.",
     ],
     formation: [
-      "Maestría en Reiki Tibetano Tántrico",
-      "Maestría en Reiki Celta",
-      "Maestría en Reiki Kundalini",
-      "Segundo Nivel y Maestría en LNT (La Nueva Terapia)",
-      "Terapeuta de Energía Tameana",
-      "Certificación en Sonoterapia",
+      { label: "Maestrías en Reiki", items: ["Tibetano Tántrico", "Celta", "Kundalini"] },
+      { label: "LNT (La Nueva Terapia)", items: ["Segundo Nivel y Maestría"] },
+      { label: "Terapeuta en", items: ["Energía Tameana"] },
+      { label: "Otras formaciones", items: ["Certificación en Sonoterapia"] },
     ],
     closing: [
       "Creo profundamente en el valor de la conexión humana. Por eso, más allá de las técnicas y de todo lo aprendido durante estos años, mi manera de acompañarte siempre comienza desde la cercanía, la conversación y el respeto por tu propio proceso.",
