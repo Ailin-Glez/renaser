@@ -6,15 +6,23 @@ import { initCal } from "../lib/cal";
 import styles from "./Layout.module.css";
 
 export function Layout() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
 
   useEffect(() => {
     initCal();
   }, []);
 
   useEffect(() => {
+    if (hash) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: "instant" as ScrollBehavior, block: "start" });
+        });
+      });
+      return;
+    }
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
-  }, [pathname]);
+  }, [pathname, hash]);
 
   return (
     <div className={styles.page}>

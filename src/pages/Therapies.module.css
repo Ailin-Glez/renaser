@@ -1,0 +1,24 @@
+.familyGroup {
+  margin-bottom: 64px;
+  scroll-margin-top: 100px;
+}
+
+.familyGroup:last-of-type {
+  margin-bottom: 0;
+}
+
+.familyTitle {
+  font-size: 1.4rem;
+  color: var(--color-forest);
+  margin: 0 0 28px;
+}
+
+.familyTitle::after {
+  content: "";
+  display: block;
+  width: 36px;
+  height: 4px;
+  margin-top: 10px;
+  border-radius: 999px;
+  background: var(--color-gold);
+}

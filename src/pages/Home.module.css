@@ -235,6 +235,24 @@
   gap: 24px;
 }
 
+.familyGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 960px) {
+  .familyGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .familyGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .seeMore {
   display: flex;
   justify-content: center;

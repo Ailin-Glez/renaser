@@ -3,9 +3,9 @@ import logo from "../assets/renaser-logo.jpg";
 import { Button } from "../components/Button";
 import { Leaves } from "../components/Leaves";
 import { SectionHeading } from "../components/SectionHeading";
-import { TherapyCard } from "../components/TherapyCard";
+import { FamilyCard } from "../components/FamilyCard";
 import { TestimonialMarquee } from "../components/TestimonialMarquee";
-import { SITE, MISSION_TEXT, THERAPIES, TESTIMONIALS } from "../data/content";
+import { FAMILIES, SITE, MISSION_TEXT, TESTIMONIALS } from "../data/content";
 import styles from "./Home.module.css";
 
 export default function Home() {
@@ -45,11 +45,11 @@ export default function Home() {
           <SectionHeading
             eyebrow="Terapias"
             title="Terapias Holísticas"
-            description="Cada terapia está pensada para acompañarte en un momento distinto de tu proceso."
+            description="Cada familia de terapias está pensada para acompañarte en un momento distinto de tu proceso."
           />
-          <div className={styles.grid}>
-            {THERAPIES.slice(0, 3).map((therapy) => (
-              <TherapyCard key={therapy.id} therapy={therapy} />
+          <div className={styles.familyGrid}>
+            {FAMILIES.map((family) => (
+              <FamilyCard key={family.key} family={family} />
             ))}
           </div>
           <div className={styles.seeMore}>

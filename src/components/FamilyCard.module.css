@@ -1,0 +1,68 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-white);
+  border-radius: 46px 30px 42px 26px / 30px 44px 28px 46px;
+  padding: 36px 30px;
+  box-shadow: var(--shadow-soft);
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+    border-radius 600ms var(--ease-fluid);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lift);
+  border-radius: 30px 46px 26px 42px / 44px 28px 46px 30px;
+}
+
+.leafMark {
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, var(--color-leaf), transparent 70%);
+  opacity: 0.18;
+}
+
+.card h3 {
+  margin: 0 0 10px;
+  font-size: 1.25rem;
+}
+
+.card p {
+  color: var(--color-ink-soft);
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 22px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-forest);
+  transition: color var(--transition-fast);
+}
+
+.link span {
+  transition: transform var(--transition-fast);
+}
+
+.card:hover .link {
+  color: var(--color-sunset);
+}
+
+.card:hover .link span {
+  transform: translateX(3px);
+}

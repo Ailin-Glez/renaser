@@ -1,0 +1,175 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(11, 77, 59, 0.45);
+  backdrop-filter: blur(3px);
+  animation: fadeIn 250ms var(--ease-fluid);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  max-height: 86vh;
+  overflow-y: auto;
+  background: var(--color-cream);
+  border-radius: 40px 24px 36px 20px / 24px 38px 22px 40px;
+  padding: 48px 40px 40px;
+  box-shadow: var(--shadow-lift);
+  animation: riseIn 300ms var(--ease-fluid);
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.close {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-cream-soft);
+  color: var(--color-forest);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.close:hover {
+  background: var(--color-gold);
+  transform: rotate(90deg);
+}
+
+.name {
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  margin: 0 0 8px;
+  padding-right: 30px;
+}
+
+.tags {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-leaf);
+  margin: 0 0 20px;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  font-size: 0.92rem;
+  color: var(--color-ink-soft);
+  margin-bottom: 4px;
+}
+
+.meta strong {
+  color: var(--color-forest);
+  font-weight: 600;
+}
+
+.priceNote {
+  font-size: 0.82rem;
+  color: var(--color-sunset);
+  margin: 4px 0 0;
+}
+
+.body {
+  margin-top: 24px;
+}
+
+.body p {
+  color: var(--color-ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.75;
+  margin: 0 0 16px;
+}
+
+.list {
+  margin: 0 0 16px;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.list li {
+  color: var(--color-ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.idealFor {
+  font-size: 0.92rem;
+  color: var(--color-forest);
+  background: var(--color-cream-soft);
+  border-radius: 18px;
+  padding: 16px 20px;
+  margin: 8px 0 0;
+}
+
+.idealFor strong {
+  color: var(--color-sunset);
+}
+
+.disclaimer {
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--color-ink-soft);
+  opacity: 0.75;
+  margin: 16px 0 0;
+}
+
+.bookButton {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 28px;
+  padding: 13px 28px;
+  border-radius: 999px;
+  border: none;
+  background: var(--color-gold);
+  color: var(--color-forest-dark);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.bookButton:hover {
+  background: var(--color-gold-dark);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 560px) {
+  .modal {
+    padding: 40px 24px 32px;
+    max-height: 88vh;
+  }
+}
