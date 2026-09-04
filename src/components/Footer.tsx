@@ -1,10 +1,12 @@
 import { SITE } from "../data/content";
 import styles from "./Footer.module.css";
 
-function PhoneIcon() {
+function WhatsAppIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.8 21 3 13.2 3 3.9 3 3.4 3.4 3 4 3h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1L6.6 10.8Z" />
+      <path d="M4 20l1.1-3.9A7.9 7.9 0 1 1 8.4 19L4 20Z" />
+      <path d="M9 10.5c0 3 2.5 5.5 5.5 5.5" strokeLinecap="round" />
+      <path d="M9 10.5c-.6-.6-.5-2 .3-2s.7 1 1.1 1.7c.3.5-.6 1-.3 1.6.4.8 1.2 1.6 2 2 .6.3 1.1-.6 1.6-.3.7.4 1.7.5 1.7 1.1s-1.4.9-2 .3" />
     </svg>
   );
 }
@@ -61,9 +63,14 @@ export function Footer() {
 
         <div className={styles.connect}>
           <div className={styles.connectGrid}>
-            <a className={styles.row} href={`tel:${SITE.phone.replace(/\s/g, "")}`}>
+            <a
+              className={styles.row}
+              href={`https://wa.me/${SITE.phone.replace(/\D/g, "")}`}
+              target="_blank"
+              rel="noreferrer"
+            >
               <span className={styles.icon}>
-                <PhoneIcon />
+                <WhatsAppIcon />
               </span>
               {SITE.phone}
             </a>

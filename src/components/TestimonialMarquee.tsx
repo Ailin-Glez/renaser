@@ -11,12 +11,17 @@ function Chip({ testimonial }: { testimonial: Testimonial }) {
 }
 
 export function TestimonialMarquee({ testimonials }: { testimonials: Testimonial[] }) {
+  // Con pocas reseñas, el loop de la cinta se nota (la misma reseña se repite
+  // enseguida). En ese caso se muestra una fila fija, sin animar ni duplicar.
+  const loop = testimonials.length >= 4;
+  const items = loop ? [...testimonials, ...testimonials] : testimonials;
+
   return (
     <div className={styles.viewport}>
-      <div className={styles.fadeLeft} aria-hidden="true" />
-      <div className={styles.fadeRight} aria-hidden="true" />
-      <div className={styles.track}>
-        {[...testimonials, ...testimonials].map((t, i) => (
+      {loop && <div className={styles.fadeLeft} aria-hidden="true" />}
+      {loop && <div className={styles.fadeRight} aria-hidden="true" />}
+      <div className={`${styles.track} ${loop ? "" : styles.trackStatic}`}>
+        {items.map((t, i) => (
           <Chip key={`${t.id}-${i}`} testimonial={t} />
         ))}
       </div>

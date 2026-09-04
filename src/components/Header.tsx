@@ -7,8 +7,8 @@ import styles from "./Header.module.css";
 const LINKS = [
   { to: "/", label: "Inicio" },
   { to: "/terapias", label: "Terapias" },
-  { to: "/terapeutas", label: "Sobre nosotros" },
-  { to: "/preguntas-frecuentes", label: "FAQ" },
+  { to: "/terapeutas", label: "Nosotros" },
+  { to: "/preguntas-frecuentes", label: "Preguntas Frecuentes" },
 ];
 
 export function Header() {

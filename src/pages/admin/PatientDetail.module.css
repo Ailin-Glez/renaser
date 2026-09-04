@@ -143,8 +143,14 @@
 
 .visitForm {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 18px;
+}
+
+@media (max-width: 560px) {
+  .visitForm {
+    grid-template-columns: 1fr;
+  }
 }
 
 .notesCard {
@@ -232,6 +238,13 @@
   color: var(--color-sunset);
   font-size: 0.78rem;
   font-weight: 400;
+}
+
+.formError {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--color-sunset);
+  font-size: 0.85rem;
 }
 
 .actions {

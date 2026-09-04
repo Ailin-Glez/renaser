@@ -10,6 +10,18 @@ export interface Family {
   teaser: string; // frase breve y atractiva para la tarjeta de familia en el Inicio
 }
 
+export const LOCATIONS = [
+  { key: "las-vegas", name: "Las Vegas" },
+  { key: "miami", name: "Miami" },
+] as const;
+
+export type LocationKey = (typeof LOCATIONS)[number]["key"];
+
+export interface LocationPricing {
+  price: string; // ej. "$350" o "Desde $500"
+  priceNote?: string; // ej. "Mínimo: 2 personas"
+}
+
 export interface Therapy {
   id: string;
   family: string; // debe coincidir con Family.key
@@ -18,12 +30,18 @@ export interface Therapy {
   shortDescription: string; // resumen de 1 línea para la tarjeta
   duration: string; // formato completo, ej. "2 horas 30 minutos"
   durationShort: string; // formato compacto para la tarjeta, ej. "2h 30min"
-  price: string; // ej. "$350" o "Desde $500"
-  priceNote?: string; // ej. "Mínimo: 2 personas"
+  pricing: Record<LocationKey, LocationPricing>;
   paragraphs: string[];
   list?: string[]; // lista con viñetas, si aplica (ej. LNT · Reconexión)
   idealFor: string;
   disclaimer?: string;
+}
+
+// El slug del tipo de evento de Cal.com para cada terapia+ciudad.
+// Las Vegas usa el slug base (sin sufijo, igual que antes); Miami usa
+// "-miami" al final, porque tiene su propio calendario/disponibilidad.
+export function calSlugFor(therapyId: string, location: LocationKey): string {
+  return location === "miami" ? `${therapyId}-miami` : therapyId;
 }
 
 export interface Testimonial {
@@ -64,13 +82,16 @@ export const SITE = {
 export const POPUP_EVENT = {
   active: true,
   city: "Miami",
-  dateRange: "27 de agosto – 13 de septiembre",
-  note: "Reserva con antelación.",
+  dateRange: "27 de agosto – 13 de septiembre"
 };
 
 // Texto de misión/filosofía de marca — usado en la sección "Filosofía" del Inicio
 export const MISSION_TEXT =
   "RenaSER nace de una idea sencilla: el bienestar no es solamente cuidar el cuerpo. Es nutrirlo, recuperar energía, cuidar la mente y encontrar equilibrio — pequeños rituales que te hagan sentir bien por dentro y por fuera. Porque cuidarte no debería sentirse como otra obligación. Debería convertirse en una forma de vivir.";
+
+// Disclaimer por defecto — se muestra en toda terapia que no tenga uno propio (más específico) en THERAPIES.
+export const DEFAULT_DISCLAIMER =
+  "Esta experiencia es una práctica complementaria de bienestar y no sustituye diagnóstico, tratamiento ni seguimiento médico o psicológico.";
 
 // Cita de cierre para la página "Terapeutas"
 export const ABOUT_QUOTE = [
@@ -177,9 +198,9 @@ export const THERAPIES: Therapy[] = [
       "Una experiencia profunda de Reiki creada para armonizar tu energía y reconectar contigo desde la calma.",
     duration: "2 horas",
     durationShort: "2h",
-    price: "$350",
+    // TODO: confirmar precio real de Miami — por ahora usa el mismo que Las Vegas.
+    pricing: { "las-vegas": { price: "$350" }, miami: { price: "$350" } },
     paragraphs: [
-      "Una experiencia profunda de Reiki creada para armonizar tu energía y ayudarte a reconectar contigo desde un estado de calma y apertura.",
       "La sesión comienza con una lectura energética de los chakras para identificar bloqueos, desequilibrios o áreas que necesitan mayor atención. A partir de esta lectura se realiza una limpieza energética profunda y un trabajo de Reiki personalizado.",
       "Durante el proceso pueden incorporarse herramientas de mediumnidad y exploración de vidas pasadas, cuando surjan de manera natural durante la sesión, permitiendo observar patrones, emociones o memorias que desde una perspectiva espiritual puedan estar relacionadas con tu momento presente.",
       "La experiencia se complementa con una esterilla térmica de cuarzo, combinando calor, relajación y trabajo energético.",
@@ -196,9 +217,9 @@ export const THERAPIES: Therapy[] = [
       "Una experiencia de Reiki, amatista y Llama Violeta creada para recuperar claridad, presencia y dirección.",
     duration: "2 horas 30 minutos",
     durationShort: "2h 30min",
-    price: "$500",
+    // TODO: confirmar precio real de Miami — por ahora usa el mismo que Las Vegas.
+    pricing: { "las-vegas": { price: "$500" }, miami: { price: "$500" } },
     paragraphs: [
-      "Una experiencia energética creada para favorecer la claridad mental, la concentración y la conexión entre mente, cuerpo e intuición.",
       "La sesión comienza con Reiki y activaciones enfocadas especialmente en el chakra del tercer ojo, tradicionalmente relacionado con la percepción, la intuición y la claridad interior.",
       "El proceso incorpora una meditación específica de la Llama Violeta, canalizada y creada especialmente para Casa Renacer. Desde esta práctica espiritual, la Llama Violeta se utiliza como símbolo y herramienta de transmutación para liberar energías densas y favorecer una sensación de renovación y claridad.",
       "La experiencia se realiza sobre una esterilla térmica de cuarzo amatista, piedra tradicionalmente asociada con la serenidad, la intuición y el equilibrio.",
@@ -217,9 +238,9 @@ export const THERAPIES: Therapy[] = [
       "Reiki y biodescodificación para explorar tu bienestar desde una mirada holística, más allá del síntoma.",
     duration: "2 horas 30 minutos",
     durationShort: "2h 30min",
-    price: "$450",
+    // TODO: confirmar precio real de Miami — por ahora usa el mismo que Las Vegas.
+    pricing: { "las-vegas": { price: "$450" }, miami: { price: "$450" } },
     paragraphs: [
-      "Una experiencia que combina Reiki y biodescodificación para explorar el bienestar desde una perspectiva holística, buscando ir más allá de la manifestación física y observar aquello que la persona identifica como su posible raíz emocional o energética.",
       "Desde la mirada holística, el cuerpo, las emociones y nuestra historia personal están profundamente relacionados. Por ello, durante la sesión se exploran experiencias, conflictos, patrones emocionales y situaciones de vida que puedan estar vinculados, desde la percepción de la persona, con su estado actual.",
       "El Reiki acompaña este proceso mediante un trabajo de armonización energética que proporciona un espacio de calma, observación y conexión interior.",
       "Como cierre se realiza una meditación acompañada por baño de sonido, permitiendo integrar el trabajo realizado durante la sesión. El sonido y la vibración crean un espacio de relajación en el que cuerpo, mente y energía pueden asimilar el proceso desde la calma.",
@@ -237,7 +258,8 @@ export const THERAPIES: Therapy[] = [
     shortDescription: "Un trabajo energético y espiritual profundo desde el cuerpo, la emoción y el espíritu.",
     duration: "2 horas",
     durationShort: "2h",
-    price: "$300",
+    // TODO: confirmar precio real de Miami — por ahora usa el mismo que Las Vegas.
+    pricing: { "las-vegas": { price: "$300" }, miami: { price: "$300" } },
     paragraphs: [
       "LNT (La Nueva Terapia) es una práctica energética y espiritual que trabaja desde el poder de la atención y, especialmente, de la intención, contemplando al ser humano desde tres dimensiones que se relacionan entre sí:",
     ],
@@ -259,8 +281,11 @@ export const THERAPIES: Therapy[] = [
     shortDescription: "Armoniza el campo energético compartido entre parejas, familias o equipos.",
     duration: "1 hora 15 minutos",
     durationShort: "1h 15min",
-    price: "$150 por persona",
-    priceNote: "Mínimo: 2 personas",
+    // TODO: confirmar precio real de Miami — por ahora usa el mismo que Las Vegas.
+    pricing: {
+      "las-vegas": { price: "$150 por persona", priceNote: "Mínimo: 2 personas" },
+      miami: { price: "$150 por persona", priceNote: "Mínimo: 2 personas" },
+    },
     paragraphs: [
       "Una experiencia basada en los principios de LNT que lleva el trabajo energético más allá del individuo para enfocarse en el campo energético compartido por un grupo.",
       "Cada persona posee su propio campo o globo energético, pero al convivir, trabajar o compartir un propósito con otras personas también se generan dinámicas energéticas grupales.",
@@ -278,7 +303,8 @@ export const THERAPIES: Therapy[] = [
     shortDescription: "Reiki y sonoterapia combinados para aquietar la mente, liberar tensión y recuperar el equilibrio.",
     duration: "1 hora 15 minutos",
     durationShort: "1h 15min",
-    price: "$250",
+    // TODO: confirmar precio real de Miami — por ahora usa el mismo que Las Vegas.
+    pricing: { "las-vegas": { price: "$250" }, miami: { price: "$250" } },
     paragraphs: [
       "Una experiencia que une la energía del Reiki con el poder envolvente del sonido y la vibración.",
       "Durante la sesión se utilizan diferentes técnicas de Reiki y sonoterapia, seleccionadas de acuerdo con las necesidades y el estado energético de cada persona.",
@@ -296,8 +322,11 @@ export const THERAPIES: Therapy[] = [
     shortDescription: "Una experiencia compartida de relajación y conexión a través del sonido y la vibración.",
     duration: "1 hora 15 minutos",
     durationShort: "1h 15min",
-    price: "$150 por persona",
-    priceNote: "Mínimo: 2 personas",
+    // TODO: confirmar precio real de Miami — por ahora usa el mismo que Las Vegas.
+    pricing: {
+      "las-vegas": { price: "$150 por persona", priceNote: "Mínimo: 2 personas" },
+      miami: { price: "$150 por persona", priceNote: "Mínimo: 2 personas" },
+    },
     paragraphs: [
       "Una experiencia compartida de relajación y armonización a través del sonido y la vibración.",
       "Durante la sesión, los participantes se sumergen en un paisaje sonoro creado con diferentes instrumentos, vibraciones y frecuencias que acompañan un estado de relajación, presencia y conexión interior.",
@@ -315,7 +344,8 @@ export const THERAPIES: Therapy[] = [
     shortDescription: "Lectura, limpieza energética y canalización para renovar la energía de tu hogar o negocio.",
     duration: "Se determina según el espacio",
     durationShort: "A definir",
-    price: "Desde $500",
+    // TODO: confirmar precio real de Miami — por ahora usa el mismo que Las Vegas.
+    pricing: { "las-vegas": { price: "Desde $500" }, miami: { price: "Desde $500" } },
     paragraphs: [
       "Los espacios también guardan historias.",
       "Mudanzas, discusiones, períodos difíciles, cambios de propietarios, alta circulación de personas o simplemente el paso del tiempo pueden hacer que determinados lugares se perciban pesados, incómodos o estancados.",

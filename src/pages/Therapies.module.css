@@ -1,3 +1,41 @@
+.emptyHint {
+  text-align: center;
+  color: var(--color-ink-soft);
+  font-size: 0.95rem;
+  margin: 0 0 40px;
+}
+
+.dateReminder {
+  width: fit-content;
+  margin: 0 auto 40px;
+  text-align: center;
+  background: var(--color-cream-soft);
+  color: var(--color-forest);
+  font-size: 0.9rem;
+  padding: 12px 24px;
+  border-radius: 999px;
+  transition: opacity var(--transition-fast);
+}
+
+.dateReminder strong {
+  color: var(--color-leaf);
+}
+
+.dateReminder[data-visible="false"] {
+  visibility: hidden;
+  opacity: 0;
+}
+
+@media (max-width: 560px) {
+  .dateReminder {
+    width: 100%;
+    max-width: 320px;
+    font-size: 0.8rem;
+    padding: 12px 18px;
+    border-radius: 20px;
+  }
+}
+
 .familyGroup {
   margin-bottom: 64px;
   scroll-margin-top: 100px;

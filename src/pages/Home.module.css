@@ -193,31 +193,6 @@
   position: relative;
 }
 
-.popupNote {
-  width: fit-content;
-  margin: 0 auto 40px;
-  text-align: center;
-  background: var(--color-cream-soft);
-  color: var(--color-forest);
-  font-size: 0.9rem;
-  padding: 12px 24px;
-  border-radius: 999px;
-}
-
-.popupNote strong {
-  color: var(--color-sunset);
-}
-
-@media (max-width: 560px) {
-  .popupNote {
-    width: 100%;
-    max-width: 320px;
-    font-size: 0.8rem;
-    padding: 12px 18px;
-    border-radius: 20px;
-  }
-}
-
 .note {
   text-align: center;
   color: var(--color-ink-soft);

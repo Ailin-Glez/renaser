@@ -3,13 +3,17 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: var(--color-white);
+  background: linear-gradient(165deg, rgba(245, 185, 33, 0.16) 0%, var(--color-white) 55%);
   border-radius: 46px 30px 42px 26px / 30px 44px 28px 46px;
   padding: 32px 28px;
   box-shadow: var(--shadow-soft);
   transition: transform var(--transition-fast), box-shadow var(--transition-fast),
-    border-radius 600ms var(--ease-fluid);
+    border-radius 600ms var(--ease-fluid), background var(--transition-medium);
   overflow: hidden;
+}
+
+.card[data-location="miami"] {
+  background: linear-gradient(165deg, rgba(93, 168, 63, 0.18) 0%, var(--color-white) 55%);
 }
 
 .card:hover {
@@ -25,8 +29,13 @@
   width: 90px;
   height: 90px;
   border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, var(--color-gold), transparent 70%);
+  opacity: 0.22;
+  transition: background var(--transition-medium);
+}
+
+.card[data-location="miami"] .leafMark {
   background: radial-gradient(circle at 30% 30%, var(--color-leaf), transparent 70%);
-  opacity: 0.18;
 }
 
 .card h3 {
@@ -34,18 +43,43 @@
   font-size: 1.25rem;
 }
 
-.card p {
-  color: var(--color-ink-soft);
+.tags {
+  list-style: none;
   margin: 0 0 16px;
-  font-size: 0.95rem;
-  line-height: 1.6;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tags li {
+  position: relative;
+  padding-left: 16px;
+  color: var(--color-ink-soft);
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.tags li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 6px;
+  height: 6px;
+  border-radius: 0 100% 0 100%;
+  background: var(--color-leaf);
 }
 
 .meta {
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--color-sunset);
-  margin-bottom: 4px;
+  transition: color var(--transition-medium);
+}
+
+.card[data-location="miami"] .meta {
+  color: var(--color-leaf);
 }
 
 .actions {
@@ -79,19 +113,23 @@
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
-  padding: 9px 20px;
+  padding: 10px 22px;
   border-radius: 999px;
-  border: 1px solid var(--color-forest);
-  background: transparent;
-  color: var(--color-forest);
+  border: none;
+  background: var(--color-gold);
+  color: var(--color-forest-dark);
   font-family: var(--font-body);
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: background-color var(--transition-fast), color var(--transition-fast);
+  transition: transform var(--transition-fast), background-color var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .bookButton:hover {
-  background: var(--color-forest);
-  color: var(--color-white);
+  transform: translateY(-2px);
+  background: var(--color-gold-dark);
+  box-shadow: var(--shadow-soft);
 }

@@ -49,6 +49,7 @@ export default function PatientDetail() {
   const [notes, setNotes] = useState("");
   const [recommendations, setRecommendations] = useState("");
   const [savingVisit, setSavingVisit] = useState(false);
+  const [visitFormError, setVisitFormError] = useState("");
 
   const [confirmDeletePatient, setConfirmDeletePatient] = useState(false);
   const [confirmDeleteVisitId, setConfirmDeleteVisitId] = useState<string | null>(null);
@@ -123,6 +124,7 @@ export default function PatientDetail() {
     setTherapist("");
     setNotes("");
     setRecommendations("");
+    setVisitFormError("");
   };
 
   const openNewVisitModal = () => {
@@ -137,11 +139,23 @@ export default function PatientDetail() {
     setTherapist(visit.therapist ?? "");
     setNotes(visit.notes ?? "");
     setRecommendations(visit.recommendations ?? "");
+    setVisitFormError("");
     setVisitModalOpen(true);
   };
 
   const handleSaveVisit = async (event: FormEvent) => {
     event.preventDefault();
+
+    if (!visitDate) {
+      setVisitFormError("Selecciona una fecha para la visita.");
+      return;
+    }
+    if (!therapyId) {
+      setVisitFormError("Selecciona una terapia.");
+      return;
+    }
+    setVisitFormError("");
+
     const therapy = THERAPIES.find((t) => t.id === therapyId);
     setSavingVisit(true);
     const payload = {
@@ -358,16 +372,32 @@ export default function PatientDetail() {
             setVisitModalOpen(false);
             resetVisitForm();
           }}
+          wide
         >
           <form className={styles.visitForm} onSubmit={handleSaveVisit}>
             <label className={styles.field}>
-              <span>Fecha</span>
-              <input type="date" value={visitDate} onChange={(e) => setVisitDate(e.target.value)} required />
+              <span>Fecha *</span>
+              <input
+                type="date"
+                value={visitDate}
+                onChange={(e) => {
+                  setVisitDate(e.target.value);
+                  if (visitFormError) setVisitFormError("");
+                }}
+                required
+              />
             </label>
 
             <label className={styles.field}>
-              <span>Terapia</span>
-              <select value={therapyId} onChange={(e) => setTherapyId(e.target.value)}>
+              <span>Terapia *</span>
+              <select
+                value={therapyId}
+                onChange={(e) => {
+                  setTherapyId(e.target.value);
+                  if (visitFormError) setVisitFormError("");
+                }}
+                required
+              >
                 {THERAPIES.map((t) => (
                   <option key={t.id} value={t.id}>
                     {t.name}
@@ -388,19 +418,21 @@ export default function PatientDetail() {
               </select>
             </label>
 
-            <label className={styles.field}>
+            <label className={`${styles.field} ${styles.notesField}`}>
               <span>Notas</span>
-              <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={4} />
+              <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} />
             </label>
 
-            <label className={styles.field}>
+            <label className={`${styles.field} ${styles.notesField}`}>
               <span>Recomendaciones</span>
               <textarea
                 value={recommendations}
                 onChange={(e) => setRecommendations(e.target.value)}
-                rows={4}
+                rows={3}
               />
             </label>
+
+            {visitFormError && <p className={styles.formError}>{visitFormError}</p>}
 
             <div className={styles.actions}>
               <button type="submit" className={styles.submit} disabled={savingVisit}>

@@ -33,6 +33,10 @@
   animation: riseIn 300ms var(--ease-fluid);
 }
 
+.wide {
+  max-width: 640px;
+}
+
 @keyframes riseIn {
   from {
     opacity: 0;

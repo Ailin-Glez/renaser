@@ -16,7 +16,14 @@ export function Layout() {
     if (hash) {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: "instant" as ScrollBehavior, block: "start" });
+          const target = document.getElementById(hash.slice(1));
+          if (target) {
+            target.scrollIntoView({ behavior: "instant" as ScrollBehavior, block: "start" });
+          } else {
+            // El elemento del hash puede no existir todavía (ej. contenido
+            // oculto detrás de un paso previo, como elegir ciudad en Terapias).
+            window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+          }
         });
       });
       return;

@@ -6,9 +6,10 @@ interface AdminModalProps {
   title: string;
   onClose: () => void;
   children: ReactNode;
+  wide?: boolean;
 }
 
-export function AdminModal({ title, onClose, children }: AdminModalProps) {
+export function AdminModal({ title, onClose, children, wide = false }: AdminModalProps) {
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -24,7 +25,7 @@ export function AdminModal({ title, onClose, children }: AdminModalProps) {
   return createPortal(
     <div className={styles.backdrop} onClick={onClose}>
       <div
-        className={styles.modal}
+        className={`${styles.modal} ${wide ? styles.wide : ""}`}
         role="dialog"
         aria-modal="true"
         aria-label={title}

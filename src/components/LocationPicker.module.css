@@ -1,0 +1,78 @@
+.wrap {
+  max-width: 520px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.prompt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--color-forest);
+  margin: 0 0 20px;
+}
+
+.step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--color-gold);
+  color: var(--color-forest-dark);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 18px 16px;
+  border: 2px solid var(--color-cream-soft);
+  border-radius: 22px;
+  background: var(--color-white);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.option:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
+}
+
+.optionSelected {
+  border-color: var(--color-forest);
+  box-shadow: var(--shadow-soft);
+}
+
+.cityName {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--color-forest);
+}
+
+.cityHint {
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+}
+
+@media (max-width: 480px) {
+  .options {
+    grid-template-columns: 1fr;
+  }
+}

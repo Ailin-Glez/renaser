@@ -34,6 +34,13 @@
   animation-play-state: paused;
 }
 
+.trackStatic {
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: none;
+}
+
 @keyframes scroll {
   from {
     transform: translateX(0);
