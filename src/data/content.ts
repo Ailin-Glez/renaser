@@ -95,7 +95,7 @@ export const DEFAULT_DISCLAIMER =
 
 // Cita de cierre para la página "Terapeutas"
 export const ABOUT_QUOTE = [
-  "El despertar duele. Duele porque empiezas a ver lo que antes ignorabas, porque reconoces heridas, patrones y vínculos que ya no puedes seguir sosteniendo.",
+  "El despertar duele. Duele porque empiezas a ver lo que antes ignorabas,\nporque reconoces heridas, patrones y vínculos que ya no puedes seguir sosteniendo.",
   "No todos entenderán tu despertar, porque no todos han recorrido tu camino.",
   "Sigue sanando. Sigue creciendo. Sigue eligiéndote.",
 ];
@@ -396,18 +396,18 @@ export const TESTIMONIALS: Testimonial[] = [
 
 export const FAQ: FAQItem[] = [
   {
-    question: "¿Cómo debo ir vestido/a?",
-    answer: [
-      "Te recomendamos venir con ropa cómoda y preferiblemente holgada, que te permita relajarte durante toda la experiencia. Los pantalones y las prendas en colores claros son una excelente opción.",
-      "Antes de comenzar te pediremos retirar joyas, relojes y otros accesorios para que puedas recibir la terapia con mayor comodidad y sin interferencias durante el trabajo energético.",
-    ],
-  },
-  {
     question: "¿Qué puedo experimentar durante una terapia?",
     answer: [
       "Cada persona y cada proceso son diferentes. No existe una única manera de experimentar una sesión.",
       "Algunas personas alcanzan un estado de relajación profunda, mientras que otras pueden experimentar emociones, ganas de llorar, sensaciones de frío o calor, hormigueo o simplemente una sensación de calma y descanso. También es completamente normal no experimentar sensaciones particulares.",
       "Lo importante es permitirte vivir la experiencia sin expectativas y darle espacio a tu propio proceso.",
+    ],
+  },
+  {
+    question: "¿Cómo debo prepararme y vestirme para mi terapia?",
+    answer: [
+      "Te recomendamos venir con ropa cómoda y preferiblemente holgada, que te permita relajarte durante toda la experiencia. Los pantalones y las prendas en colores claros son una excelente opción. Antes de comenzar te pediremos retirar joyas, relojes y otros accesorios para que puedas recibir la terapia con mayor comodidad y sin interferencias durante el trabajo energético.",
+      "También te recomendamos que tu última comida sea al menos 2 horas antes de la sesión y que ese día prefieras comidas ligeras. Sugerimos llegar con tiempo y con disposición para relajarte y vivir la experiencia sin expectativas.",
     ],
   },
   {
@@ -423,13 +423,6 @@ export const FAQ: FAQItem[] = [
       "Sí, algunas de nuestras terapias se complementan entre sí, pero no recomendamos combinar todas las experiencias.",
       "En Renaser entendemos que el trabajo energético también necesita tiempo y espacio para integrarse. Realizar demasiados procesos simultáneamente puede generar una sensación de sobrecarga y, desde nuestra perspectiva holística, dificultar la integración del trabajo realizado.",
       "Si deseas experimentar más de una terapia, podemos orientarte sobre cuáles se complementan mejor y en qué orden realizarlas.",
-    ],
-  },
-  {
-    question: "¿Debo prepararme antes de mi terapia?",
-    answer: [
-      "Sí. Te recomendamos que tu última comida sea al menos 2 horas antes de la sesión y que ese día prefieras comidas ligeras.",
-      "También te sugerimos llegar con tiempo, usar ropa cómoda y venir con disposición para relajarte y vivir la experiencia sin expectativas.",
     ],
   },
   {

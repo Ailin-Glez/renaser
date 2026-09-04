@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { submitReview } from "../lib/reviews";
 import styles from "./ReviewFormModal.module.css";
 
-const QUOTE_MAX = 500;
+const QUOTE_MAX = 240;
 
 export function ReviewFormModal({ onClose }: { onClose: () => void }) {
   const [name, setName] = useState("");
@@ -41,7 +41,7 @@ export function ReviewFormModal({ onClose }: { onClose: () => void }) {
         className={styles.modal}
         role="dialog"
         aria-modal="true"
-        aria-label="Dejar una reseña"
+        aria-label="Dejar un testimonio"
         onClick={(e) => e.stopPropagation()}
       >
         <button type="button" className={styles.close} onClick={onClose} aria-label="Cerrar">
@@ -51,14 +51,14 @@ export function ReviewFormModal({ onClose }: { onClose: () => void }) {
         {status === "sent" ? (
           <div className={styles.thanks}>
             <span className={styles.thanksMark} aria-hidden="true" />
-            <h3>¡Gracias por tu reseña!</h3>
-            <p>La leeremos con cariño. Una vez aprobada, aparecerá en el sitio.</p>
+            <h3>¡Gracias por tu testimonio!</h3>
+            <p>Lo leeremos con cariño. Una vez aprobado, aparecerá en el sitio.</p>
           </div>
         ) : (
           <>
-            <h3 className={styles.title}>Comparte tu experiencia</h3>
+            <h3 className={styles.title}>Comparte tu testimonio</h3>
             <p className={styles.subtitle}>
-              Tu reseña será revisada antes de publicarse en el sitio.
+              Cuéntanos brevemente cómo fue tu experiencia. Será revisado antes de publicarse en el sitio.
             </p>
 
             <form onSubmit={handleSubmit}>
@@ -77,15 +77,16 @@ export function ReviewFormModal({ onClose }: { onClose: () => void }) {
               />
 
               <label className={styles.label} htmlFor="review-quote">
-                Tu reseña
+                Tu testimonio
               </label>
               <textarea
                 id="review-quote"
                 className={styles.textarea}
                 value={quote}
                 onChange={(e) => setQuote(e.target.value.slice(0, QUOTE_MAX))}
-                placeholder="Contanos cómo fue tu experiencia…"
-                rows={5}
+                placeholder="Contanos cómo fue tu experiencia, en pocas palabras…"
+                rows={4}
+                maxLength={QUOTE_MAX}
                 required
               />
               <span className={styles.counter}>
@@ -94,12 +95,12 @@ export function ReviewFormModal({ onClose }: { onClose: () => void }) {
 
               {status === "error" && (
                 <p className={styles.errorNote}>
-                  Algo salió mal al enviar tu reseña. Por favor, intenta de nuevo.
+                  Algo salió mal al enviar tu testimonio. Por favor, intenta de nuevo.
                 </p>
               )}
 
               <button type="submit" className={styles.submitButton} disabled={status === "sending"}>
-                {status === "sending" ? "Enviando…" : "Enviar reseña"}
+                {status === "sending" ? "Enviando…" : "Enviar testimonio"}
               </button>
             </form>
           </>

@@ -14,20 +14,23 @@ export function TherapyCard({ therapy, location }: { therapy: Therapy; location:
   return (
     <div ref={ref} className={`${styles.card} reveal`} data-location={location}>
       <div className={styles.leafMark} aria-hidden="true" />
-      <h3>{therapy.name}</h3>
-      <ul className={styles.tags}>
-        {therapy.tags.slice(0, 4).map((tag) => (
-          <li key={tag}>{tag}</li>
-        ))}
-      </ul>
-      <span className={styles.meta}>
-        {therapy.durationShort} · {pricing.price}
-      </span>
+
+      <button type="button" className={styles.clickable} onClick={() => setOpen(true)}>
+        <h3>{therapy.name}</h3>
+        <ul className={styles.tags}>
+          {therapy.tags.slice(0, 4).map((tag) => (
+            <li key={tag}>{tag}</li>
+          ))}
+        </ul>
+        <span className={styles.meta}>
+          {therapy.durationShort} · {pricing.price}
+        </span>
+        <span className={styles.more}>
+          Ver más <span aria-hidden="true">→</span>
+        </span>
+      </button>
 
       <div className={styles.actions}>
-        <button type="button" className={styles.detailLink} onClick={() => setOpen(true)}>
-          Ver más
-        </button>
         <button
           type="button"
           className={styles.bookButton}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import carlosPortrait from "../assets/carlos-portrait.jpg";
 import marthaPortrait from "../assets/martha-portrait.jpg";
-import { THERAPISTS, ABOUT_QUOTE, SITE } from "../data/content";
+import { THERAPISTS, SITE } from "../data/content";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import styles from "./Team.module.css";
 
@@ -83,20 +83,6 @@ export default function Team() {
           {THERAPISTS.map((therapist) => (
             <TherapistSection key={therapist.id} therapist={therapist} />
           ))}
-        </div>
-      </section>
-
-      <section className={styles.quoteSection}>
-        <span className={styles.quoteBlob} aria-hidden="true" />
-        <div className="container">
-          <div className={styles.quoteWrap}>
-            {ABOUT_QUOTE.slice(0, -1).map((line, i) => (
-              <p key={i} className={styles.quoteLine}>
-                {line}
-              </p>
-            ))}
-            <span className={styles.quotePill}>{ABOUT_QUOTE[ABOUT_QUOTE.length - 1]}</span>
-          </div>
         </div>
       </section>
     </>

@@ -38,7 +38,7 @@ export function TherapyModal({ therapy, location, onClose }: TherapyModalProps) 
           ×
         </button>
 
-        <div className={styles.scrollArea}>
+        <div className={styles.header}>
           <h3 className={styles.name}>{therapy.name}</h3>
           <p className={styles.tags}>{therapy.tags.join(" · ")}</p>
 
@@ -52,6 +52,16 @@ export function TherapyModal({ therapy, location, onClose }: TherapyModalProps) 
           </div>
           {pricing.priceNote && <p className={styles.priceNote}>{pricing.priceNote}</p>}
 
+          <button
+            type="button"
+            className={styles.bookButton}
+            onClick={() => openBookingModal(`${CAL_USERNAME}/${calSlugFor(therapy.id, location)}`)}
+          >
+            Reservar esta sesión
+          </button>
+        </div>
+
+        <div className={styles.scrollArea}>
           <div className={styles.body}>
             {therapy.paragraphs.map((p, i) => (
               <p key={i}>{p}</p>
@@ -70,14 +80,6 @@ export function TherapyModal({ therapy, location, onClose }: TherapyModalProps) 
           </p>
 
           <p className={styles.disclaimer}>{therapy.disclaimer ?? DEFAULT_DISCLAIMER}</p>
-
-          <button
-            type="button"
-            className={styles.bookButton}
-            onClick={() => openBookingModal(`${CAL_USERNAME}/${calSlugFor(therapy.id, location)}`)}
-          >
-            Reservar esta sesión
-          </button>
         </div>
       </div>
     </div>,

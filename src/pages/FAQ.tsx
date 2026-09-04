@@ -1,3 +1,4 @@
+import { AskQuestion } from "../components/AskQuestion";
 import { FAQAccordion } from "../components/FAQAccordion";
 import { SectionHeading } from "../components/SectionHeading";
 import { FAQ as FAQ_ITEMS } from "../data/content";
@@ -15,6 +16,7 @@ export default function FAQPage() {
         />
         <div className={styles.wrap}>
           <FAQAccordion items={FAQ_ITEMS} />
+          <AskQuestion />
         </div>
       </div>
     </section>

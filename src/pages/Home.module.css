@@ -158,9 +158,9 @@
 
 .missionEyebrow {
   display: inline-block;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-leaf);
   margin-bottom: 18px;
@@ -168,10 +168,9 @@
 
 .missionText {
   font-family: var(--font-display);
-  font-style: italic;
   font-size: clamp(1rem, 2vw, 1.2rem);
   line-height: 1.55;
-  color: var(--color-forest);
+  color: var(--color-ink-soft);
   margin-bottom: 28px;
 }
 
@@ -201,7 +200,7 @@
 }
 
 .sectionAlt {
-  padding: 48px 0;
+  padding: 48px 0 64px;
 }
 
 .grid {
@@ -273,4 +272,64 @@
   .grid {
     grid-template-columns: 1fr;
   }
+}
+
+.quoteSection {
+  position: relative;
+  padding: 100px 0 110px;
+}
+
+.quoteBlob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 340px;
+  height: 340px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 185, 33, 0.58), rgba(224, 123, 26, 0.18) 55%, transparent 75%);
+  pointer-events: none;
+  animation: breathe 9s ease-in-out infinite;
+}
+
+@media (max-width: 640px) {
+  .quoteBlob {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quoteBlob {
+    animation: none;
+  }
+}
+
+.quoteWrap {
+  position: relative;
+  max-width: 820px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.quoteLine {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+  line-height: 1.55;
+  color: var(--color-forest);
+  margin-bottom: 28px;
+  white-space: pre-line;
+}
+
+.quotePill {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-forest-dark);
+  background: var(--color-gold);
+  padding: 10px 24px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-soft);
 }

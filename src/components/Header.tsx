@@ -8,7 +8,7 @@ const LINKS = [
   { to: "/", label: "Inicio" },
   { to: "/terapias", label: "Terapias" },
   { to: "/terapeutas", label: "Nosotros" },
-  { to: "/preguntas-frecuentes", label: "Preguntas Frecuentes" },
+  { to: "/preguntas-frecuentes", label: "Preguntas" },
 ];
 
 export function Header() {

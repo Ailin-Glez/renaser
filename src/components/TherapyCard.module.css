@@ -38,6 +38,20 @@
   background: radial-gradient(circle at 30% 30%, var(--color-leaf), transparent 70%);
 }
 
+.clickable {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0 0 20px;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
 .card h3 {
   margin: 0 0 10px;
   font-size: 1.25rem;
@@ -82,38 +96,35 @@
   color: var(--color-leaf);
 }
 
-.actions {
-  display: flex;
+.more {
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  gap: 6px;
   margin-top: auto;
-  padding-top: 20px;
-}
-
-.detailLink {
-  background: none;
-  border: none;
-  padding: 0;
+  padding-top: 16px;
   color: var(--color-forest);
-  font-family: var(--font-body);
   font-size: 0.85rem;
   font-weight: 500;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  cursor: pointer;
-  transition: color var(--transition-fast);
 }
 
-.detailLink:hover {
-  color: var(--color-sunset);
+.more span {
+  transition: transform var(--transition-fast);
+}
+
+.clickable:hover .more span {
+  transform: translateX(3px);
+}
+
+.actions {
+  display: flex;
 }
 
 .bookButton {
   display: inline-flex;
   align-items: center;
-  flex-shrink: 0;
-  padding: 10px 22px;
+  justify-content: center;
+  width: 100%;
+  padding: 11px 22px;
   border-radius: 999px;
   border: none;
   background: var(--color-gold);

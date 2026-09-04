@@ -1,31 +1,21 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/renaser-logo.jpg";
 import { Button } from "../components/Button";
 import { Leaves } from "../components/Leaves";
 import { SectionHeading } from "../components/SectionHeading";
 import { FamilyCard } from "../components/FamilyCard";
-import { TestimonialMarquee } from "../components/TestimonialMarquee";
+import { TestimonialOrbs } from "../components/TestimonialOrbs";
 import { ReviewFormModal } from "../components/ReviewFormModal";
-import { FAMILIES, SITE, MISSION_TEXT, TESTIMONIALS, type Testimonial } from "../data/content";
-import { listApprovedReviews } from "../lib/reviews";
+import { FAMILIES, SITE, MISSION_TEXT, ABOUT_QUOTE, TESTIMONIALS } from "../data/content";
 import styles from "./Home.module.css";
 
+// TODO: usando los testimonios de ejemplo (TESTIMONIALS) para previsualizar
+// cómo se ven varios círculos a la vez. Cuando haya suficientes reseñas
+// reales aprobadas, volver a traerlas con listApprovedReviews().
 export default function Home() {
-  const [testimonials, setTestimonials] = useState<Testimonial[]>(TESTIMONIALS);
+  const [testimonials] = useState(TESTIMONIALS);
   const [reviewFormOpen, setReviewFormOpen] = useState(false);
-
-  useEffect(() => {
-    listApprovedReviews()
-      .then((reviews) => {
-        if (reviews.length > 0) {
-          setTestimonials(reviews.map((r) => ({ id: r.id, name: r.name, quote: r.quote })));
-        }
-      })
-      .catch(() => {
-        // Si falla la carga, se mantienen los testimonios de ejemplo.
-      });
-  }, []);
 
   return (
     <>
@@ -83,12 +73,27 @@ export default function Home() {
           <SectionHeading
             eyebrow="Testimonios"
             title="Lo que dicen quienes ya vivieron la experiencia"
+            nowrap
           />
-          <TestimonialMarquee testimonials={testimonials} />
+          <TestimonialOrbs testimonials={testimonials} />
           <div className={styles.reviewCta}>
             <Button variant="secondary" onClick={() => setReviewFormOpen(true)}>
-              Deja tu reseña
+              Comparte tu testimonio
             </Button>
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.quoteSection}>
+        <span className={styles.quoteBlob} aria-hidden="true" />
+        <div className="container">
+          <div className={styles.quoteWrap}>
+            {ABOUT_QUOTE.slice(0, -1).map((line, i) => (
+              <p key={i} className={styles.quoteLine}>
+                {line}
+              </p>
+            ))}
+            <span className={styles.quotePill}>{ABOUT_QUOTE[ABOUT_QUOTE.length - 1]}</span>
           </div>
         </div>
       </section>

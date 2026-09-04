@@ -24,6 +24,20 @@
   font-size: clamp(1.8rem, 3vw, 2.4rem);
 }
 
+.fitWrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+.fitText {
+  white-space: nowrap;
+  transform-origin: center top;
+  font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+  margin: 0;
+}
+
 .description {
   color: var(--color-ink-soft);
   font-size: 1.05rem;
