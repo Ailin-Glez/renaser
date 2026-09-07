@@ -12,10 +12,16 @@ import {
   THERAPIES,
   type LocationKey,
 } from "../data/content";
+import { usePageMeta } from "../hooks/usePageMeta";
 import homeStyles from "./Home.module.css";
 import styles from "./Therapies.module.css";
 
 export default function Therapies() {
+  usePageMeta(
+    "Terapias Holísticas",
+    "Explora las terapias holísticas de RenaSER en Las Vegas y Miami: Reiki, LNT, sonoterapia y armonización de espacios."
+  );
+
   const [location, setLocation] = useState<LocationKey | null>(null);
   const firstFamilyRef = useRef<HTMLDivElement>(null);
 

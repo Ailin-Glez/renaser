@@ -2,6 +2,7 @@ import carlosPortrait from "../assets/carlos-portrait.jpg";
 import marthaPortrait from "../assets/martha-portrait.jpg";
 import { THERAPISTS, SITE } from "../data/content";
 import { useScrollReveal } from "../hooks/useScrollReveal";
+import { usePageMeta } from "../hooks/usePageMeta";
 import styles from "./Team.module.css";
 
 const PHOTOS: Record<string, string> = {
@@ -52,6 +53,11 @@ function TherapistCard({ therapist }: { therapist: (typeof THERAPISTS)[number] }
 }
 
 export default function Team() {
+  usePageMeta(
+    "Nuestro equipo",
+    "Conoce a Carlos y Martha, terapeutas holísticos de RenaSER — Reiki, LNT, mediumnidad y sonoterapia."
+  );
+
   return (
     <section className={styles.section}>
       <div className="container">

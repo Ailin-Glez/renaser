@@ -1,0 +1,32 @@
+// Reglas de Firestore para RenaSER.
+// Este archivo es solo referencia — este proyecto no usa el Firebase CLI
+// para desplegar, así que cópialo tal cual en:
+// Firebase Console → Firestore Database → Reglas.
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Todo lo demás (patients, visits) solo lo puede leer/escribir el
+    // panel de Admin autenticado.
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+
+    // reviews: cualquier visitante puede dejar un testimonio, siempre en
+    // estado "pending" y con solo los campos esperados, cada uno con un
+    // largo razonable (coincide con los límites del formulario público).
+    // Nadie puede leer testimonios no aprobados salvo el admin.
+    match /reviews/{reviewId} {
+      allow create: if request.resource.data.keys().hasOnly(["name", "quote", "status", "createdAt"])
+                    && request.resource.data.status == "pending"
+                    && request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && request.resource.data.name.size() <= 60
+                    && request.resource.data.quote is string
+                    && request.resource.data.quote.size() > 0
+                    && request.resource.data.quote.size() <= 240;
+      allow read: if resource.data.status == "approved" || request.auth != null;
+      allow update, delete: if request.auth != null;
+    }
+  }
+}

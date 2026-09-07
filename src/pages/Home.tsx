@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/renaser-logo.jpg";
 import { Button } from "../components/Button";
@@ -6,14 +6,24 @@ import { Leaves } from "../components/Leaves";
 import { SectionHeading } from "../components/SectionHeading";
 import { FamilyCard } from "../components/FamilyCard";
 import { TestimonialOrbs } from "../components/TestimonialOrbs";
-import { ReviewFormModal } from "../components/ReviewFormModal";
 import { FAMILIES, SITE, MISSION_TEXT, ABOUT_QUOTE, TESTIMONIALS } from "../data/content";
+import { usePageMeta } from "../hooks/usePageMeta";
 import styles from "./Home.module.css";
+
+// Cargado aparte: solo quien hace clic en "Comparte tu testimonio" necesita
+// descargar Firestore, no todos los visitantes del Inicio.
+const ReviewFormModal = lazy(() =>
+  import("../components/ReviewFormModal").then((m) => ({ default: m.ReviewFormModal }))
+);
 
 // TODO: usando los testimonios de ejemplo (TESTIMONIALS) para previsualizar
 // cómo se ven varios círculos a la vez. Cuando haya suficientes reseñas
 // reales aprobadas, volver a traerlas con listApprovedReviews().
 export default function Home() {
+  usePageMeta(
+    "",
+    "RenaSER — terapias holísticas para renacer en cuerpo, mente y espíritu. Reiki, LNT, sonoterapia y más en Las Vegas y Miami."
+  );
   const [testimonials] = useState(TESTIMONIALS);
   const [reviewFormOpen, setReviewFormOpen] = useState(false);
 
@@ -98,7 +108,11 @@ export default function Home() {
         </div>
       </section>
 
-      {reviewFormOpen && <ReviewFormModal onClose={() => setReviewFormOpen(false)} />}
+      {reviewFormOpen && (
+        <Suspense fallback={null}>
+          <ReviewFormModal onClose={() => setReviewFormOpen(false)} />
+        </Suspense>
+      )}
     </>
   );
 }
