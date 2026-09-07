@@ -127,6 +127,19 @@
   margin: 4px 0 0;
 }
 
+.depositNote {
+  font-size: 0.82rem;
+  color: var(--color-ink-soft);
+  background: var(--color-cream-soft);
+  padding: 8px 14px;
+  border-radius: 12px;
+  margin: 10px 0 0;
+}
+
+.depositNote strong {
+  color: var(--color-forest);
+}
+
 .body p {
   color: var(--color-ink-soft);
   font-size: 0.98rem;

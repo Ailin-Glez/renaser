@@ -2,11 +2,11 @@ import { useState } from "react";
 import type { FAQItem } from "../data/content";
 import styles from "./FAQAccordion.module.css";
 
-function AccordionItem({ item }: { item: FAQItem }) {
-  const [open, setOpen] = useState(false);
+function AccordionItem({ item, initiallyOpen }: { item: FAQItem; initiallyOpen: boolean }) {
+  const [open, setOpen] = useState(initiallyOpen);
 
   return (
-    <div className={styles.item}>
+    <div id={item.id} className={styles.item}>
       <button
         type="button"
         className={styles.question}
@@ -31,11 +31,11 @@ function AccordionItem({ item }: { item: FAQItem }) {
   );
 }
 
-export function FAQAccordion({ items }: { items: FAQItem[] }) {
+export function FAQAccordion({ items, openId }: { items: FAQItem[]; openId?: string }) {
   return (
     <div className={styles.list}>
-      {items.map((item, i) => (
-        <AccordionItem key={i} item={item} />
+      {items.map((item) => (
+        <AccordionItem key={item.id} item={item} initiallyOpen={item.id === openId} />
       ))}
     </div>
   );

@@ -53,6 +53,18 @@ export function TherapyModal({ therapy, location, onClose }: TherapyModalProps) 
             </span>
           </div>
           {pricing.priceNote && <p className={styles.priceNote}>{pricing.priceNote}</p>}
+          {pricing.depositPrice ? (
+            <p className={styles.depositNote}>
+              🔒 Depósito al reservar: <strong>{pricing.depositPrice}</strong> — el resto se paga el día de la
+              sesión.
+            </p>
+          ) : (
+            therapy.manualDeposit && (
+              <p className={styles.depositNote}>
+                📝 El depósito de esta experiencia se coordina directamente contigo antes de tu sesión.
+              </p>
+            )
+          )}
 
           {BOOKING_ENABLED ? (
             <button

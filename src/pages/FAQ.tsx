@@ -1,3 +1,4 @@
+import { useLocation } from "react-router-dom";
 import { AskQuestion } from "../components/AskQuestion";
 import { FAQAccordion } from "../components/FAQAccordion";
 import { SectionHeading } from "../components/SectionHeading";
@@ -12,6 +13,9 @@ export default function FAQPage() {
     "Resuelve tus dudas sobre las terapias holísticas de RenaSER: preparación, frecuencia, embarazo y más."
   );
 
+  const { hash } = useLocation();
+  const openId = hash ? hash.slice(1) : undefined;
+
   return (
     <section className={homeStyles.section} style={{ paddingTop: 64 }}>
       <div className="container">
@@ -21,7 +25,7 @@ export default function FAQPage() {
           description="Todo lo que necesitas saber antes de reservar tu experiencia."
         />
         <div className={styles.wrap}>
-          <FAQAccordion items={FAQ_ITEMS} />
+          <FAQAccordion items={FAQ_ITEMS} openId={openId} />
           <AskQuestion />
         </div>
       </div>

@@ -20,6 +20,9 @@ export type LocationKey = (typeof LOCATIONS)[number]["key"];
 export interface LocationPricing {
   price: string; // ej. "$350" o "Desde $500"
   priceNote?: string; // ej. "Mínimo: 2 personas"
+  // Ausente cuando el precio es "a cotizar" (ver Therapy.manualDeposit) — no hay
+  // monto fijo de depósito, se coordina directamente con el cliente.
+  depositPrice?: string;
 }
 
 export interface Therapy {
@@ -36,6 +39,9 @@ export interface Therapy {
   list?: string[]; // lista con viñetas, si aplica (ej. LNT · Reconexión)
   idealFor: string;
   disclaimer?: string;
+  // El precio es "a cotizar" (ej. Espacio en Armonía): no se cobra depósito
+  // automático por Stripe, se coordina directamente con el cliente.
+  manualDeposit?: boolean;
 }
 
 // El slug del tipo de evento de Cal.com para cada terapia+ciudad.
@@ -52,6 +58,7 @@ export interface Testimonial {
 }
 
 export interface FAQItem {
+  id: string;
   question: string;
   answer: string[];
 }
@@ -70,6 +77,11 @@ export const BOOKING_URL = `https://cal.com/${CAL_USERNAME}`;
 // aviso + contacto por WhatsApp. Cámbialo a true cuando quieras habilitar
 // las reservas en línea (Cal.com) de nuevo.
 export const BOOKING_ENABLED = false;
+
+// En false, la sección de Testimonios del Inicio queda oculta. Los datos de
+// TESTIMONIALS de abajo son de ejemplo (placeholder) — cámbialo a true cuando
+// tengas reseñas reales que mostrar.
+export const TESTIMONIALS_ENABLED = false;
 
 export const SITE = {
   name: "RenaSER",
@@ -204,8 +216,10 @@ export const THERAPIES: Therapy[] = [
       "Una experiencia profunda de Reiki creada para armonizar tu energía y reconectar contigo desde la calma.",
     duration: "2 horas",
     durationShort: "2h",
-    // TODO: confirmar precio real de Miami — por ahora usa el mismo que Las Vegas.
-    pricing: { "las-vegas": { price: "$250" }, miami: { price: "$350" } },
+    pricing: {
+      "las-vegas": { price: "$250", depositPrice: "$125" },
+      miami: { price: "$350", depositPrice: "$175" },
+    },
     paragraphs: [
       "La sesión comienza con una lectura energética de los chakras para identificar bloqueos, desequilibrios o áreas que necesitan mayor atención. A partir de esta lectura se realiza una limpieza energética profunda y un trabajo de Reiki personalizado.",
       "Durante el proceso pueden incorporarse herramientas de mediumnidad y exploración de vidas pasadas, cuando surjan de manera natural durante la sesión, permitiendo observar patrones, emociones o memorias que desde una perspectiva espiritual puedan estar relacionadas con tu momento presente.",
@@ -223,8 +237,10 @@ export const THERAPIES: Therapy[] = [
       "Una experiencia de Reiki, amatista y Llama Violeta creada para recuperar claridad, presencia y dirección.",
     duration: "2 horas 30 minutos",
     durationShort: "2h 30min",
-    // TODO: confirmar precio real de Miami — por ahora usa el mismo que Las Vegas.
-    pricing: { "las-vegas": { price: "$300" }, miami: { price: "$500" } },
+    pricing: {
+      "las-vegas": { price: "$300", depositPrice: "$150" },
+      miami: { price: "$500", depositPrice: "$250" },
+    },
     paragraphs: [
       "La sesión comienza con Reiki y activaciones enfocadas especialmente en el chakra del tercer ojo, tradicionalmente relacionado con la percepción, la intuición y la claridad interior.",
       "El proceso incorpora una meditación específica de la Llama Violeta, canalizada y creada especialmente para Casa Renacer. Desde esta práctica espiritual, la Llama Violeta se utiliza como símbolo y herramienta de transmutación para liberar energías densas y favorecer una sensación de renovación y claridad.",
@@ -244,8 +260,10 @@ export const THERAPIES: Therapy[] = [
       "Reiki y biodescodificación para explorar tu bienestar desde una mirada holística, más allá del síntoma.",
     duration: "2 horas 30 minutos",
     durationShort: "2h 30min",
-    // TODO: confirmar precio real de Miami — por ahora usa el mismo que Las Vegas.
-    pricing: { "las-vegas": { price: "$300" }, miami: { price: "$450" } },
+    pricing: {
+      "las-vegas": { price: "$300", depositPrice: "$150" },
+      miami: { price: "$450", depositPrice: "$225" },
+    },
     paragraphs: [
       "Desde la mirada holística, el cuerpo, las emociones y nuestra historia personal están profundamente relacionados. Por ello, durante la sesión se exploran experiencias, conflictos, patrones emocionales y situaciones de vida que puedan estar vinculados, desde la percepción de la persona, con su estado actual.",
       "El Reiki acompaña este proceso mediante un trabajo de armonización energética que proporciona un espacio de calma, observación y conexión interior.",
@@ -264,8 +282,10 @@ export const THERAPIES: Therapy[] = [
     shortDescription: "Un trabajo energético y espiritual profundo desde el cuerpo, la emoción y el espíritu.",
     duration: "2 horas",
     durationShort: "2h",
-    // TODO: confirmar precio real de Miami — por ahora usa el mismo que Las Vegas.
-    pricing: { "las-vegas": { price: "$150" }, miami: { price: "$300" } },
+    pricing: {
+      "las-vegas": { price: "$150", depositPrice: "$75" },
+      miami: { price: "$300", depositPrice: "$150" },
+    },
     paragraphs: [
       "LNT (La Nueva Terapia) es una práctica energética y espiritual que trabaja desde el poder de la atención y, especialmente, de la intención, contemplando al ser humano desde tres dimensiones que se relacionan entre sí:",
     ],
@@ -287,7 +307,9 @@ export const THERAPIES: Therapy[] = [
     shortDescription: "Armoniza el campo energético compartido entre parejas, familias o equipos.",
     duration: "1 hora 15 minutos",
     durationShort: "1h 15min",
-    // TODO: confirmar precio real de Miami — por ahora usa el mismo que antes.
+    // Precio por persona: Cal.com no cobra por asistente automáticamente,
+    // así que el depósito se coordina manualmente en vez de cobrarlo en la web.
+    manualDeposit: true,
     pricing: {
       "las-vegas": { price: "$100 por persona", priceNote: "Mínimo: 2 personas" },
       miami: { price: "$150 por persona", priceNote: "Mínimo: 2 personas" },
@@ -310,7 +332,7 @@ export const THERAPIES: Therapy[] = [
     duration: "1 hora 15 minutos",
     durationShort: "1h 15min",
     // No se ofrece en Las Vegas, solo en Miami.
-    pricing: { miami: { price: "$250" } },
+    pricing: { miami: { price: "$250", depositPrice: "$125" } },
     paragraphs: [
       "Una experiencia que une la energía del Reiki con el poder envolvente del sonido y la vibración.",
       "Durante la sesión se utilizan diferentes técnicas de Reiki y sonoterapia, seleccionadas de acuerdo con las necesidades y el estado energético de cada persona.",
@@ -329,6 +351,9 @@ export const THERAPIES: Therapy[] = [
     duration: "1 hora 15 minutos",
     durationShort: "1h 15min",
     // No se ofrece en Las Vegas, solo en Miami.
+    // Precio por persona: Cal.com no cobra por asistente automáticamente,
+    // así que el depósito se coordina manualmente en vez de cobrarlo en la web.
+    manualDeposit: true,
     pricing: {
       miami: { price: "$150 por persona", priceNote: "Mínimo: 2 personas" },
     },
@@ -349,8 +374,12 @@ export const THERAPIES: Therapy[] = [
     shortDescription: "Lectura, limpieza energética y canalización para renovar la energía de tu hogar o negocio.",
     duration: "Se determina según el espacio",
     durationShort: "A definir",
-    // TODO: confirmar precio real de Miami — por ahora usa el mismo que antes.
-    pricing: { "las-vegas": { price: "Desde $350" }, miami: { price: "Desde $500" } },
+    // Precio a cotizar caso por caso: sin depósito automático por Stripe.
+    manualDeposit: true,
+    pricing: {
+      "las-vegas": { price: "Desde $350" },
+      miami: { price: "Desde $500" },
+    },
     paragraphs: [
       "Los espacios también guardan historias.",
       "Mudanzas, discusiones, períodos difíciles, cambios de propietarios, alta circulación de personas o simplemente el paso del tiempo pueden hacer que determinados lugares se perciban pesados, incómodos o estancados.",
@@ -410,6 +439,7 @@ export const CANCELLATION_POLICY = {
 
 export const FAQ: FAQItem[] = [
   {
+    id: "experiencia",
     question: "¿Qué puedo experimentar durante una terapia?",
     answer: [
       "Cada persona y cada proceso son diferentes. No existe una única manera de experimentar una sesión.",
@@ -418,6 +448,7 @@ export const FAQ: FAQItem[] = [
     ],
   },
   {
+    id: "preparacion",
     question: "¿Cómo debo prepararme y vestirme para mi terapia?",
     answer: [
       "Te recomendamos venir con ropa cómoda y preferiblemente holgada, que te permita relajarte durante toda la experiencia. Los pantalones y las prendas en colores claros son una excelente opción. Antes de comenzar te pediremos retirar joyas, relojes y otros accesorios para que puedas recibir la terapia con mayor comodidad y sin interferencias durante el trabajo energético.",
@@ -425,6 +456,7 @@ export const FAQ: FAQItem[] = [
     ],
   },
   {
+    id: "frecuencia",
     question: "¿Cada cuánto tiempo puedo repetir una terapia o combinar varias?",
     answer: [
       "Generalmente recomendamos dejar entre 2 y 3 semanas entre sesiones, dependiendo de la terapia y de tu proceso individual. Este tiempo permite dar espacio a la integración de la experiencia antes de realizar un nuevo trabajo energético; tu terapeuta podrá orientarte sobre el tiempo más adecuado para ti después de cada sesión.",
@@ -432,6 +464,7 @@ export const FAQ: FAQItem[] = [
     ],
   },
   {
+    id: "restricciones",
     question: "¿Hay restricciones de edad o embarazo para recibir las terapias?",
     answer: [
       "Por protocolo de Renaser, no realizamos estas terapias durante los primeros 3 meses de embarazo. Si estás embarazada o existe la posibilidad de que puedas estarlo, es importante comunicárnoslo antes de reservar — a partir del segundo trimestre podremos valorar contigo qué experiencias son apropiadas y realizar las adaptaciones necesarias. Ante cualquier condición particular del embarazo, recomendamos consultar previamente con tu profesional de salud.",
@@ -439,6 +472,7 @@ export const FAQ: FAQItem[] = [
     ],
   },
   {
+    id: "eleccion",
     question: "¿Cómo sé qué terapia es mejor para mí?",
     answer: [
       "Cada una de nuestras terapias incluye una sección \"Ideal para…\" que puede ayudarte a identificar cuál se acerca más a lo que estás buscando.",
@@ -447,6 +481,7 @@ export const FAQ: FAQItem[] = [
     ],
   },
   {
+    id: "cancelacion",
     question: "¿Cómo funciona el pago y la política de cancelación?",
     answer: [
       "Al reservar tu sesión se cobra un depósito del 50% del valor de la terapia con tarjeta, a través de nuestra plataforma de pagos segura. El resto se abona el día de la sesión.",
