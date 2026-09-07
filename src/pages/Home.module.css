@@ -158,8 +158,8 @@
 
 .missionEyebrow {
   display: inline-block;
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 1.15rem;
+  font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-leaf);
@@ -175,16 +175,35 @@
 }
 
 .mottoPill {
-  display: inline-block;
-  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-forest-dark);
+  color: var(--color-leaf);
+}
+
+.mottoPill::before,
+.mottoPill::after {
+  content: "";
+  width: 26px;
+  height: 1px;
   background: var(--color-gold);
-  padding: 10px 24px;
-  border-radius: 999px;
-  box-shadow: var(--shadow-soft);
+}
+
+@media (max-width: 480px) {
+  .mottoPill {
+    gap: 10px;
+    font-size: 0.72rem;
+  }
+
+  .mottoPill::before,
+  .mottoPill::after {
+    width: 16px;
+  }
 }
 
 .section {
@@ -293,9 +312,13 @@
 }
 
 @media (max-width: 640px) {
+  .quoteSection {
+    padding: 40px 0 70px;
+  }
+
   .quoteBlob {
-    width: 200px;
-    height: 200px;
+    width: 280px;
+    height: 280px;
   }
 }
 
@@ -322,14 +345,33 @@
 }
 
 .quotePill {
-  display: inline-block;
-  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-forest-dark);
+  color: var(--color-leaf);
+}
+
+.quotePill::before,
+.quotePill::after {
+  content: "";
+  width: 26px;
+  height: 1px;
   background: var(--color-gold);
-  padding: 10px 24px;
-  border-radius: 999px;
-  box-shadow: var(--shadow-soft);
+}
+
+@media (max-width: 480px) {
+  .quotePill {
+    gap: 10px;
+    font-size: 0.72rem;
+  }
+
+  .quotePill::before,
+  .quotePill::after {
+    width: 16px;
+  }
 }

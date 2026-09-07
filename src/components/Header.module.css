@@ -70,8 +70,10 @@
   transition: transform var(--transition-fast), width var(--transition-medium), height var(--transition-medium);
 }
 
-.brand:hover .logo {
-  transform: rotate(-8deg);
+@media (hover: hover) and (pointer: fine) {
+  .brand:hover .logo {
+    transform: rotate(-8deg);
+  }
 }
 
 .nav {
@@ -146,30 +148,41 @@
 .toggle {
   display: none;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  gap: 6px;
-  width: 36px;
-  height: 36px;
-  background: none;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  background: var(--color-cream-soft);
   border: none;
+  border-radius: 14px;
   cursor: pointer;
   padding: 0;
+  transition: background-color var(--transition-fast);
+}
+
+.toggle:active {
+  background: var(--color-gold);
 }
 
 .toggle span {
-  width: 100%;
-  height: 1.5px;
+  width: 20px;
+  height: 2px;
   background: var(--color-forest);
   border-radius: 2px;
   transition: transform var(--transition-fast), opacity var(--transition-fast);
 }
 
-.toggleOpen span:first-child {
-  transform: translateY(3.75px) rotate(45deg);
+.toggleOpen span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
 }
 
-.toggleOpen span:last-child {
-  transform: translateY(-3.75px) rotate(-45deg);
+.toggleOpen span:nth-child(2) {
+  opacity: 0;
+}
+
+.toggleOpen span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 @media (max-width: 780px) {

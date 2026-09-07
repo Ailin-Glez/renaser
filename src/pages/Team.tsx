@@ -16,24 +16,28 @@ function TherapistCard({ therapist }: { therapist: (typeof THERAPISTS)[number] }
   return (
     <div ref={ref} className={`${styles.card} reveal`}>
       <div className={styles.leafMark} aria-hidden="true" />
-      <div className={styles.photoCol}>
-        <div className={styles.photo}>
-          <img src={PHOTOS[therapist.id]} alt={`${therapist.name}, terapeuta de ${SITE.name}`} />
+      <div className={styles.sidebar}>
+        <div className={styles.photoCol}>
+          <div className={styles.photo}>
+            <img src={PHOTOS[therapist.id]} alt={`${therapist.name}, terapeuta de ${SITE.name}`} />
+          </div>
         </div>
 
-        <h3 className={styles.formationTitle}>Formación</h3>
-        {therapist.formation.map((group, i) => (
-          <div key={i} className={styles.formationGroup}>
-            <span className={styles.formationGroupLabel}>{group.label}</span>
-            <div className={styles.formationTags}>
-              {group.items.map((item, j) => (
-                <span key={j} className={styles.formationTag}>
-                  {item}
-                </span>
-              ))}
+        <div className={styles.formation}>
+          <h3 className={styles.formationTitle}>Formación</h3>
+          {therapist.formation.map((group, i) => (
+            <div key={i} className={styles.formationGroup}>
+              <span className={styles.formationGroupLabel}>{group.label}</span>
+              <div className={styles.formationTags}>
+                {group.items.map((item, j) => (
+                  <span key={j} className={styles.formationTag}>
+                    {item}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       <div className={styles.content}>

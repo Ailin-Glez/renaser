@@ -229,14 +229,47 @@
 
 @media (max-width: 560px) {
   .modal {
-    max-height: 88vh;
+    max-height: 92vh;
   }
 
   .header {
-    padding: 40px 24px 18px;
+    padding: 36px 24px 14px;
+  }
+
+  .tags {
+    margin: 0 0 12px;
+  }
+
+  .meta {
+    gap: 12px;
+    font-size: 0.85rem;
+  }
+
+  .depositNote {
+    padding: 6px 12px;
+    margin-top: 8px;
+  }
+
+  .bookButton {
+    margin-top: 12px;
+    padding: 11px 24px;
+  }
+
+  .bookingClosed {
+    margin-top: 10px;
+  }
+
+  .bookingClosed p {
+    margin: 0 0 8px;
+    font-size: 0.78rem;
+  }
+
+  .bookingClosed .bookButton {
+    padding: 10px 20px;
+    font-size: 0.85rem;
   }
 
   .scrollArea {
-    padding: 10px 24px 32px;
+    padding: 8px 24px 28px;
   }
 }

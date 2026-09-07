@@ -76,7 +76,7 @@ export function TherapyModal({ therapy, location, onClose }: TherapyModalProps) 
             </button>
           ) : (
             <div className={styles.bookingClosed}>
-              <p>Las reservas en línea estarán disponibles muy pronto.</p>
+              <p>Reservas en línea muy pronto.</p>
               <a
                 href={`https://wa.me/${SITE.phone.replace(/\D/g, "")}`}
                 target="_blank"
