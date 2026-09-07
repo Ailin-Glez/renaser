@@ -192,6 +192,28 @@
   transform: translateY(-2px);
 }
 
+.bookingClosed {
+  margin-top: 18px;
+  text-align: center;
+}
+
+.bookingClosed p {
+  margin: 0 0 12px;
+  color: var(--color-ink-soft);
+  font-size: 0.85rem;
+}
+
+.bookingClosed .bookButton {
+  margin-top: 0;
+  background: #25d366;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.bookingClosed .bookButton:hover {
+  background: #1fb955;
+}
+
 @media (max-width: 560px) {
   .modal {
     max-height: 88vh;

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CAL_USERNAME, calSlugFor } from "../data/content";
+import { BOOKING_ENABLED, CAL_USERNAME, SITE, calSlugFor } from "../data/content";
 import type { LocationKey, Therapy } from "../data/content";
 import { CAL_NAMESPACE } from "../lib/cal";
 import { useScrollReveal } from "../hooks/useScrollReveal";
@@ -32,14 +32,25 @@ export function TherapyCard({ therapy, location }: { therapy: Therapy; location:
       </button>
 
       <div className={styles.actions}>
-        <button
-          type="button"
-          className={styles.bookButton}
-          data-cal-namespace={CAL_NAMESPACE}
-          data-cal-link={`${CAL_USERNAME}/${calSlugFor(therapy.id, location)}`}
-        >
-          Reservar
-        </button>
+        {BOOKING_ENABLED ? (
+          <button
+            type="button"
+            className={styles.bookButton}
+            data-cal-namespace={CAL_NAMESPACE}
+            data-cal-link={`${CAL_USERNAME}/${calSlugFor(therapy.id, location)}`}
+          >
+            Reservar
+          </button>
+        ) : (
+          <a
+            href={`https://wa.me/${SITE.phone.replace(/\D/g, "")}`}
+            target="_blank"
+            rel="noreferrer"
+            className={styles.bookButton}
+          >
+            Escríbenos
+          </a>
+        )}
       </div>
 
       {open && <TherapyModal therapy={therapy} location={location} onClose={() => setOpen(false)} />}

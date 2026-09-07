@@ -134,6 +134,7 @@
   font-weight: 600;
   letter-spacing: 0.03em;
   text-transform: uppercase;
+  text-decoration: none;
   cursor: pointer;
   transition: transform var(--transition-fast), background-color var(--transition-fast),
     box-shadow var(--transition-fast);

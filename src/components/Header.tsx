@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import logo from "../assets/renaser-logo.jpg";
-import { SITE } from "../data/content";
+import { BOOKING_ENABLED, SITE } from "../data/content";
 import styles from "./Header.module.css";
 
 const LINKS = [
@@ -52,7 +52,7 @@ export function Header() {
             </NavLink>
           ))}
           <NavLink to="/terapias" className={styles.cta} onClick={() => setOpen(false)}>
-            Reservar
+            {BOOKING_ENABLED ? "Reservar" : "Ver terapias"}
           </NavLink>
         </nav>
 

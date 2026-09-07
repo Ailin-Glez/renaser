@@ -65,6 +65,12 @@ export const CAL_USERNAME = "renaser";
 // URL pública de tu perfil en Cal.com (lista todos tus eventos).
 export const BOOKING_URL = `https://cal.com/${CAL_USERNAME}`;
 
+// Mientras esté en false, el sitio se puede visitar y explorar las terapias
+// con normalidad, pero los botones de "Reservar" quedan reemplazados por un
+// aviso + contacto por WhatsApp. Cámbialo a true cuando quieras habilitar
+// las reservas en línea (Cal.com) de nuevo.
+export const BOOKING_ENABLED = false;
+
 export const SITE = {
   name: "RenaSER",
   tagline: "Bienestar\ndesde adentro",
@@ -399,7 +405,7 @@ export const CANCELLATION_POLICY = {
   depositPercent: "50%",
   windowHours: 48,
   shortNote:
-    "Al reservar se cobra un depósito del 50% con tarjeta. Cancelaciones o cambios con menos de 48 horas de anticipación no son reembolsables.",
+    "Al reservar se cobra un depósito del 50%. Cancelaciones o cambios con menos de 48 horas de anticipación no son reembolsables.",
 };
 
 export const FAQ: FAQItem[] = [

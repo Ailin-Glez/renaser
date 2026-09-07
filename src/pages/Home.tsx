@@ -6,7 +6,7 @@ import { Leaves } from "../components/Leaves";
 import { SectionHeading } from "../components/SectionHeading";
 import { FamilyCard } from "../components/FamilyCard";
 import { TestimonialOrbs } from "../components/TestimonialOrbs";
-import { FAMILIES, SITE, MISSION_TEXT, ABOUT_QUOTE, TESTIMONIALS } from "../data/content";
+import { BOOKING_ENABLED, FAMILIES, SITE, MISSION_TEXT, ABOUT_QUOTE, TESTIMONIALS } from "../data/content";
 import { usePageMeta } from "../hooks/usePageMeta";
 import styles from "./Home.module.css";
 
@@ -45,7 +45,7 @@ export default function Home() {
             {" y el cuidado del cuerpo con el del alma."}
           </p>
           <div className={styles.heroActions}>
-            <Button to="/terapias">Reservar sesión</Button>
+            <Button to="/terapias">{BOOKING_ENABLED ? "Reservar sesión" : "Ver terapias"}</Button>
           </div>
         </div>
       </section>

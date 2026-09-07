@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import type { LocationKey, Therapy } from "../data/content";
-import { CAL_USERNAME, DEFAULT_DISCLAIMER, calSlugFor } from "../data/content";
+import { BOOKING_ENABLED, CAL_USERNAME, DEFAULT_DISCLAIMER, SITE, calSlugFor } from "../data/content";
 import { openBookingModal } from "../lib/cal";
 import styles from "./TherapyModal.module.css";
 
@@ -54,13 +54,27 @@ export function TherapyModal({ therapy, location, onClose }: TherapyModalProps) 
           </div>
           {pricing.priceNote && <p className={styles.priceNote}>{pricing.priceNote}</p>}
 
-          <button
-            type="button"
-            className={styles.bookButton}
-            onClick={() => openBookingModal(`${CAL_USERNAME}/${calSlugFor(therapy.id, location)}`)}
-          >
-            Reservar esta sesión
-          </button>
+          {BOOKING_ENABLED ? (
+            <button
+              type="button"
+              className={styles.bookButton}
+              onClick={() => openBookingModal(`${CAL_USERNAME}/${calSlugFor(therapy.id, location)}`)}
+            >
+              Reservar esta sesión
+            </button>
+          ) : (
+            <div className={styles.bookingClosed}>
+              <p>Las reservas en línea estarán disponibles muy pronto.</p>
+              <a
+                href={`https://wa.me/${SITE.phone.replace(/\D/g, "")}`}
+                target="_blank"
+                rel="noreferrer"
+                className={styles.bookButton}
+              >
+                Escríbenos por WhatsApp
+              </a>
+            </div>
+          )}
         </div>
 
         <div className={styles.scrollArea}>
