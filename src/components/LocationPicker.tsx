@@ -20,6 +20,10 @@ export function LocationPicker({ value, onChange }: LocationPickerProps) {
         <span className={styles.step}>1</span>
         ¿Dónde quieres tu sesión?
       </p>
+      <p className={styles.priceNote}>
+        Nuestra sede es <b>Las Vegas</b>; los viajes a Miami son giras en fechas puntuales, por eso los precios varían
+        según la ciudad.
+      </p>
       <div className={styles.options}>
         {LOCATIONS.map((location) => (
           <button

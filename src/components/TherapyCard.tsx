@@ -10,6 +10,7 @@ export function TherapyCard({ therapy, location }: { therapy: Therapy; location:
   const ref = useScrollReveal<HTMLDivElement>();
   const [open, setOpen] = useState(false);
   const pricing = therapy.pricing[location];
+  if (!pricing) return null;
 
   return (
     <div ref={ref} className={`${styles.card} reveal`} data-location={location}>

@@ -25,6 +25,8 @@ export function TherapyModal({ therapy, location, onClose }: TherapyModalProps) 
     };
   }, [onClose]);
 
+  if (!pricing) return null;
+
   return createPortal(
     <div className={styles.backdrop} onClick={onClose}>
       <div

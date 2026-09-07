@@ -35,7 +35,7 @@ export default function ReviewsQueue() {
   }
 
   async function remove(id: string) {
-    if (!confirm("¿Eliminar esta reseña permanentemente?")) return;
+    if (!confirm("¿Eliminar este testimonio permanentemente?")) return;
     setBusyId(id);
     try {
       await deleteReview(id);
@@ -51,7 +51,7 @@ export default function ReviewsQueue() {
   return (
     <div>
       <div className={styles.toolbar}>
-        <h1>Reseñas</h1>
+        <h1>Testimonios</h1>
       </div>
 
       <div className={styles.filters}>
@@ -70,7 +70,7 @@ export default function ReviewsQueue() {
 
       {loading && <p className={styles.empty}>Cargando…</p>}
 
-      {!loading && filtered.length === 0 && <p className={styles.empty}>No hay reseñas en esta categoría.</p>}
+      {!loading && filtered.length === 0 && <p className={styles.empty}>No hay testimonios en esta categoría.</p>}
 
       <div className={styles.list}>
         {filtered.map((review) => (

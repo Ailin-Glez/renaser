@@ -30,6 +30,13 @@
   font-weight: 700;
 }
 
+.priceNote {
+  font-size: 0.82rem;
+  color: var(--color-ink-soft);
+  max-width: 460px;
+  margin: 0 auto 24px;
+}
+
 .options {
   display: grid;
   grid-template-columns: 1fr 1fr;

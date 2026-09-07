@@ -30,7 +30,8 @@ export interface Therapy {
   shortDescription: string; // resumen de 1 línea para la tarjeta
   duration: string; // formato completo, ej. "2 horas 30 minutos"
   durationShort: string; // formato compacto para la tarjeta, ej. "2h 30min"
-  pricing: Record<LocationKey, LocationPricing>;
+  // Si a una ciudad le falta la entrada, la terapia no se ofrece ahí.
+  pricing: Partial<Record<LocationKey, LocationPricing>>;
   paragraphs: string[];
   list?: string[]; // lista con viñetas, si aplica (ej. LNT · Reconexión)
   idealFor: string;
@@ -82,12 +83,12 @@ export const SITE = {
 export const POPUP_EVENT = {
   active: true,
   city: "Miami",
-  dateRange: "27 de agosto – 13 de septiembre"
+  dateRange: "15 de octubre – 1 de noviembre"
 };
 
 // Texto de misión/filosofía de marca — usado en la sección "Filosofía" del Inicio
 export const MISSION_TEXT =
-  "RenaSER nace de una idea sencilla: el bienestar no es solamente cuidar el cuerpo. Es nutrirlo, recuperar energía, cuidar la mente y encontrar equilibrio — pequeños rituales que te hagan sentir bien por dentro y por fuera. Porque cuidarte no debería sentirse como otra obligación. Debería convertirse en una forma de vivir.";
+  "El bienestar no es solo cuidar el cuerpo: es nutrir tu energía, tu mente y tu equilibrio — pequeños rituales para sentirte bien por dentro y por fuera.";
 
 // Disclaimer por defecto — se muestra en toda terapia que no tenga uno propio (más específico) en THERAPIES.
 export const DEFAULT_DISCLAIMER =
@@ -198,7 +199,7 @@ export const THERAPIES: Therapy[] = [
     duration: "2 horas",
     durationShort: "2h",
     // TODO: confirmar precio real de Miami — por ahora usa el mismo que Las Vegas.
-    pricing: { "las-vegas": { price: "$350" }, miami: { price: "$350" } },
+    pricing: { "las-vegas": { price: "$250" }, miami: { price: "$350" } },
     paragraphs: [
       "La sesión comienza con una lectura energética de los chakras para identificar bloqueos, desequilibrios o áreas que necesitan mayor atención. A partir de esta lectura se realiza una limpieza energética profunda y un trabajo de Reiki personalizado.",
       "Durante el proceso pueden incorporarse herramientas de mediumnidad y exploración de vidas pasadas, cuando surjan de manera natural durante la sesión, permitiendo observar patrones, emociones o memorias que desde una perspectiva espiritual puedan estar relacionadas con tu momento presente.",
@@ -217,7 +218,7 @@ export const THERAPIES: Therapy[] = [
     duration: "2 horas 30 minutos",
     durationShort: "2h 30min",
     // TODO: confirmar precio real de Miami — por ahora usa el mismo que Las Vegas.
-    pricing: { "las-vegas": { price: "$500" }, miami: { price: "$500" } },
+    pricing: { "las-vegas": { price: "$300" }, miami: { price: "$500" } },
     paragraphs: [
       "La sesión comienza con Reiki y activaciones enfocadas especialmente en el chakra del tercer ojo, tradicionalmente relacionado con la percepción, la intuición y la claridad interior.",
       "El proceso incorpora una meditación específica de la Llama Violeta, canalizada y creada especialmente para Casa Renacer. Desde esta práctica espiritual, la Llama Violeta se utiliza como símbolo y herramienta de transmutación para liberar energías densas y favorecer una sensación de renovación y claridad.",
@@ -238,7 +239,7 @@ export const THERAPIES: Therapy[] = [
     duration: "2 horas 30 minutos",
     durationShort: "2h 30min",
     // TODO: confirmar precio real de Miami — por ahora usa el mismo que Las Vegas.
-    pricing: { "las-vegas": { price: "$450" }, miami: { price: "$450" } },
+    pricing: { "las-vegas": { price: "$300" }, miami: { price: "$450" } },
     paragraphs: [
       "Desde la mirada holística, el cuerpo, las emociones y nuestra historia personal están profundamente relacionados. Por ello, durante la sesión se exploran experiencias, conflictos, patrones emocionales y situaciones de vida que puedan estar vinculados, desde la percepción de la persona, con su estado actual.",
       "El Reiki acompaña este proceso mediante un trabajo de armonización energética que proporciona un espacio de calma, observación y conexión interior.",
@@ -258,7 +259,7 @@ export const THERAPIES: Therapy[] = [
     duration: "2 horas",
     durationShort: "2h",
     // TODO: confirmar precio real de Miami — por ahora usa el mismo que Las Vegas.
-    pricing: { "las-vegas": { price: "$300" }, miami: { price: "$300" } },
+    pricing: { "las-vegas": { price: "$150" }, miami: { price: "$300" } },
     paragraphs: [
       "LNT (La Nueva Terapia) es una práctica energética y espiritual que trabaja desde el poder de la atención y, especialmente, de la intención, contemplando al ser humano desde tres dimensiones que se relacionan entre sí:",
     ],
@@ -280,9 +281,9 @@ export const THERAPIES: Therapy[] = [
     shortDescription: "Armoniza el campo energético compartido entre parejas, familias o equipos.",
     duration: "1 hora 15 minutos",
     durationShort: "1h 15min",
-    // TODO: confirmar precio real de Miami — por ahora usa el mismo que Las Vegas.
+    // TODO: confirmar precio real de Miami — por ahora usa el mismo que antes.
     pricing: {
-      "las-vegas": { price: "$150 por persona", priceNote: "Mínimo: 2 personas" },
+      "las-vegas": { price: "$100 por persona", priceNote: "Mínimo: 2 personas" },
       miami: { price: "$150 por persona", priceNote: "Mínimo: 2 personas" },
     },
     paragraphs: [
@@ -302,8 +303,8 @@ export const THERAPIES: Therapy[] = [
     shortDescription: "Reiki y sonoterapia combinados para aquietar la mente, liberar tensión y recuperar el equilibrio.",
     duration: "1 hora 15 minutos",
     durationShort: "1h 15min",
-    // TODO: confirmar precio real de Miami — por ahora usa el mismo que Las Vegas.
-    pricing: { "las-vegas": { price: "$250" }, miami: { price: "$250" } },
+    // No se ofrece en Las Vegas, solo en Miami.
+    pricing: { miami: { price: "$250" } },
     paragraphs: [
       "Una experiencia que une la energía del Reiki con el poder envolvente del sonido y la vibración.",
       "Durante la sesión se utilizan diferentes técnicas de Reiki y sonoterapia, seleccionadas de acuerdo con las necesidades y el estado energético de cada persona.",
@@ -321,9 +322,8 @@ export const THERAPIES: Therapy[] = [
     shortDescription: "Una experiencia compartida de relajación y conexión a través del sonido y la vibración.",
     duration: "1 hora 15 minutos",
     durationShort: "1h 15min",
-    // TODO: confirmar precio real de Miami — por ahora usa el mismo que Las Vegas.
+    // No se ofrece en Las Vegas, solo en Miami.
     pricing: {
-      "las-vegas": { price: "$150 por persona", priceNote: "Mínimo: 2 personas" },
       miami: { price: "$150 por persona", priceNote: "Mínimo: 2 personas" },
     },
     paragraphs: [
@@ -343,8 +343,8 @@ export const THERAPIES: Therapy[] = [
     shortDescription: "Lectura, limpieza energética y canalización para renovar la energía de tu hogar o negocio.",
     duration: "Se determina según el espacio",
     durationShort: "A definir",
-    // TODO: confirmar precio real de Miami — por ahora usa el mismo que Las Vegas.
-    pricing: { "las-vegas": { price: "Desde $500" }, miami: { price: "Desde $500" } },
+    // TODO: confirmar precio real de Miami — por ahora usa el mismo que antes.
+    pricing: { "las-vegas": { price: "Desde $350" }, miami: { price: "Desde $500" } },
     paragraphs: [
       "Los espacios también guardan historias.",
       "Mudanzas, discusiones, períodos difíciles, cambios de propietarios, alta circulación de personas o simplemente el paso del tiempo pueden hacer que determinados lugares se perciban pesados, incómodos o estancados.",
@@ -393,6 +393,15 @@ export const TESTIMONIALS: Testimonial[] = [
   },
 ];
 
+// Política de depósito y cancelación — se reutiliza en el FAQ y como
+// recordatorio corto junto a los botones de reserva.
+export const CANCELLATION_POLICY = {
+  depositPercent: "50%",
+  windowHours: 48,
+  shortNote:
+    "Al reservar se cobra un depósito del 50% con tarjeta. Cancelaciones o cambios con menos de 48 horas de anticipación no son reembolsables.",
+};
+
 export const FAQ: FAQItem[] = [
   {
     question: "¿Qué puedo experimentar durante una terapia?",
@@ -410,32 +419,17 @@ export const FAQ: FAQItem[] = [
     ],
   },
   {
-    question: "¿Cada cuánto tiempo puedo realizarme una terapia?",
+    question: "¿Cada cuánto tiempo puedo repetir una terapia o combinar varias?",
     answer: [
-      "Generalmente recomendamos dejar entre 2 y 3 semanas entre sesiones, dependiendo de la terapia y de tu proceso individual.",
-      "Este tiempo permite dar espacio a la integración de la experiencia antes de realizar un nuevo trabajo energético. Tu terapeuta podrá orientarte sobre el tiempo más adecuado para ti después de cada sesión.",
+      "Generalmente recomendamos dejar entre 2 y 3 semanas entre sesiones, dependiendo de la terapia y de tu proceso individual. Este tiempo permite dar espacio a la integración de la experiencia antes de realizar un nuevo trabajo energético; tu terapeuta podrá orientarte sobre el tiempo más adecuado para ti después de cada sesión.",
+      "Sí puedes combinar diferentes terapias — de hecho, algunas se complementan entre sí — pero no recomendamos combinar todas las experiencias al mismo tiempo. El trabajo energético también necesita tiempo y espacio para integrarse, y realizar demasiados procesos simultáneamente puede generar una sensación de sobrecarga. Si deseas experimentar más de una terapia, podemos orientarte sobre cuáles se complementan mejor y en qué orden realizarlas.",
     ],
   },
   {
-    question: "¿Puedo combinar diferentes terapias?",
+    question: "¿Hay restricciones de edad o embarazo para recibir las terapias?",
     answer: [
-      "Sí, algunas de nuestras terapias se complementan entre sí, pero no recomendamos combinar todas las experiencias.",
-      "En Renaser entendemos que el trabajo energético también necesita tiempo y espacio para integrarse. Realizar demasiados procesos simultáneamente puede generar una sensación de sobrecarga y, desde nuestra perspectiva holística, dificultar la integración del trabajo realizado.",
-      "Si deseas experimentar más de una terapia, podemos orientarte sobre cuáles se complementan mejor y en qué orden realizarlas.",
-    ],
-  },
-  {
-    question: "¿Puedo realizarme una terapia si estoy embarazada?",
-    answer: [
-      "Por protocolo de Renaser, no realizamos estas terapias durante los primeros 3 meses de embarazo.",
-      "Si estás embarazada o existe la posibilidad de que puedas estarlo, es importante comunicárnoslo antes de reservar. A partir del segundo trimestre podremos valorar contigo qué experiencias de Renaser son apropiadas y realizar las adaptaciones necesarias.",
-      "Ante cualquier condición particular del embarazo, recomendamos consultar previamente con tu profesional de salud.",
-    ],
-  },
-  {
-    question: "¿Existe una edad mínima para recibir las terapias?",
-    answer: [
-      "Sí. Actualmente, las experiencias y terapias ofrecidas por Renaser están disponibles exclusivamente para personas mayores de 18 años.",
+      "Por protocolo de Renaser, no realizamos estas terapias durante los primeros 3 meses de embarazo. Si estás embarazada o existe la posibilidad de que puedas estarlo, es importante comunicárnoslo antes de reservar — a partir del segundo trimestre podremos valorar contigo qué experiencias son apropiadas y realizar las adaptaciones necesarias. Ante cualquier condición particular del embarazo, recomendamos consultar previamente con tu profesional de salud.",
+      "Además, actualmente las experiencias y terapias ofrecidas por Renaser están disponibles exclusivamente para personas mayores de 18 años.",
     ],
   },
   {
@@ -444,6 +438,14 @@ export const FAQ: FAQItem[] = [
       "Cada una de nuestras terapias incluye una sección \"Ideal para…\" que puede ayudarte a identificar cuál se acerca más a lo que estás buscando.",
       "Pero también creemos que elegir una terapia tiene una parte intuitiva. Lee las diferentes experiencias con calma y observa cuál resuena contigo, cuál despierta tu curiosidad o hacia cuál te sientes naturalmente atraído/a.",
       "Y si todavía tienes dudas, puedes conversar con nosotros antes de reservar. Te ayudaremos a conocer mejor las opciones para que puedas elegir la experiencia que más conecte contigo y con el momento que estás viviendo.",
+    ],
+  },
+  {
+    question: "¿Cómo funciona el pago y la política de cancelación?",
+    answer: [
+      "Al reservar tu sesión se cobra un depósito del 50% del valor de la terapia con tarjeta, a través de nuestra plataforma de pagos segura. El resto se abona el día de la sesión.",
+      "Si necesitas cancelar o reprogramar, puedes hacerlo sin costo hasta 48 horas antes de tu cita. Pasado ese plazo, o en caso de no presentarte (no-show), el depósito no es reembolsable, ya que ese horario queda reservado exclusivamente para ti.",
+      "Si tienes dudas sobre tu reserva o necesitas reprogramar, escríbenos con anticipación y con gusto te ayudamos a encontrar un nuevo horario.",
     ],
   },
 ];

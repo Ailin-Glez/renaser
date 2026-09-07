@@ -63,11 +63,11 @@
 }
 
 .logo {
-  width: 36px;
-  height: 36px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   object-fit: cover;
-  transition: transform var(--transition-fast);
+  transition: transform var(--transition-fast), width var(--transition-medium), height var(--transition-medium);
 }
 
 .brand:hover .logo {

@@ -50,7 +50,7 @@ export default function AdminLayout() {
               to="/admin/resenas"
               className={({ isActive }) => `${styles.link} ${isActive ? styles.linkActive : ""}`}
             >
-              Reseñas
+              Testimonios
             </NavLink>
           </div>
         </nav>

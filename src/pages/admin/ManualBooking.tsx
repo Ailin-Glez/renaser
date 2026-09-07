@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { CAL_USERNAME, THERAPIES } from "../../data/content";
+import { CAL_USERNAME, LOCATIONS, THERAPIES, calSlugFor, type LocationKey } from "../../data/content";
 import { CAL_NAMESPACE } from "../../lib/cal";
 import { formatUSPhone, isValidUSPhone } from "../../lib/phone";
 import { listPatients, type Patient } from "../../lib/patients";
@@ -17,8 +17,19 @@ export default function ManualBooking() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
-  const [therapyId, setTherapyId] = useState(THERAPIES[0]?.id ?? "");
+  const [location, setLocation] = useState<LocationKey>("las-vegas");
+  const therapiesForLocation = useMemo(
+    () => THERAPIES.filter((t) => t.pricing[location]),
+    [location]
+  );
+  const [therapyId, setTherapyId] = useState(therapiesForLocation[0]?.id ?? "");
   const [notes, setNotes] = useState("");
+
+  const changeLocation = (next: LocationKey) => {
+    setLocation(next);
+    const stillAvailable = THERAPIES.filter((t) => t.pricing[next]);
+    setTherapyId(stillAvailable[0]?.id ?? "");
+  };
 
   useEffect(() => {
     listPatients().then(setPatients);
@@ -70,8 +81,8 @@ export default function ManualBooking() {
     const params = new URLSearchParams({ name: attendeeName });
     if (noteLines.length > 0) params.set("notes", noteLines.join(" · "));
 
-    return `${CAL_USERNAME}/${therapyId}?${params.toString()}`;
-  }, [ready, attendeeName, attendeePhone, mode, notes, therapyId]);
+    return `${CAL_USERNAME}/${calSlugFor(therapyId, location)}?${params.toString()}`;
+  }, [ready, attendeeName, attendeePhone, mode, notes, therapyId, location]);
 
   return (
     <div className={styles.wrap}>
@@ -95,7 +106,7 @@ export default function ManualBooking() {
             className={`${styles.tab} ${mode === "new" ? styles.tabActive : ""}`}
             onClick={() => switchMode("new")}
           >
-            Persona sin ficha
+            Persona no registrada
           </button>
         </div>
 
@@ -172,14 +183,33 @@ export default function ManualBooking() {
         )}
 
         <label className={styles.field}>
+          <span>Ciudad</span>
+          <div className={styles.tabs}>
+            {LOCATIONS.map((l) => (
+              <button
+                key={l.key}
+                type="button"
+                className={`${styles.tab} ${location === l.key ? styles.tabActive : ""}`}
+                onClick={() => changeLocation(l.key)}
+              >
+                {l.name}
+              </button>
+            ))}
+          </div>
+        </label>
+
+        <label className={styles.field}>
           <span>Terapia</span>
           <select value={therapyId} onChange={(e) => setTherapyId(e.target.value)}>
-            {THERAPIES.map((t) => (
+            {therapiesForLocation.map((t) => (
               <option key={t.id} value={t.id}>
                 {t.name}
               </option>
             ))}
           </select>
+          {therapiesForLocation.length === 0 && (
+            <span className={styles.fieldError}>No hay terapias configuradas para esta ciudad.</span>
+          )}
         </label>
 
         <label className={styles.field}>

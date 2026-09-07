@@ -5,6 +5,37 @@
   margin: 0 0 40px;
 }
 
+.locationBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 0 0 40px;
+  font-size: 0.95rem;
+  color: var(--color-forest);
+}
+
+.locationBar strong {
+  color: var(--color-leaf);
+}
+
+.changeLocation {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--color-ink-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.changeLocation:hover {
+  color: var(--color-sunset);
+}
+
 .dateReminder {
   width: fit-content;
   margin: 0 auto 40px;
@@ -59,4 +90,80 @@
   margin-top: 10px;
   border-radius: 999px;
   background: var(--color-gold);
+}
+
+.policyNote {
+  max-width: 560px;
+  margin: 56px auto 0;
+  text-align: center;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--color-ink-soft);
+}
+
+.policyNote a {
+  color: var(--color-sunset);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+
+.policyNote a:hover {
+  color: var(--color-leaf);
+}
+
+.contactNote {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  max-width: 480px;
+  margin: 32px auto 0;
+  padding: 22px 26px;
+  background: var(--color-cream-soft);
+  border-radius: 28px 16px 24px 14px / 16px 26px 14px 28px;
+}
+
+.contactIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--color-white);
+  font-size: 1.2rem;
+}
+
+.contactTitle {
+  margin: 0 0 4px;
+  color: var(--color-forest);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.contactLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--color-ink-soft);
+}
+
+.contactLinks a {
+  color: var(--color-sunset);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.contactLinks a:hover {
+  color: var(--color-leaf);
+}
+
+@media (max-width: 480px) {
+  .contactNote {
+    flex-direction: column;
+    text-align: center;
+  }
 }

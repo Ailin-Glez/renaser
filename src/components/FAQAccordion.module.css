@@ -23,6 +23,7 @@
   text-align: left;
   font-family: var(--font-display);
   font-size: 1.05rem;
+  font-weight: 700;
   color: var(--color-forest);
   cursor: pointer;
 }
