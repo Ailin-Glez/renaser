@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { CAL_USERNAME, LOCATIONS, THERAPIES, calSlugForAdmin, type LocationKey } from "../../data/content";
-import { CAL_NAMESPACE } from "../../lib/cal";
+import { openBookingModal } from "../../lib/cal";
 import { formatUSPhone, isValidUSPhone } from "../../lib/phone";
-import { listPatients, type Patient } from "../../lib/patients";
+import { createPatient, listPatients, type Patient } from "../../lib/patients";
 import styles from "./ManualBooking.module.css";
 
 type Mode = "registered" | "new";
@@ -24,6 +24,12 @@ export default function ManualBooking() {
   );
   const [therapyId, setTherapyId] = useState(therapiesForLocation[0]?.id ?? "");
   const [notes, setNotes] = useState("");
+
+  const [createPatientRecord, setCreatePatientRecord] = useState(true);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [booking, setBooking] = useState(false);
+  const [bookingError, setBookingError] = useState("");
 
   const changeLocation = (next: LocationKey) => {
     setLocation(next);
@@ -48,6 +54,15 @@ export default function ManualBooking() {
     setName("");
     setPhone("");
     setPhoneError("");
+    setCreatePatientRecord(true);
+    setPhotoFile(null);
+    setPhotoPreview(null);
+    setBookingError("");
+  };
+
+  const handlePhoto = (file: File | null) => {
+    setPhotoFile(file);
+    setPhotoPreview(file ? URL.createObjectURL(file) : null);
   };
 
   const selectPatient = (patient: Patient) => {
@@ -87,6 +102,27 @@ export default function ManualBooking() {
 
     return `${CAL_USERNAME}/${calSlugForAdmin(therapy, location)}?${params.toString()}`;
   }, [ready, attendeeName, attendeePhone, mode, notes, therapyId, location]);
+
+  const handleBookClick = async () => {
+    if (!ready || !calLink) return;
+    setBookingError("");
+    setBooking(true);
+    try {
+      if (mode === "new" && createPatientRecord) {
+        await createPatient({
+          name: attendeeName,
+          phone: attendeePhone || undefined,
+          photoFile: photoFile ?? undefined,
+        });
+        setPatients(await listPatients());
+      }
+      await openBookingModal(calLink);
+    } catch {
+      setBookingError("No se pudo crear la ficha del paciente. Intenta de nuevo.");
+    } finally {
+      setBooking(false);
+    }
+  };
 
   return (
     <div className={styles.wrap}>
@@ -187,6 +223,31 @@ export default function ManualBooking() {
           </div>
         )}
 
+        {mode === "new" && (
+          <>
+            <label className={styles.checkboxField}>
+              <input
+                type="checkbox"
+                checked={createPatientRecord}
+                onChange={(e) => setCreatePatientRecord(e.target.checked)}
+              />
+              <span>Crear ficha de paciente también</span>
+            </label>
+
+            {createPatientRecord && (
+              <label className={styles.photoField}>
+                <div className={styles.photoPreview}>
+                  {photoPreview ? <img src={photoPreview} alt="Vista previa" /> : <span>Foto</span>}
+                </div>
+                <div>
+                  <input type="file" accept="image/*" onChange={(e) => handlePhoto(e.target.files?.[0] ?? null)} />
+                  <p className={styles.photoHint}>Opcional — puedes agregarla después desde su ficha.</p>
+                </div>
+              </label>
+            )}
+          </>
+        )}
+
         <label className={styles.field}>
           <span>Ciudad</span>
           <div className={styles.tabs}>
@@ -222,15 +283,12 @@ export default function ManualBooking() {
           <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} />
         </label>
 
+        {bookingError && <p className={styles.error}>{bookingError}</p>}
+
         <div className={styles.actions}>
           {ready ? (
-            <button
-              type="button"
-              className={styles.bookButton}
-              data-cal-namespace={CAL_NAMESPACE}
-              data-cal-link={calLink}
-            >
-              Elegir fecha y hora en Cal.com
+            <button type="button" className={styles.bookButton} onClick={handleBookClick} disabled={booking}>
+              {booking ? "Guardando…" : "Elegir fecha y hora en Cal.com"}
             </button>
           ) : (
             <button type="button" className={styles.bookButton} disabled>

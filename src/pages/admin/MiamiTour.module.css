@@ -13,24 +13,45 @@
   margin-bottom: 16px;
 }
 
-.currentTour {
-  display: inline-block;
-  color: var(--color-forest);
-  font-size: 0.85rem;
-  background: var(--color-cream-soft);
-  padding: 8px 16px;
-  border-radius: 999px;
+.currentTourSlot {
+  min-height: 44px;
   margin-bottom: 16px;
+  display: flex;
+  align-items: center;
 }
 
-.currentTour strong {
+.currentTourLoading {
+  color: var(--color-ink-soft);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.currentTour {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-white);
+  font-size: 0.9rem;
   font-weight: 600;
+  background: var(--color-forest);
+  padding: 10px 20px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-soft);
+  margin: 0;
+}
+
+.currentTourLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-gold);
 }
 
 .currentTourError {
   color: var(--color-sunset);
   font-size: 0.8rem;
-  margin: 0 0 16px;
+  margin: 0;
 }
 
 .overwriteWarning {

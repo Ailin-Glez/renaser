@@ -161,29 +161,24 @@ export default function MiamiTour() {
         mismos días en el calendario de Las Vegas.
       </p>
 
-      {!loadingCurrentTour && currentTourError && (
-        <p className={styles.currentTourError}>No se pudo consultar la gira actual: {currentTourError}</p>
-      )}
-
-      {!loadingCurrentTour && !currentTourError && (
-        <p className={styles.currentTour}>
-          {currentTour ? (
-            <>
-              Gira actual: <strong>{formatDateLong(currentTour.startDate)}</strong> al{" "}
-              <strong>{formatDateLong(currentTour.endDate)}</strong>
-            </>
-          ) : (
-            "No hay ninguna gira con fechas configuradas todavía."
-          )}
-        </p>
-      )}
-
-      {willOverwriteCurrentTour && currentTour && (
-        <p className={styles.overwriteWarning}>
-          ⚠ Al continuar, se reemplazará la gira actual ({formatDateLong(currentTour.startDate)} al{" "}
-          {formatDateLong(currentTour.endDate)}) por estas fechas nuevas.
-        </p>
-      )}
+      <div className={styles.currentTourSlot}>
+        {loadingCurrentTour ? (
+          <p className={styles.currentTourLoading}>Cargando gira actual…</p>
+        ) : currentTourError ? (
+          <p className={styles.currentTourError}>No se pudo consultar la gira actual: {currentTourError}</p>
+        ) : (
+          <p className={styles.currentTour}>
+            {currentTour ? (
+              <>
+                <span className={styles.currentTourLabel}>Gira actual</span>
+                {formatDateLong(currentTour.startDate)} → {formatDateLong(currentTour.endDate)}
+              </>
+            ) : (
+              "No hay ninguna gira con fechas configuradas todavía."
+            )}
+          </p>
+        )}
+      </div>
 
       <form className={styles.card} onSubmit={handleSubmit}>
         <div className={styles.grid}>
@@ -284,6 +279,10 @@ export default function MiamiTour() {
             Modo de prueba — revisa todo pero <strong>no cambia nada</strong> en Cal.com todavía.
           </span>
         </label>
+
+        {willOverwriteCurrentTour && (
+          <p className={styles.overwriteWarning}>⚠ Al continuar, se reemplazará la gira actual por estas fechas.</p>
+        )}
 
         {error && <p className={styles.error}>{error}</p>}
 
