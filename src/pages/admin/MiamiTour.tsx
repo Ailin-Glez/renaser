@@ -1,5 +1,6 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useAuth } from "../../contexts/AuthContext";
+import { formatDateLong } from "../../lib/dates";
 import styles from "./MiamiTour.module.css";
 
 interface ExceptionRow {
@@ -54,6 +55,39 @@ export default function MiamiTour() {
   const [saving, setSaving] = useState(false);
   const [result, setResult] = useState<ApiResponse | null>(null);
   const [error, setError] = useState("");
+
+  const [currentTour, setCurrentTour] = useState<{ startDate: string; endDate: string } | null>(null);
+  const [loadingCurrentTour, setLoadingCurrentTour] = useState(true);
+
+  useEffect(() => {
+    if (!user) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const idToken = await user.getIdToken();
+        const res = await fetch("/.netlify/functions/miami-tour-status", {
+          headers: { Authorization: `Bearer ${idToken}` },
+        });
+        const data = await res.json();
+        if (!cancelled && res.ok && data.startDate && data.endDate) {
+          setCurrentTour({ startDate: data.startDate, endDate: data.endDate });
+        }
+      } catch {
+        // Silencioso — si no se puede consultar, simplemente no se muestra.
+      } finally {
+        if (!cancelled) setLoadingCurrentTour(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [user]);
+
+  const willOverwriteCurrentTour =
+    currentTour !== null &&
+    startDate !== "" &&
+    endDate !== "" &&
+    (startDate !== currentTour.startDate || endDate !== currentTour.endDate);
 
   const addException = () => setExceptions((prev) => [...prev, newException()]);
   const removeException = (id: string) => setExceptions((prev) => prev.filter((e) => e.id !== id));
@@ -122,6 +156,26 @@ export default function MiamiTour() {
         Abre esas fechas para reservar en Miami, y bloquea automáticamente esos
         mismos días en el calendario de Las Vegas.
       </p>
+
+      {!loadingCurrentTour && (
+        <p className={styles.currentTour}>
+          {currentTour ? (
+            <>
+              Gira actual: <strong>{formatDateLong(currentTour.startDate)}</strong> al{" "}
+              <strong>{formatDateLong(currentTour.endDate)}</strong>
+            </>
+          ) : (
+            "No hay ninguna gira con fechas configuradas todavía."
+          )}
+        </p>
+      )}
+
+      {willOverwriteCurrentTour && currentTour && (
+        <p className={styles.overwriteWarning}>
+          ⚠ Al continuar, se reemplazará la gira actual ({formatDateLong(currentTour.startDate)} al{" "}
+          {formatDateLong(currentTour.endDate)}) por estas fechas nuevas.
+        </p>
+      )}
 
       <form className={styles.card} onSubmit={handleSubmit}>
         <div className={styles.grid}>

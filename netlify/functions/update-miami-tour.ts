@@ -1,6 +1,13 @@
 import type { Handler } from "@netlify/functions";
-import { createRemoteJWKSet, jwtVerify } from "jose";
 import { CAL_USERNAME, THERAPIES, calSlugFor, calSlugForAdmin } from "../../src/data/content";
+import {
+  CAL_API_BASE,
+  EVENT_TYPES_VERSION,
+  SCHEDULES_VERSION,
+  calHeaders,
+  listCalEventTypes,
+  verifyFirebaseIdToken,
+} from "./_lib/shared";
 
 // Automatiza lo que antes se hacía a mano, evento por evento en Cal.com:
 // 1) Abre las fechas de la gira en todos los eventos "-miami"
@@ -21,28 +28,6 @@ import { CAL_USERNAME, THERAPIES, calSlugFor, calSlugForAdmin } from "../../src/
 //   CAL_LAS_VEGAS_SCHEDULE_ID — id numérico del horario "Las Vegas" en Cal.com
 //   CAL_MIAMI_SCHEDULE_ID     — id numérico del horario "Miami" en Cal.com
 //   VITE_FIREBASE_PROJECT_ID  — el mismo que ya usa el sitio (Firebase)
-
-const FIREBASE_JWKS = createRemoteJWKSet(
-  new URL("https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com")
-);
-
-async function verifyFirebaseIdToken(authHeader: string | undefined, projectId: string): Promise<boolean> {
-  if (!authHeader?.startsWith("Bearer ")) return false;
-  const token = authHeader.slice("Bearer ".length);
-  try {
-    await jwtVerify(token, FIREBASE_JWKS, {
-      issuer: `https://securetoken.google.com/${projectId}`,
-      audience: projectId,
-    });
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-const CAL_API_BASE = "https://api.cal.com/v2";
-const EVENT_TYPES_VERSION = "2024-06-14";
-const SCHEDULES_VERSION = "2024-06-11";
 
 const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
@@ -74,20 +59,6 @@ function datesInRange(startDate: string, endDate: string): string[] {
   return dates;
 }
 
-function calHeaders(apiKey: string, version?: string): Record<string, string> {
-  const headers: Record<string, string> = {
-    Authorization: `Bearer ${apiKey}`,
-    "Content-Type": "application/json",
-  };
-  if (version) headers["cal-api-version"] = version;
-  return headers;
-}
-
-interface CalEventTypeSummary {
-  id: number;
-  slug: string;
-}
-
 interface CalWorkingHour {
   days: number[];
   startTime: number;
@@ -112,17 +83,7 @@ async function updateMiamiEventDates(
   endDate: string,
   dryRun: boolean
 ) {
-  const listRes = await fetch(`${CAL_API_BASE}/event-types?username=${CAL_USERNAME}`, {
-    headers: calHeaders(apiKey),
-  });
-  if (!listRes.ok) {
-    throw new Error(`No se pudo listar los eventos de Cal.com (HTTP ${listRes.status})`);
-  }
-  const listJson = await listRes.json();
-  const allEventTypes: CalEventTypeSummary[] =
-    listJson?.data?.eventTypeGroups?.flatMap(
-      (g: { eventTypes: CalEventTypeSummary[] }) => g.eventTypes
-    ) ?? [];
+  const allEventTypes = await listCalEventTypes(apiKey, CAL_USERNAME);
 
   // Todas las terapias que se ofrecen en Miami (incluidas las grupales —
   // esto es sobre disponibilidad de fechas, no sobre precios/depósitos),
