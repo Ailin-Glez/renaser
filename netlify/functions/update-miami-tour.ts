@@ -165,10 +165,16 @@ export async function applyScheduleOverrides(
     endTime: minutesToHHMM(wh.endTime),
   }));
 
+  // Las excepciones de fechas ya pasadas no sirven para nada (nadie puede
+  // reservar en el pasado) — se descartan al reconstruir la lista, para que
+  // no se vayan acumulando gira tras gira.
+  const today = new Date().toISOString().slice(0, 10);
+
   const overridesByDate = new Map<string, DateOverrideInput>();
   for (const o of schedule.dateOverrides) {
     const range = o.ranges[0];
     const date = isoToDate(range.start);
+    if (date < today) continue;
     overridesByDate.set(date, { date, startTime: isoToHHMM(range.start), endTime: isoToHHMM(range.end) });
   }
   for (const override of newOverrides) {
@@ -247,6 +253,11 @@ export const handler: Handler = async (event) => {
         error: "Fechas inválidas. Usa formato YYYY-MM-DD, con el último día posterior al primero.",
       }),
     };
+  }
+
+  const todayISO = new Date().toISOString().slice(0, 10);
+  if (startDate < todayISO) {
+    return { statusCode: 400, body: JSON.stringify({ error: "El primer día no puede ser una fecha pasada." }) };
   }
 
   for (const exc of exceptions) {

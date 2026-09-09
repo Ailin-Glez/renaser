@@ -15,6 +15,16 @@ function newException(): ExceptionRow {
   return { id: crypto.randomUUID(), date: "", allDay: true, startTime: "09:00", endTime: "12:00" };
 }
 
+// Hoy, en la fecha local del navegador (YYYY-MM-DD) — no se puede elegir
+// una fecha de gira en el pasado.
+function todayISO(): string {
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 // El día siguiente a `date` (YYYY-MM-DD), para usar como mínimo del último
 // día — así el "último día" no puede ser igual ni anterior al primero.
 function dayAfter(date: string): string | undefined {
@@ -107,6 +117,10 @@ export default function MiamiTour() {
       setError("Revisa las fechas: el último día debe ser posterior al primero.");
       return;
     }
+    if (startDate < todayISO()) {
+      setError("El primer día no puede ser una fecha pasada.");
+      return;
+    }
     for (const exc of exceptions) {
       if (!exc.date) {
         setError("Falta la fecha de alguna excepción.");
@@ -184,7 +198,13 @@ export default function MiamiTour() {
         <div className={styles.grid}>
           <label className={styles.field}>
             <span>Primer día en Miami</span>
-            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
+            <input
+              type="date"
+              value={startDate}
+              min={todayISO()}
+              onChange={(e) => setStartDate(e.target.value)}
+              required
+            />
           </label>
           <label className={styles.field}>
             <span>Último día en Miami</span>
@@ -306,15 +326,16 @@ export default function MiamiTour() {
           </ul>
           {result.lasVegas && (
             <p className={styles.summary}>
-              {result.lasVegas.scheduleName}: {result.lasVegas.changedDays} días{" "}
-              {result.dryRun ? "se bloquearían" : "bloqueados"} ({result.lasVegas.totalOverrides} excepciones en
-              total en ese horario).
+              {result.lasVegas.scheduleName}: {result.lasVegas.changedDays} días de esta gira{" "}
+              {result.dryRun ? "se bloquearían" : "bloqueados"} (quedarían {result.lasVegas.totalOverrides} días
+              bloqueados en total, sumando otras giras futuras — ya no cuenta fechas pasadas).
             </p>
           )}
           {result.miami && (
             <p className={styles.summary}>
-              {result.miami.scheduleName}: {result.miami.changedDays} días con excepción{" "}
-              {result.dryRun ? "se aplicarían" : "aplicada"} ({result.miami.totalOverrides} en total en ese horario).
+              {result.miami.scheduleName}: {result.miami.changedDays} excepciones de esta gira{" "}
+              {result.dryRun ? "se aplicarían" : "aplicadas"} (quedarían {result.miami.totalOverrides} en total,
+              sin contar fechas pasadas).
             </p>
           )}
         </div>

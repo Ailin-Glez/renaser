@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/renaser-logo.jpg";
 import { Button } from "../components/Button";
@@ -14,26 +14,43 @@ import {
   ABOUT_QUOTE,
   TESTIMONIALS,
   TESTIMONIALS_ENABLED,
+  type Testimonial,
 } from "../data/content";
 import { usePageMeta } from "../hooks/usePageMeta";
 import styles from "./Home.module.css";
 
-// Cargado aparte: solo quien hace clic en "Comparte tu testimonio" necesita
-// descargar Firestore, no todos los visitantes del Inicio.
+// Cargado aparte (import() dinámico): solo quien realmente ve el Inicio con
+// testimonios habilitados, o quien hace clic en "Comparte tu testimonio",
+// necesita descargar Firestore — no bloquea el bundle inicial del sitio.
 const ReviewFormModal = lazy(() =>
   import("../components/ReviewFormModal").then((m) => ({ default: m.ReviewFormModal }))
 );
 
-// TODO: usando los testimonios de ejemplo (TESTIMONIALS) para previsualizar
-// cómo se ven varios círculos a la vez. Cuando haya suficientes reseñas
-// reales aprobadas, volver a traerlas con listApprovedReviews().
 export default function Home() {
   usePageMeta(
     "",
     "RenaSER — terapias holísticas para renacer en cuerpo, mente y espíritu. Reiki, LNT, sonoterapia y más en Las Vegas y Miami."
   );
-  const [testimonials] = useState(TESTIMONIALS);
+  // Los testimonios curados a mano (TESTIMONIALS) siempre se muestran;
+  // los que se aprueban desde el panel de Admin se suman a esos, no los
+  // reemplazan.
+  const [testimonials, setTestimonials] = useState<Testimonial[]>(TESTIMONIALS);
   const [reviewFormOpen, setReviewFormOpen] = useState(false);
+
+  useEffect(() => {
+    if (!TESTIMONIALS_ENABLED) return;
+    let cancelled = false;
+    import("../lib/reviews").then(({ listApprovedReviews }) =>
+      listApprovedReviews().then((reviews) => {
+        if (!cancelled && reviews.length > 0) {
+          setTestimonials([...reviews, ...TESTIMONIALS]);
+        }
+      })
+    );
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <>
@@ -94,7 +111,7 @@ export default function Home() {
               title="Lo que dicen quienes ya vivieron la experiencia"
               nowrap
             />
-            <TestimonialOrbs testimonials={testimonials} />
+            {testimonials.length > 0 && <TestimonialOrbs testimonials={testimonials} />}
             <div className={styles.reviewCta}>
               <Button variant="secondary" onClick={() => setReviewFormOpen(true)}>
                 Comparte tu testimonio
