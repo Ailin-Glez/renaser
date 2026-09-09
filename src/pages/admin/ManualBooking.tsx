@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { CAL_USERNAME, LOCATIONS, THERAPIES, calSlugForAdmin, type LocationKey } from "../../data/content";
 import { openBookingModal } from "../../lib/cal";
-import { formatUSPhone, isValidUSPhone } from "../../lib/phone";
+import { formatUSPhone, isValidUSPhone, toE164USPhone } from "../../lib/phone";
 import { createPatient, listPatients, type Patient } from "../../lib/patients";
 import styles from "./ManualBooking.module.css";
 
@@ -102,7 +102,14 @@ export default function ManualBooking() {
     noteLines.push("Reserva manual — pago coordinado directamente (Zelle/efectivo), sin cobro en línea.");
     if (notes.trim()) noteLines.push(notes.trim());
 
-    return { name: attendeeName, notes: noteLines.join(" · ") };
+    // El email se fuerza vacío a propósito — no tenemos el del paciente, y
+    // sin esto Cal.com/el navegador a veces lo autocompletan con el correo
+    // de la cuenta de Renaser.
+    const prefill: Record<string, string> = { name: attendeeName, email: "", notes: noteLines.join(" · ") };
+    if (attendeePhone && isValidUSPhone(attendeePhone)) {
+      prefill.attendeePhoneNumber = toE164USPhone(attendeePhone);
+    }
+    return prefill;
   }, [attendeeName, attendeePhone, mode, notes]);
 
   const handleBookClick = async () => {

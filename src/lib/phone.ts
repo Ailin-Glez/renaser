@@ -20,3 +20,11 @@ export function whatsappLink(value: string): string {
   const withCountryCode = digits.length === 10 ? `1${digits}` : digits;
   return `https://wa.me/${withCountryCode}`;
 }
+
+// Formato E.164 (EEUU): "+17024689914" — el que espera el campo de teléfono
+// del formulario de reservas de Cal.com.
+export function toE164USPhone(value: string): string {
+  const digits = value.replace(/\D/g, "");
+  const withCountryCode = digits.length === 10 ? `1${digits}` : digits;
+  return `+${withCountryCode}`;
+}
