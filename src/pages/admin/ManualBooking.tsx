@@ -90,18 +90,20 @@ export default function ManualBooking() {
     if (!ready) return "";
     const therapy = THERAPIES.find((t) => t.id === therapyId);
     if (!therapy) return "";
+    return `${CAL_USERNAME}/${calSlugForAdmin(therapy, location)}`;
+  }, [ready, therapyId, location]);
 
+  // Cal.com precarga el formulario con estos valores vía el objeto `config`
+  // del embed — no sirve pegarlos como query string al final del calLink.
+  const bookingPrefill = useMemo(() => {
     const noteLines: string[] = [];
     if (attendeePhone) noteLines.push(`Tel: ${formatUSPhone(attendeePhone)}`);
     if (mode === "registered") noteLines.push("Paciente registrado en el sistema");
     noteLines.push("Reserva manual — pago coordinado directamente (Zelle/efectivo), sin cobro en línea.");
     if (notes.trim()) noteLines.push(notes.trim());
 
-    const params = new URLSearchParams({ name: attendeeName });
-    params.set("notes", noteLines.join(" · "));
-
-    return `${CAL_USERNAME}/${calSlugForAdmin(therapy, location)}?${params.toString()}`;
-  }, [ready, attendeeName, attendeePhone, mode, notes, therapyId, location]);
+    return { name: attendeeName, notes: noteLines.join(" · ") };
+  }, [attendeeName, attendeePhone, mode, notes]);
 
   const handleBookClick = async () => {
     if (!ready || !calLink) return;
@@ -116,7 +118,7 @@ export default function ManualBooking() {
         });
         setPatients(await listPatients());
       }
-      await openBookingModal(calLink);
+      await openBookingModal(calLink, bookingPrefill);
     } catch {
       setBookingError("No se pudo crear la ficha del paciente. Intenta de nuevo.");
     } finally {

@@ -18,7 +18,7 @@ export function initCal() {
   return ready;
 }
 
-export async function openBookingModal(calLink: string) {
+export async function openBookingModal(calLink: string, prefill?: Record<string, string>) {
   const cal = await getCalApi({ namespace: CAL_NAMESPACE });
-  cal("modal", { calLink, config: { layout: "month_view" } });
+  cal("modal", { calLink, config: { layout: "month_view", ...prefill } });
 }
