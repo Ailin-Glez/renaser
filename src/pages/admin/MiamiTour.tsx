@@ -58,6 +58,7 @@ export default function MiamiTour() {
 
   const [currentTour, setCurrentTour] = useState<{ startDate: string; endDate: string } | null>(null);
   const [loadingCurrentTour, setLoadingCurrentTour] = useState(true);
+  const [currentTourError, setCurrentTourError] = useState("");
 
   useEffect(() => {
     if (!user) return;
@@ -69,11 +70,14 @@ export default function MiamiTour() {
           headers: { Authorization: `Bearer ${idToken}` },
         });
         const data = await res.json();
-        if (!cancelled && res.ok && data.startDate && data.endDate) {
+        if (cancelled) return;
+        if (!res.ok) {
+          setCurrentTourError(data.error ?? `No se pudo consultar la gira actual (HTTP ${res.status}).`);
+        } else if (data.startDate && data.endDate) {
           setCurrentTour({ startDate: data.startDate, endDate: data.endDate });
         }
       } catch {
-        // Silencioso — si no se puede consultar, simplemente no se muestra.
+        if (!cancelled) setCurrentTourError("No se pudo conectar con la función para consultar la gira actual.");
       } finally {
         if (!cancelled) setLoadingCurrentTour(false);
       }
@@ -157,7 +161,11 @@ export default function MiamiTour() {
         mismos días en el calendario de Las Vegas.
       </p>
 
-      {!loadingCurrentTour && (
+      {!loadingCurrentTour && currentTourError && (
+        <p className={styles.currentTourError}>No se pudo consultar la gira actual: {currentTourError}</p>
+      )}
+
+      {!loadingCurrentTour && !currentTourError && (
         <p className={styles.currentTour}>
           {currentTour ? (
             <>

@@ -27,6 +27,12 @@
   font-weight: 600;
 }
 
+.currentTourError {
+  color: var(--color-sunset);
+  font-size: 0.8rem;
+  margin: 0 0 16px;
+}
+
 .overwriteWarning {
   color: var(--color-sunset);
   background: rgba(224, 123, 26, 0.1);

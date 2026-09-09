@@ -48,7 +48,7 @@ function isoToDate(iso: string): string {
   return iso.slice(0, 10);
 }
 
-function datesInRange(startDate: string, endDate: string): string[] {
+export function datesInRange(startDate: string, endDate: string): string[] {
   const dates: string[] = [];
   const cur = new Date(`${startDate}T00:00:00.000Z`);
   const end = new Date(`${endDate}T00:00:00.000Z`);
@@ -77,7 +77,7 @@ interface CalSchedule {
   dateOverrides: CalDateOverride[];
 }
 
-async function updateMiamiEventDates(
+export async function updateMiamiEventDates(
   apiKey: string,
   startDate: string,
   endDate: string,
@@ -125,7 +125,7 @@ async function updateMiamiEventDates(
   return results;
 }
 
-interface DateOverrideInput {
+export interface DateOverrideInput {
   date: string; // YYYY-MM-DD
   startTime: string; // "HH:MM" — "00:00"-"00:00" = día completo bloqueado
   endTime: string;
@@ -134,7 +134,7 @@ interface DateOverrideInput {
 // Aplica overrides de fecha a un horario de Cal.com, preservando los que ya
 // existan (el PATCH de Cal.com reemplaza la lista completa, así que primero
 // leemos los actuales y les sumamos/reemplazamos solo las fechas nuevas).
-async function applyScheduleOverrides(
+export async function applyScheduleOverrides(
   apiKey: string,
   scheduleId: string,
   newOverrides: DateOverrideInput[],
