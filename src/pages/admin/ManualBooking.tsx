@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { CAL_USERNAME, LOCATIONS, THERAPIES, calSlugFor, type LocationKey } from "../../data/content";
+import { CAL_USERNAME, LOCATIONS, THERAPIES, calSlugForAdmin, type LocationKey } from "../../data/content";
 import { CAL_NAMESPACE } from "../../lib/cal";
 import { formatUSPhone, isValidUSPhone } from "../../lib/phone";
 import { listPatients, type Patient } from "../../lib/patients";
@@ -73,15 +73,19 @@ export default function ManualBooking() {
 
   const calLink = useMemo(() => {
     if (!ready) return "";
+    const therapy = THERAPIES.find((t) => t.id === therapyId);
+    if (!therapy) return "";
+
     const noteLines: string[] = [];
     if (attendeePhone) noteLines.push(`Tel: ${formatUSPhone(attendeePhone)}`);
     if (mode === "registered") noteLines.push("Paciente registrado en el sistema");
+    noteLines.push("Reserva manual — pago coordinado directamente (Zelle/efectivo), sin cobro en línea.");
     if (notes.trim()) noteLines.push(notes.trim());
 
     const params = new URLSearchParams({ name: attendeeName });
-    if (noteLines.length > 0) params.set("notes", noteLines.join(" · "));
+    params.set("notes", noteLines.join(" · "));
 
-    return `${CAL_USERNAME}/${calSlugFor(therapyId, location)}?${params.toString()}`;
+    return `${CAL_USERNAME}/${calSlugForAdmin(therapy, location)}?${params.toString()}`;
   }, [ready, attendeeName, attendeePhone, mode, notes, therapyId, location]);
 
   return (
@@ -89,7 +93,8 @@ export default function ManualBooking() {
       <h1>Reservar cita manualmente</h1>
       <p className={styles.hint}>
         Se abrirá el calendario real de Cal.com para elegir la fecha y hora, ya con los datos de la persona
-        precargados.
+        precargados. Esta reserva no pide pago en línea — el depósito se coordina directamente con el cliente
+        (Zelle/efectivo).
       </p>
 
       <div className={styles.card}>

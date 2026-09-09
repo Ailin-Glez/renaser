@@ -1,0 +1,293 @@
+.wrap {
+  max-width: 560px;
+}
+
+.wrap h1 {
+  font-size: 1.5rem;
+  margin-bottom: 6px;
+}
+
+.hint {
+  color: var(--color-ink-soft);
+  font-size: 0.88rem;
+  margin-bottom: 24px;
+}
+
+.card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-forest);
+}
+
+.field input {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-cream-soft);
+  background: var(--color-cream);
+  color: var(--color-ink);
+}
+
+.field input:focus {
+  outline: 2px solid var(--color-leaf);
+  outline-offset: 1px;
+}
+
+.exceptions {
+  border-top: 1px solid var(--color-cream-soft);
+  padding-top: 18px;
+}
+
+.exceptionsHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.exceptionsTitle {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-forest);
+}
+
+.exceptionsHint {
+  margin: 4px 0 0;
+  font-size: 0.78rem;
+  color: var(--color-ink-soft);
+}
+
+.addButton {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--color-forest);
+  background: transparent;
+  color: var(--color-forest);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.addButton:hover {
+  background: var(--color-forest);
+  color: var(--color-white);
+}
+
+.exceptionRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+.exceptionRow:not(:last-child) {
+  border-bottom: 1px solid var(--color-cream-soft);
+}
+
+.exceptionRow input[type="date"],
+.exceptionRow input[type="time"] {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-cream-soft);
+  background: var(--color-cream);
+  color: var(--color-ink);
+}
+
+.exceptionTabs {
+  display: flex;
+  gap: 4px;
+  background: var(--color-cream);
+  border-radius: 999px;
+  padding: 3px;
+}
+
+.exceptionTab {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-ink-soft);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.exceptionTabActive {
+  background: var(--color-white);
+  color: var(--color-forest);
+  box-shadow: var(--shadow-soft);
+}
+
+.exceptionTimesWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.exceptionTimes {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+}
+
+.exceptionTimesHint {
+  margin: 0;
+  font-size: 0.72rem;
+  color: var(--color-ink-soft);
+  opacity: 0.8;
+}
+
+.removeButton {
+  margin-left: auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: none;
+  color: var(--color-ink-soft);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.removeButton:hover {
+  background: var(--color-cream-soft);
+  color: var(--color-sunset);
+}
+
+.dryRunField {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--color-cream);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+  cursor: pointer;
+}
+
+.dryRunField input {
+  margin-top: 2px;
+}
+
+.dryRunField strong {
+  color: var(--color-forest);
+}
+
+.error {
+  color: var(--color-sunset);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submitButton {
+  padding: 12px 26px;
+  border-radius: 999px;
+  border: none;
+  background: var(--color-gold);
+  color: var(--color-forest-dark);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.submitButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.submitButton:disabled {
+  background: var(--color-cream-soft);
+  color: var(--color-ink-soft);
+  cursor: not-allowed;
+}
+
+.results {
+  margin-top: 24px;
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 24px 28px;
+}
+
+.results h2 {
+  font-size: 1.05rem;
+  margin: 0 0 14px;
+}
+
+.eventList {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.88rem;
+}
+
+.eventOk {
+  color: var(--color-forest);
+}
+
+.eventFail {
+  color: var(--color-sunset);
+}
+
+.eventError {
+  color: var(--color-ink-soft);
+  font-size: 0.8rem;
+}
+
+.summary {
+  margin: 0;
+  color: var(--color-ink-soft);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 560px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -51,6 +51,16 @@ export function calSlugFor(therapyId: string, location: LocationKey): string {
   return location === "miami" ? `${therapyId}-miami` : therapyId;
 }
 
+// Para reservas manuales desde el admin (el cliente paga aparte por Zelle/efectivo):
+// si el evento público tiene depósito automático por Stripe, usa una copia del
+// evento con el sufijo "-manual" y sin cobro configurado en Cal.com. Si el
+// depósito ya se coordina manualmente (manualDeposit), usa el mismo evento de siempre.
+export function calSlugForAdmin(therapy: Therapy, location: LocationKey): string {
+  const base = calSlugFor(therapy.id, location);
+  const hasAutoPayment = Boolean(therapy.pricing[location]?.depositPrice);
+  return hasAutoPayment ? `${base}-manual` : base;
+}
+
 export interface Testimonial {
   id: string;
   name: string;
@@ -81,7 +91,7 @@ export const BOOKING_ENABLED = false;
 // En false, la sección de Testimonios del Inicio queda oculta. Los datos de
 // TESTIMONIALS de abajo son de ejemplo (placeholder) — cámbialo a true cuando
 // tengas reseñas reales que mostrar.
-export const TESTIMONIALS_ENABLED = false;
+export const TESTIMONIALS_ENABLED = true;
 
 export const SITE = {
   name: "RenaSER",
@@ -398,33 +408,27 @@ export const THERAPIES: Therapy[] = [
 export const TESTIMONIALS: Testimonial[] = [
   {
     id: "1",
-    name: "María G.",
+    name: "Alanis",
     quote:
-      "Cada sesión de Reiki con RenaSER ha sido transformadora. Salgo con una sensación de paz que dura días.",
+      "Llegar a donde estás es sentirse en casa, en paz y en un espacio seguro. Fue una experiencia muy especial, de esas que simplemente se sienten. Gracias por tu luz y tu guía.",
   },
   {
     id: "2",
-    name: "Carlos R.",
+    name: "Yanelys",
     quote:
-      "El masaje terapéutico me ayudó a liberar una tensión que cargaba desde hace meses. Un espacio de verdad sanador.",
+      "Quedé súper complacida de conocerte en persona y que fueras tú la que trabajaras en mi nuevo renacer. Te agradezco por la paz que transmites y el amor que regalas haciendo lo que te gusta, ayudándome a entender y a sanar profundamente en este paso por la vida.",
   },
   {
     id: "3",
-    name: "Ana P.",
+    name: "Natali García",
     quote:
-      "Un trato cálido y profesional desde el primer momento. Recomiendo totalmente las sesiones de sanación energética.",
+      "Me gusta mucho que combina el Reiki con la mediumnidad y la terapia de descodificación, creando una experiencia mucho más profunda y personalizada. Sin duda, recomiendo a Martha a quienes estén buscando un espacio para conectar con su interior, alinear energías, liberar emociones y regalarse un momento de paz y bienestar.",
   },
   {
     id: "4",
-    name: "Luis M.",
+    name: "Mely",
     quote:
-      "La sesión de Reiki + Mediumnidad fue una experiencia que no esperaba. Salí con mucha más claridad sobre decisiones que llevaba meses postergando.",
-  },
-  {
-    id: "5",
-    name: "Patricia D.",
-    quote:
-      "Llevé a mi hija a la meditación infantil y desde entonces duerme mucho mejor. Un espacio hermoso y cuidado en cada detalle.",
+      "Desde su delicioso té hasta la paz y la energía bonita que se siente en cada rincón, todo te hace sentir como en casa. Y qué decir de Martha… una persona maravillosa, genuina y con una sensibilidad muy especial. Renaser es de esos lugares que no solo visitas, los sientes. Gracias, Martha, por compartir tus dones con tanto amor.",
   },
 ];
 

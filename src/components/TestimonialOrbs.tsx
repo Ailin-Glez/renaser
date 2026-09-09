@@ -1,13 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Testimonial } from "../data/content";
 import styles from "./TestimonialOrbs.module.css";
 
-const PAGE_SIZE = 3;
+const MOBILE_QUERY = "(max-width: 560px)";
+
+function usePageSize() {
+  const [pageSize, setPageSize] = useState(() =>
+    typeof window !== "undefined" && window.matchMedia(MOBILE_QUERY).matches ? 1 : 2
+  );
+
+  useEffect(() => {
+    const mql = window.matchMedia(MOBILE_QUERY);
+    const update = () => setPageSize(mql.matches ? 1 : 2);
+    update();
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
+  }, []);
+
+  return pageSize;
+}
 
 export function TestimonialOrbs({ testimonials }: { testimonials: Testimonial[] }) {
+  const pageSize = usePageSize();
   const [page, setPage] = useState(0);
-  const pageCount = Math.ceil(testimonials.length / PAGE_SIZE);
-  const visible = testimonials.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
+  const pageCount = Math.ceil(testimonials.length / pageSize);
+  const visible = testimonials.slice(page * pageSize, page * pageSize + pageSize);
+
+  useEffect(() => {
+    setPage(0);
+  }, [pageSize]);
 
   const goTo = (next: number) => setPage((next + pageCount) % pageCount);
 

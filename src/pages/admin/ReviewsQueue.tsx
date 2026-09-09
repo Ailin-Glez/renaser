@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ConfirmModal } from "../../components/admin/ConfirmModal";
 import { deleteReview, listReviews, setReviewStatus, type Review, type ReviewStatus } from "../../lib/reviews";
 import styles from "./ReviewsQueue.module.css";
 
@@ -14,6 +15,7 @@ export default function ReviewsQueue() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<ReviewStatus | "all">("pending");
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
   function refresh() {
     setLoading(true);
@@ -35,7 +37,7 @@ export default function ReviewsQueue() {
   }
 
   async function remove(id: string) {
-    if (!confirm("¿Eliminar este testimonio permanentemente?")) return;
+    setConfirmDeleteId(null);
     setBusyId(id);
     try {
       await deleteReview(id);
@@ -109,7 +111,7 @@ export default function ReviewsQueue() {
                 type="button"
                 className={styles.deleteButton}
                 disabled={busyId === review.id}
-                onClick={() => remove(review.id)}
+                onClick={() => setConfirmDeleteId(review.id)}
               >
                 Eliminar
               </button>
@@ -117,6 +119,15 @@ export default function ReviewsQueue() {
           </div>
         ))}
       </div>
+
+      {confirmDeleteId && (
+        <ConfirmModal
+          title="Eliminar testimonio"
+          message="¿Eliminar este testimonio permanentemente? Esta acción no se puede deshacer."
+          onConfirm={() => remove(confirmDeleteId)}
+          onCancel={() => setConfirmDeleteId(null)}
+        />
+      )}
     </div>
   );
 }

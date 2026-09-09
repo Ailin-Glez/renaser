@@ -52,6 +52,12 @@ export default function AdminLayout() {
             >
               Testimonios
             </NavLink>
+            <NavLink
+              to="/admin/gira-miami"
+              className={({ isActive }) => `${styles.link} ${isActive ? styles.linkActive : ""}`}
+            >
+              Gira Miami
+            </NavLink>
           </div>
         </nav>
       </header>

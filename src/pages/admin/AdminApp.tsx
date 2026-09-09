@@ -7,6 +7,7 @@ import PatientForm from "./PatientForm";
 import PatientDetail from "./PatientDetail";
 import ManualBooking from "./ManualBooking";
 import ReviewsQueue from "./ReviewsQueue";
+import MiamiTour from "./MiamiTour";
 
 // Todo lo de Admin (incluido Firebase Auth) vive en este único punto de
 // entrada, para que App.tsx pueda cargarlo entero con un solo import()
@@ -22,6 +23,7 @@ export default function AdminApp() {
           <Route path="pacientes/:id" element={<PatientDetail />} />
           <Route path="reservar" element={<ManualBooking />} />
           <Route path="resenas" element={<ReviewsQueue />} />
+          <Route path="gira-miami" element={<MiamiTour />} />
         </Route>
       </Routes>
     </AuthProvider>

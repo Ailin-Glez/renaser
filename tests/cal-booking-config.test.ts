@@ -11,7 +11,7 @@
 // correspondiente falla — esa es justamente la señal que buscamos.
 
 import { describe, expect, it } from "vitest";
-import { CAL_USERNAME, LOCATIONS, THERAPIES, calSlugFor, type LocationKey } from "../src/data/content";
+import { CAL_USERNAME, LOCATIONS, THERAPIES, calSlugFor, calSlugForAdmin, type LocationKey } from "../src/data/content";
 
 const TEST_TIMEOUT = 20_000;
 
@@ -119,6 +119,47 @@ describe("Cal.com: dirección y depósito por terapia (excluye grupales)", () =>
             `"${c.slug}" es de precio a cotizar/depósito manual — no debería tener un cobro automático configurado`
           ).toBeNull();
         }
+      },
+      TEST_TIMEOUT
+    );
+  }
+});
+
+// Duplicados "-manual" para el panel de admin: el cliente paga aparte
+// (Zelle/efectivo), así que estos eventos deben existir pero SIN pago
+// automático configurado en Cal.com — sin importar el depósito que tenga
+// la versión pública. Solo aplica a terapias con cobro automático; las de
+// depósito manual (grupales, Espacio en Armonía) reutilizan el evento
+// normal y ya quedan cubiertas por el describe de arriba.
+const manualCases = cases
+  .filter((c) => c.expectedDepositCents !== null)
+  .map((c) => {
+    const therapy = THERAPIES.find((t) => t.id === c.therapyId)!;
+    return {
+      ...c,
+      manualSlug: calSlugForAdmin(therapy, c.location),
+    };
+  });
+
+describe("Cal.com: duplicados -manual del admin (sin cobro automático)", () => {
+  it("hay al menos un caso -manual esperado (terapias con cobro automático)", () => {
+    expect(manualCases.length).toBeGreaterThan(0);
+  });
+
+  for (const c of manualCases) {
+    it(
+      `${c.therapyName} · ${c.locationName} (cal.com/${CAL_USERNAME}/${c.manualSlug})`,
+      async () => {
+        expect(c.manualSlug, "el slug manual debe llevar el sufijo -manual").toBe(`${c.slug}-manual`);
+
+        const config = await fetchCalEventConfig(c.manualSlug);
+
+        expect(config.status, `el evento "${c.manualSlug}" debería existir en Cal.com (HTTP 200)`).toBe(200);
+
+        expect(
+          config.depositCents,
+          `"${c.manualSlug}" es para reservas manuales del admin — no debe tener pago automático configurado`
+        ).toBeNull();
       },
       TEST_TIMEOUT
     );
