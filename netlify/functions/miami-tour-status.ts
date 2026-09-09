@@ -1,17 +1,13 @@
 import type { Handler } from "@netlify/functions";
 import { CAL_USERNAME, THERAPIES, calSlugFor, calSlugForAdmin } from "../../src/data/content";
-import { CAL_API_BASE, calHeaders, listCalEventTypes, verifyFirebaseIdToken } from "./_lib/shared";
+import { listCalEventTypes, verifyFirebaseIdToken } from "./_lib/shared";
 
 // Solo lectura: consulta las fechas de la gira Miami configuradas hoy en
-// Cal.com. Revisa TODOS los eventos "-miami" (y sus copias "-manual") hasta
-// encontrar el primero que tenga un rango de fechas configurado — no basta
-// con mirar uno solo, porque no siempre todos se configuran a la vez. No
-// escribe nada.
-
-interface BookingWindow {
-  type: string;
-  value?: [string, string] | number;
-}
+// Cal.com, leyendo periodType/periodStartDate/periodEndDate directo del
+// listado de eventos (ya vienen ahí, sin llamadas extra por evento). Revisa
+// TODOS los eventos "-miami" (y sus copias "-manual") hasta encontrar el
+// primero con un rango configurado — no basta con mirar uno solo, porque no
+// siempre todos se configuran a la vez. No escribe nada.
 
 export const handler: Handler = async (event) => {
   if (event.httpMethod !== "GET") {
@@ -42,21 +38,25 @@ export const handler: Handler = async (event) => {
       miamiSlugs.add(calSlugForAdmin(t, "miami"));
     }
 
-    const targets = allEventTypes.filter((e) => miamiSlugs.has(e.slug));
+    const target = allEventTypes.find(
+      (e) =>
+        miamiSlugs.has(e.slug) &&
+        e.periodType === "RANGE" &&
+        typeof e.periodStartDate === "string" &&
+        typeof e.periodEndDate === "string"
+    );
 
-    for (const target of targets) {
-      const res = await fetch(`${CAL_API_BASE}/event-types/${target.id}`, { headers: calHeaders(apiKey) });
-      if (!res.ok) continue;
-      const json = await res.json();
-      const bookingWindow: BookingWindow | undefined = json?.data?.bookingWindow;
-
-      if (bookingWindow?.type === "range" && Array.isArray(bookingWindow.value)) {
-        const [startDate, endDate] = bookingWindow.value;
-        return { statusCode: 200, body: JSON.stringify({ startDate, endDate }) };
-      }
+    if (!target || !target.periodStartDate || !target.periodEndDate) {
+      return { statusCode: 200, body: JSON.stringify({ startDate: null, endDate: null }) };
     }
 
-    return { statusCode: 200, body: JSON.stringify({ startDate: null, endDate: null }) };
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        startDate: target.periodStartDate.slice(0, 10),
+        endDate: target.periodEndDate.slice(0, 10),
+      }),
+    };
   } catch (err) {
     return {
       statusCode: 500,

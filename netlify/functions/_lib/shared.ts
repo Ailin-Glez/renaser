@@ -40,6 +40,11 @@ export function calHeaders(apiKey: string, version?: string): Record<string, str
 export interface CalEventTypeSummary {
   id: number;
   slug: string;
+  // Presentes en la respuesta de /event-types (listado) sin necesitar
+  // ningún header de versión especial.
+  periodType?: string;
+  periodStartDate?: string | null;
+  periodEndDate?: string | null;
 }
 
 export async function listCalEventTypes(apiKey: string, username: string): Promise<CalEventTypeSummary[]> {
