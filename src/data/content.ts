@@ -42,6 +42,16 @@ export interface Therapy {
   // El precio es "a cotizar" (ej. Espacio en Armonía): no se cobra depósito
   // automático por Stripe, se coordina directamente con el cliente.
   manualDeposit?: boolean;
+  // No se puede reservar un horario directamente: hay que coordinar antes con
+  // la terapeuta. El botón de reserva se reemplaza por uno de contacto, sin
+  // importar BOOKING_ENABLED. Usa contactReason para explicar el motivo.
+  contactFirst?: boolean;
+  contactReason?: string;
+  // Duración y precio son "a cotizar" (ej. Espacio en Armonía): no se muestra
+  // ningún número, solo "A definir hora y precio". Si es false/ausente pero
+  // contactFirst es true (ej. terapias grupales), sí se muestra el precio
+  // real — solo cambia el botón, porque falta coordinar cuántas personas van.
+  variablePricing?: boolean;
 }
 
 // El slug del tipo de evento de Cal.com para cada terapia+ciudad.
@@ -320,6 +330,10 @@ export const THERAPIES: Therapy[] = [
     // Precio por persona: Cal.com no cobra por asistente automáticamente,
     // así que el depósito se coordina manualmente en vez de cobrarlo en la web.
     manualDeposit: true,
+    // Tampoco se reserva un horario directo: hay que confirmar antes cuántas
+    // personas van (mínimo 2), así que el botón queda como "Contactar".
+    contactFirst: true,
+    contactReason: "Esta experiencia se coordina antes con la terapeuta según la cantidad de personas.",
     pricing: {
       "las-vegas": { price: "$100 por persona", priceNote: "Mínimo: 2 personas" },
       miami: { price: "$150 por persona", priceNote: "Mínimo: 2 personas" },
@@ -364,6 +378,10 @@ export const THERAPIES: Therapy[] = [
     // Precio por persona: Cal.com no cobra por asistente automáticamente,
     // así que el depósito se coordina manualmente en vez de cobrarlo en la web.
     manualDeposit: true,
+    // Tampoco se reserva un horario directo: hay que confirmar antes cuántas
+    // personas van (mínimo 2), así que el botón queda como "Contactar".
+    contactFirst: true,
+    contactReason: "Esta experiencia se coordina antes con la terapeuta según la cantidad de personas.",
     pricing: {
       miami: { price: "$150 por persona", priceNote: "Mínimo: 2 personas" },
     },
@@ -385,7 +403,12 @@ export const THERAPIES: Therapy[] = [
     duration: "Se determina según el espacio",
     durationShort: "A definir",
     // Precio a cotizar caso por caso: sin depósito automático por Stripe.
+    // Hay que coordinar con la terapeuta antes de agendar (horas/precio),
+    // así que no se puede reservar un horario directo — solo contactar.
     manualDeposit: true,
+    contactFirst: true,
+    contactReason: "Esta experiencia se coordina antes con la terapeuta para estimar horas y precio.",
+    variablePricing: true,
     pricing: {
       "las-vegas": { price: "Desde $350" },
       miami: { price: "Desde $500" },
@@ -401,6 +424,8 @@ export const THERAPIES: Therapy[] = [
     ],
     idealFor:
       "mudanzas, apertura de negocios, cambios importantes, renovación de hogares y lugares de trabajo o espacios que se perciben energéticamente cargados.",
+    disclaimer:
+      "Este servicio es una práctica energética y espiritual complementaria orientada a la armonización del espacio; no sustituye reparaciones, mantenimiento ni otros servicios profesionales que el lugar pueda necesitar.",
   },
 ];
 

@@ -44,29 +44,45 @@ export function TherapyModal({ therapy, location, onClose }: TherapyModalProps) 
           <h3 className={styles.name}>{therapy.name}</h3>
           <p className={styles.tags}>{therapy.tags.join(" · ")}</p>
 
-          <div className={styles.meta}>
-            <span>
-              <strong>Duración:</strong> {therapy.duration}
-            </span>
-            <span>
-              <strong>Inversión:</strong> {pricing.price}
-            </span>
-          </div>
-          {pricing.priceNote && <p className={styles.priceNote}>{pricing.priceNote}</p>}
-          {pricing.depositPrice ? (
-            <p className={styles.depositNote}>
-              🔒 Depósito al reservar: <strong>{pricing.depositPrice}</strong> — el resto se paga el día de la
-              sesión.
-            </p>
-          ) : (
-            therapy.manualDeposit && (
-              <p className={styles.depositNote}>
-                📝 El depósito de esta experiencia se coordina directamente contigo antes de tu sesión.
-              </p>
-            )
+          {!therapy.variablePricing && (
+            <>
+              <div className={styles.meta}>
+                <span>
+                  <strong>Duración:</strong> {therapy.duration}
+                </span>
+                <span>
+                  <strong>Inversión:</strong> {pricing.price}
+                </span>
+              </div>
+              {pricing.priceNote && <p className={styles.priceNote}>{pricing.priceNote}</p>}
+              {pricing.depositPrice ? (
+                <p className={styles.depositNote}>
+                  🔒 Depósito al reservar: <strong>{pricing.depositPrice}</strong> — el resto se paga el día de
+                  la sesión.
+                </p>
+              ) : (
+                therapy.manualDeposit && (
+                  <p className={styles.depositNote}>
+                    📝 El depósito de esta experiencia se coordina directamente contigo antes de tu sesión.
+                  </p>
+                )
+              )}
+            </>
           )}
 
-          {BOOKING_ENABLED ? (
+          {therapy.contactFirst ? (
+            <div className={styles.bookingClosed}>
+              {therapy.variablePricing && <p>{therapy.contactReason}</p>}
+              <a
+                href={`https://wa.me/${SITE.phone.replace(/\D/g, "")}`}
+                target="_blank"
+                rel="noreferrer"
+                className={`${styles.bookButton} ${styles.contactButton}`}
+              >
+                Contactar por WhatsApp
+              </a>
+            </div>
+          ) : BOOKING_ENABLED ? (
             <button
               type="button"
               className={styles.bookButton}
@@ -81,7 +97,7 @@ export function TherapyModal({ therapy, location, onClose }: TherapyModalProps) 
                 href={`https://wa.me/${SITE.phone.replace(/\D/g, "")}`}
                 target="_blank"
                 rel="noreferrer"
-                className={styles.bookButton}
+                className={`${styles.bookButton} ${styles.contactButton}`}
               >
                 Escríbenos por WhatsApp
               </a>

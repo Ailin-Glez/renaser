@@ -35,8 +35,11 @@ export default function AdminLayout() {
           <div className={styles.navInner}>
             <NavLink
               to="/admin"
-              end
-              className={({ isActive }) => `${styles.link} ${isActive ? styles.linkActive : ""}`}
+              className={`${styles.link} ${
+                location.pathname === "/admin" || location.pathname.startsWith("/admin/pacientes")
+                  ? styles.linkActive
+                  : ""
+              }`}
             >
               Pacientes
             </NavLink>

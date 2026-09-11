@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CAL_USERNAME, LOCATIONS, THERAPIES, calSlugForAdmin, type LocationKey } from "../../data/content";
 import { openBookingModal } from "../../lib/cal";
 import { formatUSPhone, isValidUSPhone, toE164USPhone } from "../../lib/phone";
@@ -30,12 +30,21 @@ export default function ManualBooking() {
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [booking, setBooking] = useState(false);
   const [bookingError, setBookingError] = useState("");
+  const [bookingSuccessMessage, setBookingSuccessMessage] = useState("");
 
   const changeLocation = (next: LocationKey) => {
     setLocation(next);
     const stillAvailable = THERAPIES.filter((t) => t.pricing[next]);
     setTherapyId(stillAvailable[0]?.id ?? "");
   };
+
+  const mountedRef = useRef(true);
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     listPatients().then(setPatients);
@@ -115,19 +124,34 @@ export default function ManualBooking() {
   const handleBookClick = async () => {
     if (!ready || !calLink) return;
     setBookingError("");
+    setBookingSuccessMessage("");
     setBooking(true);
+
+    const shouldCreatePatient = mode === "new" && createPatientRecord;
+    const pendingName = attendeeName;
+    const pendingPhone = attendeePhone;
+    const pendingPhotoFile = photoFile;
+
     try {
-      if (mode === "new" && createPatientRecord) {
-        await createPatient({
-          name: attendeeName,
-          phone: attendeePhone || undefined,
-          photoFile: photoFile ?? undefined,
-        });
-        setPatients(await listPatients());
-      }
-      await openBookingModal(calLink, bookingPrefill);
+      await openBookingModal(calLink, bookingPrefill, async () => {
+        if (!shouldCreatePatient) return;
+        try {
+          await createPatient({
+            name: pendingName,
+            phone: pendingPhone || undefined,
+            photoFile: pendingPhotoFile ?? undefined,
+          });
+          if (!mountedRef.current) return;
+          setPatients(await listPatients());
+          setBookingSuccessMessage("Reserva confirmada y ficha de paciente creada.");
+        } catch {
+          if (mountedRef.current) {
+            setBookingError("La reserva se completó, pero no se pudo crear la ficha del paciente.");
+          }
+        }
+      });
     } catch {
-      setBookingError("No se pudo crear la ficha del paciente. Intenta de nuevo.");
+      setBookingError("No se pudo abrir el calendario de Cal.com. Intenta de nuevo.");
     } finally {
       setBooking(false);
     }
@@ -293,6 +317,7 @@ export default function ManualBooking() {
         </label>
 
         {bookingError && <p className={styles.error}>{bookingError}</p>}
+        {bookingSuccessMessage && <p className={styles.hint}>{bookingSuccessMessage}</p>}
 
         <div className={styles.actions}>
           {ready ? (

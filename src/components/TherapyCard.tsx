@@ -24,7 +24,7 @@ export function TherapyCard({ therapy, location }: { therapy: Therapy; location:
           ))}
         </ul>
         <span className={styles.meta}>
-          {therapy.durationShort} · {pricing.price}
+          {therapy.variablePricing ? "A definir hora y precio" : `${therapy.durationShort} · ${pricing.price}`}
         </span>
         <span className={styles.more}>
           Ver más <span aria-hidden="true">→</span>
@@ -32,7 +32,16 @@ export function TherapyCard({ therapy, location }: { therapy: Therapy; location:
       </button>
 
       <div className={styles.actions}>
-        {BOOKING_ENABLED ? (
+        {therapy.contactFirst ? (
+          <a
+            href={`https://wa.me/${SITE.phone.replace(/\D/g, "")}`}
+            target="_blank"
+            rel="noreferrer"
+            className={`${styles.bookButton} ${styles.contactButton}`}
+          >
+            Contactar
+          </a>
+        ) : BOOKING_ENABLED ? (
           <button
             type="button"
             className={styles.bookButton}
@@ -46,7 +55,7 @@ export function TherapyCard({ therapy, location }: { therapy: Therapy; location:
             href={`https://wa.me/${SITE.phone.replace(/\D/g, "")}`}
             target="_blank"
             rel="noreferrer"
-            className={styles.bookButton}
+            className={`${styles.bookButton} ${styles.contactButton}`}
           >
             Escríbenos
           </a>

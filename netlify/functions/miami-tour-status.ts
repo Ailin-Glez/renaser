@@ -1,13 +1,11 @@
 import type { Handler } from "@netlify/functions";
-import { CAL_USERNAME, THERAPIES, calSlugFor, calSlugForAdmin } from "../../src/data/content";
-import { listCalEventTypes, verifyFirebaseIdToken } from "./_lib/shared";
+import { CAL_USERNAME } from "../../src/data/content";
+import { getCurrentMiamiTourRange, verifyFirebaseIdToken } from "./_lib/shared";
 
-// Solo lectura: consulta las fechas de la gira Miami configuradas hoy en
-// Cal.com, leyendo periodType/periodStartDate/periodEndDate directo del
-// listado de eventos (ya vienen ahí, sin llamadas extra por evento). Revisa
-// TODOS los eventos "-miami" (y sus copias "-manual") hasta encontrar el
-// primero con un rango configurado — no basta con mirar uno solo, porque no
-// siempre todos se configuran a la vez. No escribe nada.
+// Solo lectura, protegida con el login del panel de Admin: consulta las
+// fechas de la gira Miami configuradas hoy en Cal.com. No escribe nada.
+// (La versión pública, sin login, para mostrar el aviso en el sitio, es
+// public-miami-tour-status.ts.)
 
 export const handler: Handler = async (event) => {
   if (event.httpMethod !== "GET") {
@@ -29,34 +27,8 @@ export const handler: Handler = async (event) => {
   }
 
   try {
-    const allEventTypes = await listCalEventTypes(apiKey, CAL_USERNAME);
-
-    const miamiSlugs = new Set<string>();
-    for (const t of THERAPIES) {
-      if (!t.pricing.miami) continue;
-      miamiSlugs.add(calSlugFor(t.id, "miami"));
-      miamiSlugs.add(calSlugForAdmin(t, "miami"));
-    }
-
-    const target = allEventTypes.find(
-      (e) =>
-        miamiSlugs.has(e.slug) &&
-        e.periodType === "RANGE" &&
-        typeof e.periodStartDate === "string" &&
-        typeof e.periodEndDate === "string"
-    );
-
-    if (!target || !target.periodStartDate || !target.periodEndDate) {
-      return { statusCode: 200, body: JSON.stringify({ startDate: null, endDate: null }) };
-    }
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
-        startDate: target.periodStartDate.slice(0, 10),
-        endDate: target.periodEndDate.slice(0, 10),
-      }),
-    };
+    const range = await getCurrentMiamiTourRange(apiKey, CAL_USERNAME);
+    return { statusCode: 200, body: JSON.stringify(range ?? { startDate: null, endDate: null }) };
   } catch (err) {
     return {
       statusCode: 500,

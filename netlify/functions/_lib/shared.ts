@@ -1,4 +1,5 @@
 import { createRemoteJWKSet, jwtVerify } from "jose";
+import { THERAPIES, calSlugFor, calSlugForAdmin } from "../../../src/data/content";
 
 // Compartido entre las funciones de Netlify que hablan con Cal.com — no es
 // una función en sí (el prefijo "_" hace que Netlify no la trate como una).
@@ -56,4 +57,36 @@ export async function listCalEventTypes(apiKey: string, username: string): Promi
   return (
     json?.data?.eventTypeGroups?.flatMap((g: { eventTypes: CalEventTypeSummary[] }) => g.eventTypes) ?? []
   );
+}
+
+// Fechas de la gira Miami configuradas hoy en Cal.com, leyendo
+// periodType/periodStartDate/periodEndDate directo del listado de eventos
+// (ya vienen ahí, sin llamadas extra por evento). Revisa TODOS los eventos
+// "-miami" (y sus copias "-manual") hasta encontrar el primero con un rango
+// configurado — no basta con mirar uno solo, porque no siempre todos se
+// configuran a la vez.
+export async function getCurrentMiamiTourRange(
+  apiKey: string,
+  username: string
+): Promise<{ startDate: string; endDate: string } | null> {
+  const allEventTypes = await listCalEventTypes(apiKey, username);
+
+  const miamiSlugs = new Set<string>();
+  for (const t of THERAPIES) {
+    if (!t.pricing.miami) continue;
+    miamiSlugs.add(calSlugFor(t.id, "miami"));
+    miamiSlugs.add(calSlugForAdmin(t, "miami"));
+  }
+
+  const target = allEventTypes.find(
+    (e) =>
+      miamiSlugs.has(e.slug) &&
+      e.periodType === "RANGE" &&
+      typeof e.periodStartDate === "string" &&
+      typeof e.periodEndDate === "string"
+  );
+
+  if (!target || !target.periodStartDate || !target.periodEndDate) return null;
+
+  return { startDate: target.periodStartDate.slice(0, 10), endDate: target.periodEndDate.slice(0, 10) };
 }

@@ -44,12 +44,10 @@ interface ScheduleResult {
   scheduleName: string;
   changedDays: number;
   totalOverrides: number;
-  dryRun?: boolean;
 }
 
 interface ApiResponse {
   ok?: boolean;
-  dryRun?: boolean;
   events?: EventResult[];
   lasVegas?: ScheduleResult;
   miami?: ScheduleResult | null;
@@ -61,7 +59,6 @@ export default function MiamiTour() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [exceptions, setExceptions] = useState<ExceptionRow[]>([]);
-  const [dryRun, setDryRun] = useState(true);
   const [saving, setSaving] = useState(false);
   const [result, setResult] = useState<ApiResponse | null>(null);
   const [error, setError] = useState("");
@@ -146,7 +143,6 @@ export default function MiamiTour() {
         body: JSON.stringify({
           startDate,
           endDate,
-          dryRun,
           exceptions: exceptions.map((e) => ({
             date: e.date,
             startTime: e.allDay ? "00:00" : e.startTime,
@@ -293,13 +289,6 @@ export default function MiamiTour() {
           ))}
         </div>
 
-        <label className={styles.dryRunField}>
-          <input type="checkbox" checked={dryRun} onChange={(e) => setDryRun(e.target.checked)} />
-          <span>
-            Modo de prueba — revisa todo pero <strong>no cambia nada</strong> en Cal.com todavía.
-          </span>
-        </label>
-
         {willOverwriteCurrentTour && (
           <p className={styles.overwriteWarning}>⚠ Al continuar, se reemplazará la gira actual por estas fechas.</p>
         )}
@@ -308,14 +297,14 @@ export default function MiamiTour() {
 
         <div className={styles.actions}>
           <button type="submit" className={styles.submitButton} disabled={saving}>
-            {saving ? "Procesando…" : dryRun ? "Ver vista previa" : "Actualizar fechas de la gira"}
+            {saving ? "Procesando…" : "Actualizar fechas de la gira"}
           </button>
         </div>
       </form>
 
       {result && (
         <div className={styles.results}>
-          <h2>{result.dryRun ? "Vista previa (nada se cambió todavía)" : "Resultado"}</h2>
+          <h2>Resultado</h2>
           <ul className={styles.eventList}>
             {result.events?.map((e) => (
               <li key={e.slug} className={e.ok ? styles.eventOk : styles.eventFail}>
@@ -326,16 +315,15 @@ export default function MiamiTour() {
           </ul>
           {result.lasVegas && (
             <p className={styles.summary}>
-              {result.lasVegas.scheduleName}: {result.lasVegas.changedDays} días de esta gira{" "}
-              {result.dryRun ? "se bloquearían" : "bloqueados"} (quedarían {result.lasVegas.totalOverrides} días
-              bloqueados en total, sumando otras giras futuras — ya no cuenta fechas pasadas).
+              {result.lasVegas.scheduleName}: {result.lasVegas.changedDays} días de esta gira bloqueados
+              (quedarían {result.lasVegas.totalOverrides} días bloqueados en total, sumando otras giras futuras
+              — ya no cuenta fechas pasadas).
             </p>
           )}
           {result.miami && (
             <p className={styles.summary}>
-              {result.miami.scheduleName}: {result.miami.changedDays} excepciones de esta gira{" "}
-              {result.dryRun ? "se aplicarían" : "aplicadas"} (quedarían {result.miami.totalOverrides} en total,
-              sin contar fechas pasadas).
+              {result.miami.scheduleName}: {result.miami.changedDays} excepciones de esta gira aplicadas
+              (quedarían {result.miami.totalOverrides} en total, sin contar fechas pasadas).
             </p>
           )}
         </div>

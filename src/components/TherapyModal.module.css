@@ -191,6 +191,7 @@
   padding: 14px 28px;
   border-radius: 999px;
   border: none;
+  line-height: 1;
   background: var(--color-gold);
   color: var(--color-forest-dark);
   font-family: var(--font-body);
@@ -218,13 +219,16 @@
 
 .bookingClosed .bookButton {
   margin-top: 0;
-  background: #25d366;
-  color: #ffffff;
+  padding: 13px 27px;
+  background: transparent;
+  color: var(--color-leaf);
+  border: 1px solid var(--color-leaf);
   text-decoration: none;
 }
 
 .bookingClosed .bookButton:hover {
-  background: #1fb955;
+  background: var(--color-leaf);
+  color: var(--color-white);
 }
 
 @media (max-width: 560px) {
@@ -265,7 +269,7 @@
   }
 
   .bookingClosed .bookButton {
-    padding: 10px 20px;
+    padding: 9px 19px;
     font-size: 0.85rem;
   }
 

@@ -242,26 +242,6 @@
   color: var(--color-sunset);
 }
 
-.dryRunField {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 12px 14px;
-  background: var(--color-cream);
-  border-radius: var(--radius-sm);
-  font-size: 0.85rem;
-  color: var(--color-ink-soft);
-  cursor: pointer;
-}
-
-.dryRunField input {
-  margin-top: 2px;
-}
-
-.dryRunField strong {
-  color: var(--color-forest);
-}
-
 .error {
   color: var(--color-sunset);
   font-size: 0.85rem;

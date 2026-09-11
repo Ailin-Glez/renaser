@@ -13,6 +13,7 @@ import {
   type LocationKey,
 } from "../data/content";
 import { usePageMeta } from "../hooks/usePageMeta";
+import { formatDateLong } from "../lib/dates";
 import homeStyles from "./Home.module.css";
 import styles from "./Therapies.module.css";
 
@@ -33,6 +34,25 @@ export default function Therapies() {
   });
   const firstFamilyRef = useRef<HTMLDivElement>(null);
   const isInitialMount = useRef(true);
+
+  const [miamiTour, setMiamiTour] = useState<{ startDate: string; endDate: string } | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/.netlify/functions/public-miami-tour-status")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!cancelled && data?.startDate && data?.endDate) {
+          setMiamiTour({ startDate: data.startDate, endDate: data.endDate });
+        }
+      })
+      .catch(() => {
+        // Silencioso — si no se puede consultar, simplemente no se muestra el aviso.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // Si se llega desde "Ver terapias" de una familia en Home (con #hash),
   // esa familia se muestra primero. Si se llega desde "Reservar" del navbar
@@ -94,6 +114,14 @@ export default function Therapies() {
             {POPUP_EVENT.active && (
               <p className={styles.dateReminder} data-visible={location === "miami"}>
                 📍 Sesiones en <strong>Miami</strong> del {POPUP_EVENT.dateRange}. Reserva con antelación.
+              </p>
+            )}
+
+            {miamiTour && (
+              <p className={styles.dateReminder} data-visible={location === "las-vegas"}>
+                ✈️ Del <strong>{formatDateLong(miamiTour.startDate)}</strong> al{" "}
+                <strong>{formatDateLong(miamiTour.endDate)}</strong> estaremos de gira en Miami — esas fechas no
+                tendrán citas disponibles en Las Vegas.
               </p>
             )}
 
