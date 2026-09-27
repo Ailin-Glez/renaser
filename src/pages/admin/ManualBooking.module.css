@@ -181,6 +181,12 @@
   background: var(--color-cream-soft);
 }
 
+.moreResultsButton {
+  color: var(--color-forest) !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+}
+
 .noResults {
   margin: 4px 0 0;
   color: var(--color-ink-soft);

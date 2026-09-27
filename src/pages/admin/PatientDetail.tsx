@@ -415,6 +415,7 @@ export default function PatientDetail() {
                     {t.name}
                   </option>
                 ))}
+                <option value="Ambos">Ambos</option>
               </select>
             </label>
 

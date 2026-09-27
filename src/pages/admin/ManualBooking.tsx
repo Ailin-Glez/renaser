@@ -10,8 +10,12 @@ type Mode = "registered" | "new";
 export default function ManualBooking() {
   const [mode, setMode] = useState<Mode>("registered");
 
+  const PATIENT_RESULTS_LIMIT = 5;
+
   const [patients, setPatients] = useState<Patient[]>([]);
   const [patientSearch, setPatientSearch] = useState("");
+  const [patientDropdownOpen, setPatientDropdownOpen] = useState(false);
+  const [showAllPatientResults, setShowAllPatientResults] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
 
   const [name, setName] = useState("");
@@ -50,11 +54,15 @@ export default function ManualBooking() {
     listPatients().then(setPatients);
   }, []);
 
-  const filteredPatients = useMemo(() => {
+  const matchingPatients = useMemo(() => {
     const q = patientSearch.trim().toLowerCase();
-    if (!q) return [];
-    return patients.filter((p) => p.name.toLowerCase().includes(q)).slice(0, 6);
+    if (!q) return patients;
+    return patients.filter((p) => p.name.toLowerCase().includes(q));
   }, [patients, patientSearch]);
+
+  const visiblePatientCount = showAllPatientResults ? matchingPatients.length : PATIENT_RESULTS_LIMIT;
+  const filteredPatients = matchingPatients.slice(0, visiblePatientCount);
+  const hiddenPatientCount = matchingPatients.length - filteredPatients.length;
 
   const switchMode = (next: Mode) => {
     setMode(next);
@@ -67,6 +75,8 @@ export default function ManualBooking() {
     setPhotoFile(null);
     setPhotoPreview(null);
     setBookingError("");
+    setPatientDropdownOpen(false);
+    setShowAllPatientResults(false);
   };
 
   const handlePhoto = (file: File | null) => {
@@ -79,6 +89,8 @@ export default function ManualBooking() {
     setPatientSearch("");
     setName(patient.name);
     setPhone(patient.phone ?? "");
+    setPatientDropdownOpen(false);
+    setShowAllPatientResults(false);
   };
 
   const clearSelectedPatient = () => {
@@ -210,22 +222,43 @@ export default function ManualBooking() {
               <input
                 type="text"
                 value={patientSearch}
-                onChange={(e) => setPatientSearch(e.target.value)}
-                placeholder="Escribe un nombre…"
+                onChange={(e) => {
+                  setPatientSearch(e.target.value);
+                  setShowAllPatientResults(false);
+                }}
+                onFocus={() => setPatientDropdownOpen(true)}
+                onBlur={() => setTimeout(() => setPatientDropdownOpen(false), 150)}
+                placeholder="Escribir para buscar…"
               />
-              {filteredPatients.length > 0 && (
+              {patientDropdownOpen && filteredPatients.length > 0 && (
                 <ul className={styles.results}>
                   {filteredPatients.map((p) => (
                     <li key={p.id}>
-                      <button type="button" onClick={() => selectPatient(p)}>
+                      <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => selectPatient(p)}>
                         {p.name}
                       </button>
                     </li>
                   ))}
+                  {hiddenPatientCount > 0 && (
+                    <li>
+                      <button
+                        type="button"
+                        className={styles.moreResultsButton}
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={() => setShowAllPatientResults(true)}
+                      >
+                        Buscar más ({hiddenPatientCount} más)
+                      </button>
+                    </li>
+                  )}
                 </ul>
               )}
-              {patientSearch.trim() && filteredPatients.length === 0 && (
-                <p className={styles.noResults}>Sin resultados. Prueba con "Persona sin ficha".</p>
+              {patientDropdownOpen && filteredPatients.length === 0 && (
+                <p className={styles.noResults}>
+                  {patients.length === 0
+                    ? "Todavía no hay pacientes registrados."
+                    : 'Sin resultados. Prueba con "Persona sin ficha".'}
+                </p>
               )}
             </div>
           )
