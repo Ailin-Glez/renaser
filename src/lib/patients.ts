@@ -1,6 +1,7 @@
 import {
   addDoc,
   collection,
+  deleteField,
   deleteDoc,
   doc,
   getDoc,
@@ -123,6 +124,21 @@ function visitsRef(patientId: string) {
   return collection(db, "patients", patientId, "visits");
 }
 
+// Firestore rechaza cualquier campo con valor `undefined` (ej. campos
+// opcionales del formulario que quedaron vacíos) — se filtran antes de
+// escribir en vez de omitirlos a mano en cada llamado.
+function stripUndefined<T extends Record<string, unknown>>(data: T): Partial<T> {
+  return Object.fromEntries(Object.entries(data).filter(([, v]) => v !== undefined)) as Partial<T>;
+}
+
+// Igual que stripUndefined, pero para updateDoc: un campo opcional en
+// `undefined` significa "lo vaciaron en el formulario", así que hay que
+// borrarlo del documento (deleteField), no simplemente omitirlo — omitirlo
+// dejaría el valor viejo intacto en vez de vaciarlo.
+function undefinedToDeleteField<T extends Record<string, unknown>>(data: T): Record<string, unknown> {
+  return Object.fromEntries(Object.entries(data).map(([k, v]) => [k, v === undefined ? deleteField() : v]));
+}
+
 export async function listVisits(patientId: string): Promise<Visit[]> {
   const snap = await getDocs(query(visitsRef(patientId), orderBy("date", "desc")));
   return snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Visit, "id">) }));
@@ -140,7 +156,7 @@ export async function addVisit(
   }
 ): Promise<string> {
   const docRef = await addDoc(visitsRef(patientId), {
-    ...data,
+    ...stripUndefined(data),
     createdAt: serverTimestamp(),
   });
   return docRef.id;
@@ -151,7 +167,7 @@ export async function updateVisit(
   visitId: string,
   data: Partial<Pick<Visit, "date" | "therapyId" | "therapyName" | "therapist" | "notes" | "recommendations">>
 ): Promise<void> {
-  await updateDoc(doc(db, "patients", patientId, "visits", visitId), data);
+  await updateDoc(doc(db, "patients", patientId, "visits", visitId), undefinedToDeleteField(data));
 }
 
 export async function deleteVisit(patientId: string, visitId: string): Promise<void> {
