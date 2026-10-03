@@ -13,6 +13,9 @@ dist-ssr
 *.local
 .env
 
+# Claude Code runtime state (not part of the app)
+.claude/scheduled_tasks.lock
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
