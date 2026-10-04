@@ -206,6 +206,16 @@
   transform: translateY(-2px);
 }
 
+.intakeNote {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+  background: var(--color-cream-soft);
+  padding: 10px 16px;
+  border-radius: 14px;
+  margin: 0 0 14px;
+}
+
 .bookingClosed {
   margin-top: 18px;
   text-align: center;

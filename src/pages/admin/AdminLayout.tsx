@@ -25,7 +25,7 @@ export default function AdminLayout() {
       <header className={styles.header}>
         <div className={styles.inner}>
           <NavLink to="/admin" end className={styles.brand}>
-            Renaser · Admin
+            RenaSER · Admin
           </NavLink>
           <button type="button" className={styles.logout} onClick={() => logout()}>
             Salir
@@ -36,7 +36,9 @@ export default function AdminLayout() {
             <NavLink
               to="/admin"
               className={`${styles.link} ${
-                location.pathname === "/admin" || location.pathname.startsWith("/admin/pacientes")
+                location.pathname === "/admin" ||
+                location.pathname.startsWith("/admin/pacientes") ||
+                location.pathname.startsWith("/admin/fichas")
                   ? styles.linkActive
                   : ""
               }`}

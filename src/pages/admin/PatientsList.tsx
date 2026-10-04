@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { PatientsSubNav } from "../../components/admin/PatientsSubNav";
 import { listPatients, type Patient } from "../../lib/patients";
+import { listIntakeForms } from "../../lib/intakeForms";
 import { formatUSPhone } from "../../lib/phone";
 import styles from "./PatientsList.module.css";
 
@@ -8,11 +10,13 @@ export default function PatientsList() {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [pendingFichas, setPendingFichas] = useState(0);
 
   useEffect(() => {
     listPatients()
       .then(setPatients)
       .finally(() => setLoading(false));
+    listIntakeForms().then((forms) => setPendingFichas(forms.filter((f) => !f.processed).length));
   }, []);
 
   const filtered = useMemo(() => {
@@ -29,6 +33,8 @@ export default function PatientsList() {
           + Nuevo paciente
         </Link>
       </div>
+
+      <PatientsSubNav pendingFichas={pendingFichas} />
 
       <input
         type="search"

@@ -35,6 +35,7 @@ export default function ManualBooking() {
   const [booking, setBooking] = useState(false);
   const [bookingError, setBookingError] = useState("");
   const [bookingSuccessMessage, setBookingSuccessMessage] = useState("");
+  const [linkCopied, setLinkCopied] = useState(false);
 
   const changeLocation = (next: LocationKey) => {
     setLocation(next);
@@ -125,13 +126,37 @@ export default function ManualBooking() {
 
     // El email se fuerza vacío a propósito — no tenemos el del paciente, y
     // sin esto Cal.com/el navegador a veces lo autocompletan con el correo
-    // de la cuenta de Renaser.
+    // de la cuenta de RenaSER.
     const prefill: Record<string, string> = { name: attendeeName, email: "", notes: noteLines.join(" · ") };
     if (attendeePhone && isValidUSPhone(attendeePhone)) {
       prefill.attendeePhoneNumber = toE164USPhone(attendeePhone);
     }
     return prefill;
   }, [attendeeName, attendeePhone, mode, notes]);
+
+  // Link a la ficha de paciente para enviar por fuera de Cal.com — útil
+  // cuando la reserva ya se coordinó manualmente (por teléfono, en persona,
+  // etc.) y solo falta que la persona firme su consentimiento.
+  const fichaUrl = useMemo(() => {
+    if (!therapyId) return "";
+    return `${window.location.origin}/ficha-paciente?therapyId=${therapyId}&location=${location}`;
+  }, [therapyId, location]);
+
+  const fichaWhatsappLink = useMemo(() => {
+    if (!fichaUrl || !attendeePhone || !isValidUSPhone(attendeePhone)) return "";
+    const digits = attendeePhone.replace(/\D/g, "");
+    const withCountryCode = digits.length === 10 ? `1${digits}` : digits;
+    const firstName = attendeeName.split(" ")[0];
+    const message = `Hola${firstName ? ` ${firstName}` : ""}, antes de tu sesión en RenaSER por favor completa tu ficha de paciente aquí: ${fichaUrl}`;
+    return `https://wa.me/${withCountryCode}?text=${encodeURIComponent(message)}`;
+  }, [fichaUrl, attendeePhone, attendeeName]);
+
+  const copyFichaLink = async () => {
+    if (!fichaUrl) return;
+    await navigator.clipboard.writeText(fichaUrl);
+    setLinkCopied(true);
+    setTimeout(() => setLinkCopied(false), 2000);
+  };
 
   const handleBookClick = async () => {
     if (!ready || !calLink) return;
@@ -353,6 +378,17 @@ export default function ManualBooking() {
         {bookingSuccessMessage && <p className={styles.hint}>{bookingSuccessMessage}</p>}
 
         <div className={styles.actions}>
+          {fichaUrl &&
+            (fichaWhatsappLink ? (
+              <a href={fichaWhatsappLink} target="_blank" rel="noreferrer" className={styles.fichaButton}>
+                💬 Enviar ficha por WhatsApp
+              </a>
+            ) : (
+              <button type="button" className={styles.fichaButton} onClick={copyFichaLink}>
+                {linkCopied ? "✅ ¡Link copiado!" : "📋 Copiar link de la ficha"}
+              </button>
+            ))}
+
           {ready ? (
             <button type="button" className={styles.bookButton} onClick={handleBookClick} disabled={booking}>
               {booking ? "Guardando…" : "Elegir fecha y hora en Cal.com"}

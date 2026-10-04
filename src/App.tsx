@@ -11,6 +11,11 @@ import FAQ from "./pages/FAQ";
 // visitantes del sitio público no lo descargan.
 const AdminApp = lazy(() => import("./pages/admin/AdminApp"));
 
+// La ficha de paciente carga jsPDF (con html2canvas) para generar el PDF
+// descargable — pesa bastante, así que solo se descarga cuando alguien entra
+// a /ficha-paciente, no en la carga inicial del sitio.
+const IntakeForm = lazy(() => import("./pages/IntakeForm"));
+
 export default function App() {
   return (
     <Routes>
@@ -19,6 +24,14 @@ export default function App() {
         <Route path="/terapeutas" element={<Team />} />
         <Route path="/terapias" element={<Therapies />} />
         <Route path="/preguntas-frecuentes" element={<FAQ />} />
+        <Route
+          path="/ficha-paciente"
+          element={
+            <Suspense fallback={<div style={{ padding: 40 }}>Cargando…</div>}>
+              <IntakeForm />
+            </Suspense>
+          }
+        />
       </Route>
 
       <Route

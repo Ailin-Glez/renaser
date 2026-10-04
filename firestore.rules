@@ -28,5 +28,39 @@ service cloud.firestore {
       allow read: if resource.data.status == "approved" || request.auth != null;
       allow update, delete: if request.auth != null;
     }
+
+    // intakeForms: cualquier visitante con el link puede enviar su ficha de
+    // paciente y consentimiento (sin iniciar sesión). Nadie puede leer,
+    // modificar ni borrar fichas salvo el admin — es prueba de consentimiento,
+    // no un listado público. Se valida que traiga los campos obligatorios y
+    // que no incluya campos fuera de lo esperado.
+    match /intakeForms/{formId} {
+      allow create: if request.resource.data.keys().hasOnly([
+                        "therapyName", "therapyLocation",
+                        "fullName", "phone", "email", "birthDate", "address", "city", "state",
+                        "emergencyContactName", "emergencyContactPhone",
+                        "hadPreviousTherapy", "previousTherapyDetails",
+                        "currentConditions", "currentMedications", "surgeriesOrInjuries",
+                        "hasEssentialOilAllergy", "allergyEssentialOils",
+                        "hasHerbsPlantsAllergy", "allergyHerbsPlants",
+                        "hasSageIncenseAllergy", "allergySageIncenseSmoke",
+                        "hasFragranceAllergy", "allergyFragrances", "allergyOther",
+                        "hasPacemaker", "hasMetalImplants", "isPregnant", "pregnancyWeeks",
+                        "hasHeartCondition", "hasBloodPressureIssue", "hasEpilepsy", "hasCancer",
+                        "hasDiabetes", "hasPsychiatricCondition", "hasChronicPain", "hasRespiratoryIssue",
+                        "otherCondition", "authorizedTechniques", "otherTechnique", "therapist",
+                        "consentAccepted", "signatureDataUrl", "photoUrl", "processed", "createdAt"
+                      ])
+                    && request.resource.data.fullName is string
+                    && request.resource.data.fullName.size() > 0
+                    && request.resource.data.fullName.size() <= 200
+                    && request.resource.data.phone is string
+                    && request.resource.data.phone.size() > 0
+                    && request.resource.data.therapist in ["martha", "carlos", "ambos"]
+                    && request.resource.data.consentAccepted == true
+                    && request.resource.data.signatureDataUrl is string
+                    && request.resource.data.signatureDataUrl.size() > 0;
+      allow read, update, delete: if request.auth != null;
+    }
   }
 }

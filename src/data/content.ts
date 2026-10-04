@@ -52,6 +52,11 @@ export interface Therapy {
   // contactFirst es true (ej. terapias grupales), sí se muestra el precio
   // real — solo cambia el botón, porque falta coordinar cuántas personas van.
   variablePricing?: boolean;
+  // Terapeuta que normalmente realiza esta terapia — se marca por defecto en
+  // el campo "Terapeuta a cargo" de la ficha de consentimiento (el cliente
+  // puede cambiarlo si aplica). Ausente si la terapia no pasa por la ficha
+  // (ej. contactFirst, que coordina todo directo con la terapeuta).
+  defaultTherapist?: "martha" | "carlos" | "ambos";
 }
 
 // El slug del tipo de evento de Cal.com para cada terapia+ciudad.
@@ -175,7 +180,7 @@ export const THERAPISTS: Therapist[] = [
     closing: [
       "Pero mi vida no ocurre solamente dentro de una terapia. Soy madre, esposa, amante de la naturaleza y disfruto enormemente algo tan sencillo como sentarme a tomar una taza de café.",
       "Creo que lo espiritual también se encuentra ahí: en nuestra vida cotidiana, en la naturaleza, en las personas que amamos y en esos pequeños momentos en los que simplemente nos permitimos estar presentes.",
-      "En Renaser pongo mi sensibilidad, mi experiencia y todo lo que he aprendido al servicio de cada persona, respetando siempre que cada camino y cada proceso son únicos.",
+      "En RenaSER pongo mi sensibilidad, mi experiencia y todo lo que he aprendido al servicio de cada persona, respetando siempre que cada camino y cada proceso son únicos.",
     ],
   },
   {
@@ -185,7 +190,7 @@ export const THERAPISTS: Therapist[] = [
     bio: [
       "Para mí, cada terapia comienza mucho antes de trabajar con la energía: comienza conociendo a la persona que tengo delante.",
       "Me encanta conversar, escuchar historias y conectar con las personas. No concibo este trabajo desde la distancia entre “terapeuta” y “paciente”. Con el tiempo, muchas de las personas que llegan a mí terminan convirtiéndose en amigos y algunas llegan a sentirse incluso como parte de mi familia.",
-      "Esa cercanía forma parte de mi manera de trabajar. Me gusta que quien llegue a Renaser pueda sentirse cómodo, escuchado y acompañado, y que encuentre un espacio donde pueda simplemente ser.",
+      "Esa cercanía forma parte de mi manera de trabajar. Me gusta que quien llegue a RenaSER pueda sentirse cómodo, escuchado y acompañado, y que encuentre un espacio donde pueda simplemente ser.",
       "Mi camino dentro de las terapias holísticas me ha llevado a formarme en diferentes disciplinas y sistemas energéticos que hoy puedo integrar y adaptar a cada experiencia.",
     ],
     formation: [
@@ -230,8 +235,9 @@ export const THERAPIES: Therapy[] = [
   {
     id: "reiki-esencia",
     family: "reiki",
-    name: "Reiki Esencia",
-    tags: ["Limpieza energética", "Chakras", "Mediumnidad", "Vidas pasadas"],
+    defaultTherapist: "martha",
+    name: "Reiki Mediumnidad",
+    tags: ["Reiki tibetano tántrico", "Limpieza energética", "Mediumnidad", "Vidas pasadas"],
     shortDescription:
       "Una experiencia profunda de Reiki creada para armonizar tu energía y reconectar contigo desde la calma.",
     duration: "2 horas",
@@ -249,33 +255,11 @@ export const THERAPIES: Therapy[] = [
       "momentos de cambio, sensación de carga o estancamiento, búsqueda de equilibrio emocional, reconexión personal y renovación energética.",
   },
   {
-    id: "enfoque-concentracion",
-    family: "reiki",
-    name: "Enfoque & Concentración",
-    tags: ["Claridad mental", "Tercer ojo", "Amatista", "Llama Violeta"],
-    shortDescription:
-      "Una experiencia de Reiki, amatista y Llama Violeta creada para recuperar claridad, presencia y dirección.",
-    duration: "2 horas 30 minutos",
-    durationShort: "2h 30min",
-    pricing: {
-      "las-vegas": { price: "$300", depositPrice: "$150" },
-      miami: { price: "$500", depositPrice: "$250" },
-    },
-    paragraphs: [
-      "La sesión comienza con Reiki y activaciones enfocadas especialmente en el chakra del tercer ojo, tradicionalmente relacionado con la percepción, la intuición y la claridad interior.",
-      "El proceso incorpora una meditación específica de la Llama Violeta, canalizada y creada especialmente para Casa Renacer. Desde esta práctica espiritual, la Llama Violeta se utiliza como símbolo y herramienta de transmutación para liberar energías densas y favorecer una sensación de renovación y claridad.",
-      "La experiencia se realiza sobre una esterilla térmica de cuarzo amatista, piedra tradicionalmente asociada con la serenidad, la intuición y el equilibrio.",
-      "A continuación se realiza un suave deslizamiento a lo largo de la columna vertebral orientado a liberar tensiones y nudos energéticos y favorecer la conexión entre el cuerpo físico y los cuerpos sutiles.",
-      "La sesión continúa con un trabajo energético tridimensional alrededor de la cabeza y finaliza con una integración de los cuerpos sutiles con el cuerpo físico, buscando regresar a un estado de presencia, estabilidad y enfoque.",
-    ],
-    idealFor:
-      "emprendedores, estudiantes, profesionales, traders, creativos y personas que atraviesan períodos de alta exigencia mental o necesitan recuperar enfoque y dirección.",
-  },
-  {
     id: "reiki-origen",
     family: "reiki",
-    name: "Reiki Origen",
-    tags: ["Reiki", "Biodescodificación", "Emociones", "Meditación sonora"],
+    defaultTherapist: "ambos",
+    name: "Reiki / Baño de sonido",
+    tags: ["Reiki", "Biodescodificación/enfermedad", "Mediumnidad", "Meditación sonora"],
     shortDescription:
       "Reiki y biodescodificación para explorar tu bienestar desde una mirada holística, más allá del síntoma.",
     duration: "2 horas 30 minutos",
@@ -288,6 +272,7 @@ export const THERAPIES: Therapy[] = [
       "Desde la mirada holística, el cuerpo, las emociones y nuestra historia personal están profundamente relacionados. Por ello, durante la sesión se exploran experiencias, conflictos, patrones emocionales y situaciones de vida que puedan estar vinculados, desde la percepción de la persona, con su estado actual.",
       "El Reiki acompaña este proceso mediante un trabajo de armonización energética que proporciona un espacio de calma, observación y conexión interior.",
       "Como cierre se realiza una meditación acompañada por baño de sonido, permitiendo integrar el trabajo realizado durante la sesión. El sonido y la vibración crean un espacio de relajación en el que cuerpo, mente y energía pueden asimilar el proceso desde la calma.",
+      "El sonido y la vibración son el arte de equilibrar la mente y el cuerpo, las emociones y el espíritu. Desde el punto de vista de la salud física, la sanación es despertar nuestras energías y activar el sistema inmunológico para restablecer la salud en el cuerpo enfermo. “Sanar es completarse, armonizarse y equilibrarse”.",
     ],
     idealFor:
       "quienes desean mirar más allá del síntoma y explorar posibles patrones emocionales, personales y energéticos desde una perspectiva holística.",
@@ -295,10 +280,57 @@ export const THERAPIES: Therapy[] = [
       "Esta experiencia es una práctica complementaria de bienestar y exploración personal y no sustituye diagnóstico, tratamiento ni seguimiento médico o psicológico.",
   },
   {
+    id: "reiki-en-pareja",
+    family: "reiki",
+    defaultTherapist: "ambos",
+    name: "Reiki en Pareja",
+    tags: ["Limpieza energética profunda", "Lectura de chakras/canalizados", "Biomagnetismo"],
+    shortDescription:
+      "Una experiencia de Reiki en pareja que combina Reiki tibetano tántrico y Reiki con cuencos sonoros, en simultáneo y luego invertidos.",
+    duration: "2 horas 30 minutos",
+    durationShort: "2h 30min",
+    pricing: {
+      miami: { price: "$600", depositPrice: "$300" },
+    },
+    paragraphs: [
+      "Una experiencia de Reiki pensada para vivirse en pareja, combinando dos técnicas en simultáneo: mientras a una persona se le aplica Reiki tibetano tántrico, enfocado en equilibrar y desbloquear los chakras, a la otra se le trabaja con Reiki acompañado de cuencos sonoros, donde el sonido y la vibración de los cuencos potencian la relajación y la armonización energética.",
+      "A mitad de la sesión los roles se invierten, de modo que ambas personas viven las dos experiencias por igual.",
+      "La sesión incluye también una limpieza energética profunda y una lectura de chakras/canalizados para cada persona, además de un trabajo de biomagnetismo según lo que cada una necesite.",
+      "Todo el proceso se realiza sobre esterillas de cuarzo, combinando calor, relajación y trabajo energético compartido.",
+    ],
+    idealFor:
+      "parejas que desean compartir una experiencia energética profunda, sincronizada y personalizada para cada uno.",
+  },
+  {
+    id: "enfoque-concentracion",
+    family: "reiki",
+    defaultTherapist: "ambos",
+    name: "Enfoque & Concentración",
+    tags: ["Claridad mental", "Tercer ojo", "Amatista", "Llama Violeta"],
+    shortDescription:
+      "Una experiencia de Reiki, amatista y Llama Violeta creada para recuperar claridad, presencia y dirección.",
+    duration: "2 horas 30 minutos",
+    durationShort: "2h 30min",
+    pricing: {
+      "las-vegas": { price: "$300", depositPrice: "$150" },
+      miami: { price: "$500", depositPrice: "$250" },
+    },
+    paragraphs: [
+      "La sesión comienza aplicando un deslizamiento en la columna vertebral para equilibrar el sistema nervioso autónomo (simpático/parasimpático) y orientado a liberar tensiones y nudos energéticos entre otros. Y además para sintonizar el cuerpo físico con los cuerpos sutiles/aura.",
+      "Continúa con un trabajo tridimensional alrededor de la cabeza/órgano, activando el tercer ojo/glándula pineal para mejorar el enfoque y la concentración.",
+      "A continuación pasaremos al trabajo para equilibrar y desbloquear los chakras mediante la técnica de Reiki tibetano tántrico. Enfocando la sesión principalmente al chakra del tercer ojo (6) y chakra corona (7) acostado sobre una esterilla térmica de cuarzo amatista y un antifaz sobre los ojos de cuarzo amatista para mayores resultados.",
+      "El proceso incorpora una meditación específica de la Llama Violeta, canalizada y creada especialmente para Casa RenaSER. Desde esta práctica espiritual, la Llama Violeta se utiliza como símbolo y herramienta de transmutación para liberar energías densas y favorecer una sensación de renovación y claridad.",
+      "La experiencia se realiza sobre una esterilla térmica de cuarzo amatista, piedra tradicionalmente asociada con la serenidad, la intuición y el equilibrio.",
+    ],
+    idealFor:
+      "emprendedores, estudiantes, profesionales, traders, creativos y personas que atraviesan períodos de alta exigencia mental o necesitan recuperar enfoque y dirección.",
+  },
+  {
     id: "lnt-reconexion",
     family: "lnt",
-    name: "LNT · Reconexión",
-    tags: ["Cuerpo", "Emoción", "Espíritu"],
+    defaultTherapist: "carlos",
+    name: "Terapia energética y cuántica",
+    tags: ["Cuerpo físico", "Cuerpo emocional", "Cuerpo espiritual"],
     shortDescription: "Un trabajo energético y espiritual profundo desde el cuerpo, la emoción y el espíritu.",
     duration: "2 horas",
     durationShort: "2h",
@@ -307,12 +339,12 @@ export const THERAPIES: Therapy[] = [
       miami: { price: "$300", depositPrice: "$150" },
     },
     paragraphs: [
-      "LNT (La Nueva Terapia) es una práctica energética y espiritual que trabaja desde el poder de la atención y, especialmente, de la intención, contemplando al ser humano desde tres dimensiones que se relacionan entre sí:",
+      "LNT (La Nueva Terapia) es una práctica energética y espiritual que trabaja desde el poder cuántico de la atención y sobre todo de la intención para la sanación de todos los seres vivos.",
     ],
     list: [
-      "Cuerpo físico: se dirige la intención hacia el cuerpo y las áreas asociadas con las molestias o síntomas que la persona desea trabajar.",
-      "Cuerpo emocional: se exploran cargas, bloqueos, patrones y memorias emocionales y, dentro del marco espiritual de LNT, elementos relacionados con karmas y vidas pasadas.",
-      "Cuerpo espiritual: se trabaja desde las creencias de LNT sobre desequilibrios, influencias o interferencias que puedan estar afectando el bienestar espiritual.",
+      "Cuerpo físico: se dirige la intención hacia el cuerpo y las áreas asociadas con las molestias o síntomas que la persona desea trabajar o patologías.",
+      "Cuerpo emocional: se exploran cargas, bloqueos, patrones y memorias emocionales, y elementos relacionados con karmas y vidas pasadas.",
+      "Cuerpo espiritual: se trabaja desde los desequilibrios, como son ataques espirituales y otros, que puedan estar afectando el bienestar espiritual.",
     ],
     idealFor:
       "personas interesadas en realizar un trabajo energético y espiritual profundo y explorar su bienestar desde una perspectiva integral.",
@@ -322,6 +354,7 @@ export const THERAPIES: Therapy[] = [
   {
     id: "lnt-armonizacion-grupal",
     family: "lnt",
+    defaultTherapist: "carlos",
     name: "LNT · Armonización Grupal",
     tags: ["Parejas", "Familias", "Empresas", "Equipos"],
     shortDescription: "Armoniza el campo energético compartido entre parejas, familias o equipos.",
@@ -335,14 +368,14 @@ export const THERAPIES: Therapy[] = [
     contactFirst: true,
     contactReason: "Esta experiencia se coordina antes con la terapeuta según la cantidad de personas.",
     pricing: {
-      "las-vegas": { price: "$100 por persona", priceNote: "Mínimo: 2 personas" },
-      miami: { price: "$150 por persona", priceNote: "Mínimo: 2 personas" },
+      "las-vegas": { price: "$100 por persona", priceNote: "Mínimo: 2 personas · Máximo: 15 por terapeuta" },
+      miami: { price: "$150 por persona", priceNote: "Mínimo: 2 personas · Máximo: 15 por terapeuta" },
     },
     paragraphs: [
       "Una experiencia basada en los principios de LNT que lleva el trabajo energético más allá del individuo para enfocarse en el campo energético compartido por un grupo.",
       "Cada persona posee su propio campo o globo energético, pero al convivir, trabajar o compartir un propósito con otras personas también se generan dinámicas energéticas grupales.",
       "La sesión busca armonizar estos campos, liberar cargas y favorecer una sensación de equilibrio, cohesión y renovación dentro del grupo.",
-      "Puede realizarse desde dos personas y adaptarse a diferentes tipos de vínculos y dinámicas.",
+      "Puede realizarse desde dos personas y adaptarse a diferentes tipos de vínculos y dinámicas. Esta experiencia tiene un máximo de 15 personas por terapeuta.",
     ],
     idealFor:
       "matrimonios y parejas, familias, socios, staff de compañías, equipos de trabajo, equipos deportivos y otros grupos que comparten regularmente un mismo espacio o propósito.",
@@ -350,6 +383,7 @@ export const THERAPIES: Therapy[] = [
   {
     id: "reiki-sonoro",
     family: "sonoterapia",
+    defaultTherapist: "carlos",
     name: "Reiki Sonoro",
     tags: ["Reiki", "Sonido", "Vibración", "Equilibrio"],
     shortDescription: "Reiki y sonoterapia combinados para aquietar la mente, liberar tensión y recuperar el equilibrio.",
@@ -369,6 +403,7 @@ export const THERAPIES: Therapy[] = [
   {
     id: "armonizacion-sonora-grupal",
     family: "sonoterapia",
+    defaultTherapist: "carlos",
     name: "Armonización Sonora Grupal",
     tags: ["Sonido", "Vibración", "Relajación", "Conexión"],
     shortDescription: "Una experiencia compartida de relajación y conexión a través del sonido y la vibración.",
@@ -387,8 +422,8 @@ export const THERAPIES: Therapy[] = [
     },
     paragraphs: [
       "Una experiencia compartida de relajación y armonización a través del sonido y la vibración.",
-      "Durante la sesión, los participantes se sumergen en un paisaje sonoro creado con diferentes instrumentos, vibraciones y frecuencias que acompañan un estado de relajación, presencia y conexión interior.",
-      "El trabajo sonoro puede dirigirse también hacia la armonización de los chakras y del campo energético individual y grupal.",
+      "Durante la sesión, los participantes se sumergen en un paisaje sonoro creado con cuencos tibetanos, cuencos de cuarzo e instrumentos sonoros en general, cuyas vibraciones y frecuencias acompañan un estado de relajación, presencia y conexión interior.",
+      "El sonido y la vibración son el arte de equilibrar la mente y el cuerpo, las emociones y el espíritu.",
       "Compartir la experiencia permite crear un espacio diferente de conexión, en el que cada participante vive su propio proceso mientras forma parte de una misma experiencia sonora.",
     ],
     idealFor:
@@ -398,7 +433,7 @@ export const THERAPIES: Therapy[] = [
     id: "espacio-en-armonia",
     family: "espacios",
     name: "Espacio en Armonía",
-    tags: ["Lectura", "Limpieza energética", "Canalización"],
+    tags: ["Lectura por espacio", "Limpieza energética profunda", "Armonización"],
     shortDescription: "Lectura, limpieza energética y canalización para renovar la energía de tu hogar o negocio.",
     duration: "Se determina según el espacio",
     durationShort: "A definir",
@@ -453,7 +488,7 @@ export const TESTIMONIALS: Testimonial[] = [
     id: "4",
     name: "Mely",
     quote:
-      "Desde su delicioso té hasta la paz y la energía bonita que se siente en cada rincón, todo te hace sentir como en casa. Y qué decir de Martha… una persona maravillosa, genuina y con una sensibilidad muy especial. Renaser es de esos lugares que no solo visitas, los sientes. Gracias, Martha, por compartir tus dones con tanto amor.",
+      "Desde su delicioso té hasta la paz y la energía bonita que se siente en cada rincón, todo te hace sentir como en casa. Y qué decir de Martha… una persona maravillosa, genuina y con una sensibilidad muy especial. RenaSER es de esos lugares que no solo visitas, los sientes. Gracias, Martha, por compartir tus dones con tanto amor.",
   },
 ];
 
@@ -496,8 +531,8 @@ export const FAQ: FAQItem[] = [
     id: "restricciones",
     question: "¿Hay restricciones de edad o embarazo para recibir las terapias?",
     answer: [
-      "Por protocolo de Renaser, no realizamos estas terapias durante los primeros 3 meses de embarazo. Si estás embarazada o existe la posibilidad de que puedas estarlo, es importante comunicárnoslo antes de reservar — a partir del segundo trimestre podremos valorar contigo qué experiencias son apropiadas y realizar las adaptaciones necesarias. Ante cualquier condición particular del embarazo, recomendamos consultar previamente con tu profesional de salud.",
-      "Además, actualmente las experiencias y terapias ofrecidas por Renaser están disponibles exclusivamente para personas mayores de 18 años.",
+      "Por protocolo de RenaSER, no realizamos estas terapias durante los primeros 3 meses de embarazo. Si estás embarazada o existe la posibilidad de que puedas estarlo, es importante comunicárnoslo antes de reservar — a partir del segundo trimestre podremos valorar contigo qué experiencias son apropiadas y realizar las adaptaciones necesarias. Ante cualquier condición particular del embarazo, recomendamos consultar previamente con tu profesional de salud.",
+      "Además, actualmente las experiencias y terapias ofrecidas por RenaSER están disponibles exclusivamente para personas mayores de 18 años.",
     ],
   },
   {

@@ -1,0 +1,338 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.toolbar h1 {
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.filterButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--color-cream-soft);
+  background: var(--color-white);
+  color: var(--color-ink-soft);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.filterActive {
+  background: var(--color-forest);
+  border-color: var(--color-forest);
+  color: var(--color-white);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--color-gold);
+  color: var(--color-forest-dark);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.success {
+  color: var(--color-forest);
+  background: rgba(93, 168, 63, 0.12);
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  margin: 0 0 16px;
+}
+
+.empty {
+  color: var(--color-ink-soft);
+  font-size: 0.9rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card {
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-soft);
+}
+
+.cardProcessed {
+  background: var(--color-cream);
+  box-shadow: none;
+  border: 1px solid var(--color-cream-soft);
+}
+
+.submittedNote {
+  font-size: 0.78rem;
+  color: var(--color-ink-soft);
+  opacity: 0.8;
+  margin: 0 0 8px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.name {
+  font-weight: 600;
+  color: var(--color-forest);
+}
+
+.phone {
+  margin-left: 10px;
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+}
+
+.status {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.pending {
+  background: var(--color-cream-soft);
+  color: var(--color-sunset);
+}
+
+.processed {
+  background: rgba(93, 168, 63, 0.15);
+  color: var(--color-forest);
+}
+
+.therapyNote {
+  font-size: 0.85rem;
+  color: var(--color-forest);
+  margin: 0 0 10px;
+}
+
+.linkedNote {
+  font-size: 0.82rem;
+  color: var(--color-ink-soft);
+  margin: 0 0 12px;
+}
+
+.linkedNote a {
+  color: var(--color-forest);
+  font-weight: 600;
+}
+
+.alertNote {
+  font-size: 0.85rem;
+  color: var(--color-sunset);
+  background: rgba(224, 123, 26, 0.1);
+  padding: 8px 12px;
+  border-radius: 10px;
+  margin: 0 0 12px;
+}
+
+.toggleDetails {
+  display: block;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-bottom: 8px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--color-ink-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.toggleDetails:hover {
+  color: var(--color-sunset);
+}
+
+.details {
+  background: var(--color-cream-soft);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+
+.details p {
+  font-size: 0.86rem;
+  color: var(--color-ink-soft);
+  margin: 0 0 8px;
+}
+
+.details p:last-child {
+  margin-bottom: 0;
+}
+
+.details strong {
+  color: var(--color-forest);
+}
+
+.photo {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-top: 6px;
+  margin-right: 10px;
+}
+
+.signature {
+  display: block;
+  width: 160px;
+  height: auto;
+  margin-top: 6px;
+  background: var(--color-white);
+  border-radius: 8px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.convertButton,
+.linkButton,
+.deleteButton {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.convertButton {
+  background: var(--color-leaf);
+  color: var(--color-white);
+}
+
+.linkButton {
+  background: var(--color-forest);
+  color: var(--color-white);
+}
+
+.deleteButton {
+  background: none;
+  color: var(--color-sunset);
+}
+
+.convertButton:hover:not(:disabled),
+.linkButton:hover:not(:disabled),
+.deleteButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.convertButton:disabled,
+.linkButton:disabled,
+.deleteButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.linkModalNote {
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+  margin: 0 0 16px;
+}
+
+.linkSearch {
+  width: 100%;
+  border: 1px solid rgba(11, 77, 59, 0.15);
+  border-radius: 14px;
+  background: var(--color-white);
+  padding: 11px 16px;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  margin-bottom: 14px;
+}
+
+.linkResults {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.linkResultItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: none;
+  background: var(--color-cream-soft);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.linkResultItem:hover:not(:disabled) {
+  background: rgba(93, 168, 63, 0.18);
+}
+
+.linkResultItem:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.linkResultItem img,
+.linkResultAvatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.linkResultAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-forest);
+  color: var(--color-white);
+  font-weight: 600;
+}
+
+.linkResultPhone {
+  color: var(--color-ink-soft);
+  font-weight: 400;
+}

@@ -55,6 +55,9 @@ export interface Patient {
   phone?: string;
   photoUrl?: string;
   alerts?: string; // notas: contraindicaciones, embarazo, alergias, etc.
+  // Id de la ficha de paciente (intakeForms) más reciente vinculada — permite
+  // descargar/regenerar su PDF de consentimiento desde el detalle del paciente.
+  latestIntakeFormId?: string;
   createdAt?: Timestamp;
 }
 
@@ -87,13 +90,18 @@ export async function createPatient(data: {
   phone?: string;
   alerts?: string;
   photoFile?: File;
+  // Foto ya convertida a data URL (ej. viene de una ficha de paciente que
+  // ya la procesó) — se usa tal cual, sin volver a redimensionar.
+  photoUrl?: string;
+  latestIntakeFormId?: string;
 }): Promise<string> {
-  const photoUrl = data.photoFile ? await resizePhotoToDataUrl(data.photoFile) : "";
+  const photoUrl = data.photoFile ? await resizePhotoToDataUrl(data.photoFile) : data.photoUrl ?? "";
   const docRef = await addDoc(patientsRef, {
     name: data.name,
     phone: data.phone ?? "",
     alerts: data.alerts ?? "",
     photoUrl,
+    ...(data.latestIntakeFormId ? { latestIntakeFormId: data.latestIntakeFormId } : {}),
     createdAt: serverTimestamp(),
   });
 
@@ -102,15 +110,25 @@ export async function createPatient(data: {
 
 export async function updatePatient(
   id: string,
-  data: { name?: string; phone?: string; alerts?: string; photoFile?: File }
+  data: {
+    name?: string;
+    phone?: string;
+    alerts?: string;
+    photoFile?: File;
+    photoUrl?: string;
+    latestIntakeFormId?: string;
+  }
 ): Promise<void> {
   const updates: Record<string, unknown> = {};
   if (data.name !== undefined) updates.name = data.name;
   if (data.phone !== undefined) updates.phone = data.phone;
   if (data.alerts !== undefined) updates.alerts = data.alerts;
+  if (data.latestIntakeFormId !== undefined) updates.latestIntakeFormId = data.latestIntakeFormId;
 
   if (data.photoFile) {
     updates.photoUrl = await resizePhotoToDataUrl(data.photoFile);
+  } else if (data.photoUrl !== undefined) {
+    updates.photoUrl = data.photoUrl;
   }
 
   await updateDoc(doc(db, "patients", id), updates);

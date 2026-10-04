@@ -1,0 +1,42 @@
+.wrap {
+  position: relative;
+}
+
+.canvas {
+  display: block;
+  width: 100%;
+  height: 160px;
+  background: var(--color-white);
+  border: 1.5px dashed rgba(11, 77, 59, 0.25);
+  border-radius: 20px;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.placeholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--color-ink-soft);
+  font-size: 0.85rem;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.clearButton {
+  margin-top: 10px;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.clearButton:hover {
+  color: var(--color-sunset);
+}

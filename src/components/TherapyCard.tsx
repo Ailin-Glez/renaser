@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { BOOKING_ENABLED, CAL_USERNAME, SITE, calSlugFor } from "../data/content";
+import { useNavigate } from "react-router-dom";
+import { BOOKING_ENABLED, SITE } from "../data/content";
 import type { LocationKey, Therapy } from "../data/content";
-import { CAL_NAMESPACE } from "../lib/cal";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import { TherapyModal } from "./TherapyModal";
 import styles from "./TherapyCard.module.css";
@@ -9,6 +9,7 @@ import styles from "./TherapyCard.module.css";
 export function TherapyCard({ therapy, location }: { therapy: Therapy; location: LocationKey }) {
   const ref = useScrollReveal<HTMLDivElement>();
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   const pricing = therapy.pricing[location];
   if (!pricing) return null;
 
@@ -45,8 +46,7 @@ export function TherapyCard({ therapy, location }: { therapy: Therapy; location:
           <button
             type="button"
             className={styles.bookButton}
-            data-cal-namespace={CAL_NAMESPACE}
-            data-cal-link={`${CAL_USERNAME}/${calSlugFor(therapy.id, location)}`}
+            onClick={() => navigate(`/ficha-paciente?therapyId=${therapy.id}&location=${location}`)}
           >
             Reservar
           </button>

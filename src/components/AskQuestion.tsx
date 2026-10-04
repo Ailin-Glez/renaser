@@ -2,7 +2,7 @@ import { useState } from "react";
 import { SITE } from "../data/content";
 import styles from "./AskQuestion.module.css";
 
-const DEFAULT_MESSAGE = "Hola, tengo una pregunta sobre las terapias de Renaser:";
+const DEFAULT_MESSAGE = "Hola, tengo una pregunta sobre las terapias de RenaSER:";
 
 export function AskQuestion() {
   const [question, setQuestion] = useState("");

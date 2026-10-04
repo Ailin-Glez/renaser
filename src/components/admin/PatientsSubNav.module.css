@@ -1,0 +1,48 @@
+.subNav {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--color-cream-soft);
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 4px;
+  margin-bottom: -1px;
+  border-bottom: 2px solid transparent;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-ink-soft);
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.subNav .tab + .tab {
+  margin-left: 18px;
+}
+
+.tab:hover {
+  color: var(--color-forest);
+}
+
+.tabActive {
+  color: var(--color-forest);
+  font-weight: 600;
+  border-bottom-color: var(--color-gold);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--color-gold);
+  color: var(--color-forest-dark);
+  font-size: 0.7rem;
+  font-weight: 700;
+}

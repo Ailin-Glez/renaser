@@ -7,6 +7,7 @@ import PatientForm from "./PatientForm";
 import PatientDetail from "./PatientDetail";
 import ManualBooking from "./ManualBooking";
 import ReviewsQueue from "./ReviewsQueue";
+import IntakeQueue from "./IntakeQueue";
 import MiamiTour from "./MiamiTour";
 
 // Todo lo de Admin (incluido Firebase Auth) vive en este único punto de
@@ -23,6 +24,7 @@ export default function AdminApp() {
           <Route path="pacientes/:id" element={<PatientDetail />} />
           <Route path="reservar" element={<ManualBooking />} />
           <Route path="resenas" element={<ReviewsQueue />} />
+          <Route path="fichas" element={<IntakeQueue />} />
           <Route path="gira-miami" element={<MiamiTour />} />
         </Route>
       </Routes>

@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
+import { useNavigate } from "react-router-dom";
 import type { LocationKey, Therapy } from "../data/content";
-import { BOOKING_ENABLED, CAL_USERNAME, DEFAULT_DISCLAIMER, SITE, calSlugFor } from "../data/content";
-import { openBookingModal } from "../lib/cal";
+import { BOOKING_ENABLED, DEFAULT_DISCLAIMER, SITE } from "../data/content";
 import styles from "./TherapyModal.module.css";
 
 interface TherapyModalProps {
@@ -13,6 +13,7 @@ interface TherapyModalProps {
 
 export function TherapyModal({ therapy, location, onClose }: TherapyModalProps) {
   const pricing = therapy.pricing[location];
+  const navigate = useNavigate();
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -83,13 +84,21 @@ export function TherapyModal({ therapy, location, onClose }: TherapyModalProps) 
               </a>
             </div>
           ) : BOOKING_ENABLED ? (
-            <button
-              type="button"
-              className={styles.bookButton}
-              onClick={() => openBookingModal(`${CAL_USERNAME}/${calSlugFor(therapy.id, location)}`)}
-            >
-              Reservar esta sesión
-            </button>
+            <>
+              <p className={styles.intakeNote}>
+                📋 Primero completa tu ficha de paciente — al terminar, eliges la fecha y hora de tu cita.
+              </p>
+              <button
+                type="button"
+                className={styles.bookButton}
+                onClick={() => {
+                  onClose();
+                  navigate(`/ficha-paciente?therapyId=${therapy.id}&location=${location}`);
+                }}
+              >
+                Reservar
+              </button>
+            </>
           ) : (
             <div className={styles.bookingClosed}>
               <p>Reservas en línea muy pronto.</p>

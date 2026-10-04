@@ -33,7 +33,7 @@ export default function AdminLogin() {
     <div className={styles.wrap}>
       <form className={styles.card} onSubmit={handleSubmit}>
         <h1>Panel de Admin</h1>
-        <p className={styles.subtitle}>Renaser</p>
+        <p className={styles.subtitle}>RenaSER</p>
 
         <label className={styles.field}>
           <span>Email</span>

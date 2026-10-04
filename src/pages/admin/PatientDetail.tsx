@@ -7,6 +7,8 @@ import { PhotoLightbox } from "../../components/admin/PhotoLightbox";
 import { THERAPIES, THERAPISTS } from "../../data/content";
 import { formatDateLong } from "../../lib/dates";
 import { formatUSPhone, isValidUSPhone, whatsappLink } from "../../lib/phone";
+import { getIntakeForm, type IntakeFormSubmission } from "../../lib/intakeForms";
+import { generateConsentPdf, getLogoDataUrl } from "../../lib/patientConsentPdf";
 import {
   addVisit,
   deletePatient,
@@ -31,6 +33,8 @@ export default function PatientDetail() {
   const [patient, setPatient] = useState<Patient | null>(null);
   const [visits, setVisits] = useState<Visit[]>([]);
   const [loading, setLoading] = useState(true);
+  const [intakeForm, setIntakeForm] = useState<IntakeFormSubmission | null>(null);
+  const [downloadingPdf, setDownloadingPdf] = useState(false);
 
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState("");
@@ -64,10 +68,25 @@ export default function PatientDetail() {
         setName(p.name);
         setPhone(p.phone ? formatUSPhone(p.phone) : "");
         setAlerts(p.alerts ?? "");
+        if (p.latestIntakeFormId) {
+          getIntakeForm(p.latestIntakeFormId).then(setIntakeForm);
+        }
       }
       setLoading(false);
     });
   }, [id]);
+
+  async function handleDownloadConsent() {
+    if (!intakeForm) return;
+    setDownloadingPdf(true);
+    try {
+      const logoDataUrl = await getLogoDataUrl();
+      const pdf = generateConsentPdf(intakeForm, intakeForm.signatureDataUrl, intakeForm.photoUrl || null, logoDataUrl);
+      pdf.save(`RenaSER-Ficha-${intakeForm.fullName.replace(/\s+/g, "_")}.pdf`);
+    } finally {
+      setDownloadingPdf(false);
+    }
+  }
 
   if (loading) return <p className={styles.empty}>Cargando…</p>;
   if (!patient || !id) return <p className={styles.empty}>Paciente no encontrado.</p>;
@@ -231,6 +250,16 @@ export default function PatientDetail() {
         </div>
         {!editing && (
           <div className={styles.headerActions}>
+            {intakeForm && (
+              <button
+                type="button"
+                className={styles.editButton}
+                onClick={handleDownloadConsent}
+                disabled={downloadingPdf}
+              >
+                {downloadingPdf ? "Generando…" : "Descargar consentimiento (PDF)"}
+              </button>
+            )}
             <button type="button" className={styles.editButton} onClick={() => setEditing(true)}>
               Editar datos
             </button>
